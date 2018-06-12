@@ -1,0 +1,4 @@
+{{ object.competition_title_text }}
+{{ object.competition_lead|striptags }}
+{{ object.competition_description|striptags }}
+{% for tag in object.competition_keywords.all %} {{ tag.name }} {% endfor %}

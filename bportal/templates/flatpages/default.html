@@ -1,0 +1,28 @@
+{% extends "bportal/main/page.html" %}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {% clear_breadcrumbs %}
+    {% breadcrumb "Strona główna" "home" %}
+    {% breadcrumb "Biuletyn" "home" %}
+    {% breadcrumb  flatpage.title "" %}
+{% endblock %}
+
+{% block pageTitle %}
+    {{ flatpage.title }}
+{% endblock %}
+
+{% block pageContent %}
+    <div class="page__content">
+        {{ flatpage.content }}
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+

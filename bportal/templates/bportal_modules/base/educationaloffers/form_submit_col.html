@@ -1,0 +1,11 @@
+{% with form as f %}
+    <span>
+        {{ f.eduoffer_is_accepted }}
+    </span>
+    <label>
+        {{ f.eduoffer_is_accepted.label }}
+    </label>
+    <div class="page__from--errors">
+        {{ f.eduoffer_is_accepted.errors }}
+    </div>
+{% endwith %}

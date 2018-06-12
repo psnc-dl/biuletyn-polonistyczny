@@ -1,0 +1,30 @@
+.alert
+  padding: 25px
+  border: 1px solid $secondary
+  background: rgba($secondary, 0.1)
+  margin-bottom: 10px
+
+  &__text
+    &--title
+      font-size: 1.15em
+      font-weight: bold
+
+  &__error
+    border: 1px solid $error
+    background: rgba($error, 0.065)
+
+    .alert
+      &__text
+        &--title, &--info
+          color: darken($error, 10)
+
+  &__success
+    border: 1px solid $error
+    background: rgba($error, 0.065)
+
+    .alert
+      &__text
+        &--title, &--info
+          color: darken($error, 10)
+
+

@@ -1,0 +1,33 @@
+.breadcrumbs
+  margin-bottom: 20px
+  @extend .bp-rwd-fontsize
+
+  &__list
+    font-size: 0.85em
+    color: $grey
+    +flex
+
+  &__item
+
+    &--nolast
+      +flex-value(0 0 auto)
+
+      &:after
+        @extend .bp-icon
+        @extend .bp-icon-chevron_short_right:before
+        margin-right: 5px
+        font-size: 1.25em
+        position: relative
+        top: 2px
+
+      a
+        color: inherit
+        text-decoration: none
+        @extend .bp-underline
+
+    &--last
+      +desktop
+        +flex-value(0 1 400px)
+      +widescreen
+        +flex-value(0 1 600px)
+

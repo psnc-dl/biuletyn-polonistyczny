@@ -1,0 +1,27 @@
+
+	            <a href="{% url 'journalissue_detail' j.journalissue_title_slug j.journalissue_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item list__item--cols list__cols{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+					{% if request.user.userprofile.user_is_editor or user.is_superuser %}
+					<button class="list__item--edit" data-link="{% url 'journalissue_edit' j.journalissue_id %}"><i class="bp-icon-file_edit"></i></button>
+					{% endif %}
+					<div class="list__cols--photo">
+						{% if j.journalissue_image %}
+							<div class="list__cols--image list__cols--image-publications" style="background-image: url('{{ MEDIA_URL }}{{ j.journalissue_image }}')"></div>
+						{% else %}
+							<div class="list__cols--noimage list__cols--noimage-publications"><i class="bp-icon-logo_icon"></i></div>
+						{% endif %}
+				    </div>
+				    <div class="list__cols--content">
+				        <div class="list__publication">
+				            <div class="list__publication--dates">
+				                <span class="list__publication--date list__text--date">{{ j.journalissue_date_add | date:"d.m.Y" }}</span>
+				                <span class="list__publication--date list__text--date">{{ j.journalissue_category }}</span>
+				            </div>
+				        </div>
+						{% if not j.journalissue_is_accepted %}
+							<span class="list__text--notpub list__text--notpub-box">NIE OPUBLIKOWANY!</span>
+						{% endif %}
+				        <h4 class="list__item--title list__text--title js-truncate-two">{% if j.journalissue_journal %}{{j.journalissue_journal }}{% endif %} | {% if j.journalissue_volume %}{{ j.journalissue_volume }}{% endif %}{% if j.journalissue_number %}({{ j.journalissue_number }}){% endif %} | {% if j.journalissue_year %} {{ j.journalissue_year }} {% endif %}</h4>
+				        {% if j.journalissue_title %}<h5>Tytuł numeru: <strong>{{ j.journalissue_title|safe }}</strong></h5>{% endif %}
+						{% if j.journalissue_lead %}<p class="list__item--excerpt list__text--paragraph js-truncate-two">{{ j.journalissue_lead|safe|striptags }}</p>{% endif %}
+				    </div>
+				</a>

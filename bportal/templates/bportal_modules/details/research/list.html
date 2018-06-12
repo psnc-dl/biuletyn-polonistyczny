@@ -1,0 +1,177 @@
+{% extends "bportal_modules/layout/beforelist.html" %}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+{% breadcrumb "Projekty naukowe" "research_list" %}
+{% endblock %}
+
+{% block list-header %}
+<div class="list__title">
+    <h3 class="list__title--head">Projekty naukowe</h3>
+</div>
+{% endblock %}
+
+{% block list-column-one %}
+<div class="list__content--column list__content--column-3box column">
+    <div class="list__viewall list__viewall--grouped">
+        <div class="list__viewall--row">
+            <a href="{% url 'project_list' %}" class="list__viewall--anchor">Przeglądaj projekty</a>
+        </div>
+        <div class="list__viewall--row">
+            <a href="{% url 'dissertation_list' %}" class="list__viewall--anchor">Przeglądaj prace</a>
+        </div>
+        <div class="list__viewall--row">
+            <a href="{% url 'competition_list' %}" class="list__viewall--anchor">Przeglądaj konkursy</a>
+        </div>
+    </div>
+
+    <div class="list__title">
+        <h3 class="list__title--subhead">Projekty badawcze</h3>
+    </div>
+
+    <div class="list__viewall list__viewall--3box list__viewall--hide">
+        <a href="{% url 'project_list' %}" class="list__viewall--anchor">Przeglądaj projekty</a>
+    </div>
+
+    <div class="list__articles">
+        <div class="list__articles--column">
+
+            <div class="list__upperitem">
+                <h3 class="list__text--upperitem">Promowane</h3>
+            </div>
+            {% for p in promoted_projects|slice:"3" %}
+            <a href="{% url 'project_detail' p.project_title_slug p.project_id %}" class="list__item list__item--3box">
+                <span class="list__item--date list__text--date">{{ p.project_date_add|date:"d.m.Y" }}</span>
+                <h4 class="list__item--title list__text--title js-truncate-two">
+                    {{ p.project_title|safe|striptags }}
+                </h4>
+                <p class="list__item--excerpt list__text--paragraph js-truncate-two">{% if p.project_lead %}{{ p.project_lead|safe|striptags }}{% endif %}</p>
+            </a>
+            {% endfor %}
+        </div>
+        <div class="list__articles--column">
+            <div class="list__upperitem">
+                <h3 class="list__text--upperitem">Ostatnio dodane</h3>
+            </div>
+
+            {% for p in newest_projects|slice:"5" %}
+            <a href="{% url 'project_detail' p.project_title_slug p.project_id %}" class="list__item list__item--3box">
+                <span class="list__item--date list__text--date">{{ p.project_date_add|date:"d.m.Y" }}</span>
+                <h4 class="list__item--title list__text--title js-truncate-two">
+                    {{ p.project_title|safe|striptags }}
+                </h4>
+                <p class="list__item--excerpt list__text--paragraph js-truncate-two">{% if p.project_lead %}{{ p.project_lead|safe|striptags }}{% endif %}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="list__viewall">
+        <a href="{% url 'project_list' %}" class="list__viewall--anchor">Przeglądaj projekty</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block list-column-two %}
+<div class="list__content--column list__content--column-3box column">
+    <div class="list__title">
+        <h3 class="list__title--subhead">Prace doktorskie i habilitacyjne</h3>
+    </div>
+
+    <div class="list__viewall list__viewall--3box list__viewall--hide">
+        <a href="{% url 'dissertation_list' %}" class="list__viewall--anchor">Przeglądaj prace</a>
+    </div>
+
+    <div class="list__articles">
+        <div class="list__articles--column">
+            <div class="list__upperitem">
+                <h3 class="list__text--upperitem">Promowane</h3>
+            </div>
+            {% for d in promoted_dissertations|slice:"3" %}
+            <a href="{% url 'dissertation_detail' d.dissertation_title_slug d.dissertation_id %}" class="list__item list__item--3box">
+                <span class="list__item--date list__text--date">{{ d.dissertation_date_add|date:"d.m.Y" }}</span>
+                <h4 class="list__item--title list__text--title js-truncate-two">
+                    {{ d.dissertation_title|safe|striptags }}
+                </h4>
+                <p class="list__item--excerpt list__text--paragraph js-truncate-two">{% if d.dissertation_lead %}{{ d.dissertation_lead|safe|striptags }}{% endif %}</p>
+            </a>
+            {% endfor %}
+        </div>
+        <div class="list__articles--column">
+            <div class="list__upperitem">
+                <h3 class="list__text--upperitem">Ostatnio dodane</h3>
+            </div>
+
+            {% for d in newest_dissertations|slice:"5" %}
+            <a href="{% url 'dissertation_detail' d.dissertation_title_slug d.dissertation_id %}" class="list__item list__item--3box">
+                <span class="list__item--date list__text--date">{{ d.dissertation_date_add|date:"d.m.Y" }}</span>
+                <h4 class="list__item--title list__text--title js-truncate-two">
+                    {{ d.dissertation_title|safe|striptags }}
+                </h4>
+                <p class="list__item--excerpt list__text--paragraph js-truncate-two">{% if d.dissertation_lead %}{{ d.dissertation_lead|safe|striptags }}{% endif %}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="list__viewall">
+        <a href="{% url 'dissertation_list' %}" class="list__viewall--anchor">Przeglądaj prace</a>
+    </div>
+
+
+</div>
+{% endblock %}
+
+{% block list-column-three %}
+<div class="list__content--column list__content--column-3box column">
+
+    <div class="list__title">
+        <h3 class="list__title--subhead">Konkursy</h3>
+    </div>
+
+    <div class="list__viewall list__viewall--3box list__viewall--hide">
+        <a href="{% url 'competition_list' %}" class="list__viewall--anchor">Przeglądaj konkursy</a>
+    </div>
+
+    <div class="list__articles">
+        <div class="list__articles--column">
+
+            <div class="list__upperitem">
+                <h3 class="list__text--upperitem">Promowane</h3>
+            </div>
+            {% for c in promoted_competitions|slice:"3" %}
+
+            <a href="{% url 'competition_detail' c.competition_title_slug c.competition_id %}" class="list__item list__item--3box">
+                <span class="list__item--date list__text--date">{{ c.competition_date_add|date:"d.m.Y" }}</span>
+                <h4 class="list__item--title list__text--title js-truncate-two">
+                    {{ c.competition_title|safe|striptags }}
+                </h4>
+                <p class="list__item--excerpt list__text--paragraph js-truncate-two">{% if c.competition_lead %}{{ c.competition_lead|safe|striptags }}{% endif %}</p>
+            </a>
+            {% endfor %}
+
+        </div>
+        <div class="list__articles--column">
+
+            <div class="list__upperitem">
+                <h3 class="list__text--upperitem">Ostatnio dodane</h3>
+            </div>
+
+            {% for c in newest_competitions|slice:"5" %}
+            <a href="{% url 'competition_detail' c.competition_title_slug c.competition_id %}" class="list__item list__item--3box">
+                <span class="list__item--date list__text--date">{{ c.competition_date_add|date:"d.m.Y" }}</span>
+                <h4 class="list__item--title list__text--title js-truncate-two">
+                    {{ c.competition_title|safe|striptags }}
+                </h4>
+                <p class="list__item--excerpt list__text--paragraph js-truncate-two">{% if c.competition_lead %}{{ c.competition_lead|safe|striptags }}{% endif %}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="list__viewall">
+        <a href="{% url 'competition_list' %}" class="list__viewall--anchor">Przeglądaj konkursy</a>
+    </div>
+</div>
+{% endblock %}

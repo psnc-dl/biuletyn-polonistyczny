@@ -1,0 +1,26 @@
+{% extends "bportal_modules/layout/list_pdf.html" %}
+
+{% load staticfiles %}
+
+{% load l10n %}
+{% load i18n %}
+
+
+{% block content %}
+
+    {% for s in scholarships %}
+        {{ s.scholarship_date_add|date:"d.m.Y" }}<br/>
+        <b><a href="{{ host }}/scholarships/{{s.scholarship_name_slug}},{{s.scholarship_id}}/details">{{ s.scholarship_name|safe }}</a></b><br/>
+        {% if s.scholarship_type %}            
+            {{ s.scholarship_type }}
+            <br/>
+        {% endif %}
+        {% if s.scholarship_founder %}        
+            {{ s.scholarship_founder }}
+            <br/>
+        {% endif %}         
+        {{s.scholarship_lead|safe }}
+        <hr/>
+    {% endfor %}
+        
+{% endblock %}

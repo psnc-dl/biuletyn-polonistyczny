@@ -1,0 +1,5 @@
+{{ object.journalissue_title_text }}
+{{ object.journalissue_lead|striptags }}
+{{ object.journalissue_description|striptags }}
+{{ object.journalissue_table_of_contents|striptags }}
+{% for tag in object.journalissue_keywords.all %} {{ tag.name }} {% endfor %}

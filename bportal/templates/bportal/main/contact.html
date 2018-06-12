@@ -1,0 +1,169 @@
+{% load static %}
+<div class="contact" id="contact">
+    <div class="contact__inner container">
+        <div class="contact__title">
+            <h3 class="contact__title--head">Kontakt</h3>
+        </div>
+        <div class="contact__columns columns">
+            <div class="contact__column column is-6">
+                <div class="contact__info">
+                    <p class="contact__info--text">Zachęcamy do wyrażania opinii na temat strony Biuletynu Polonistycznego drogą mailową lub do wypełnienia <a href="https://docs.google.com/forms/d/1SUkPEqHftZ1HrUTC41E3y_h-JRtBX6l9uATplvV_nBc/viewform" target="_blank" class="contact__info--anchor">ankiety</a></p>
+                </div>
+                <div class="contact__title">
+                    <h3 class="contact__title--sub">Dane adresowe</h3>
+                </div>
+                <div class="contact__details">
+                    <div class="contact__details--address">
+                        <h5 class="contact__details--title">Adres</h5>
+                        <p class="contact__details--text contact__details--bold">Instytut Badań Literackich PAN</p>
+                        <p class="contact__details--text">ul. Nowy Świat 72<br>00-330 Warszawa</p>
+                    </div>
+                    <div class="contact__details--email">
+                        <h5 class="contact__details--title">E-mail</h5>
+                        <p class="contact__details--text contact__details--bold"><a href="mailto: redakcja@biuletynpolonistyczny.pl" class="contact__details--anchor contact__details--anchor-mail">redakcja@biuletynpolonistyczny.pl</a></p>
+                    </div>
+                    <div class="contact__details--issn">
+                        <h5 class="contact__details--title">ISSN</h5>
+                        <p class="contact__details--text">2543-8328</p>
+                    </div>
+                    <div class="contact__details--social">
+                        <h5 class="contact__details--title">Odwiedź nas</h5>
+                        <p class="contact__details--text">
+                            <a href="https://www.facebook.com/Biuletyn-Polonistyczny-1758809271014423/" target="_blank" class="contact__details--anchor contact__details--anchor-icon">
+                                <i class="bp-icon-socialmedia_facebook"></i>
+                            </a>
+                            <a href="https://twitter.com/B_Polonistyczny" target="_blank" class="contact__details--anchor contact__details--anchor-icon">
+                                <i class="bp-icon-socialmedia_twitter"></i>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="contact__title">
+                    <h3 class="contact__title--sub">Newsletter</h3>
+                </div>
+                <div class="contact__newsletter">
+                    <form action="" method="post" autocomplete="off" id="newsletter_subscription" class="contact__form">{% csrf_token %}
+                        {% with newsletter_form as n %}
+
+                        <div class="contact__form--row">
+                            <label for="{{ n.news_email.id_for_label }}" class="contact__form--label">
+                                {{ n.news_email.label }}
+                            </label>
+                            {{ n.news_email }}
+
+                            <div class="contact__form--errors">
+                                {{ n.news_email.errors }}
+                            </div>
+                        </div>
+                        <div class="contact__form--row">
+                            {{ n.captcha }}
+                            {{ n.captcha.errors }}
+                        </div>
+                        {% endwith %}
+                        <div class="contact__form--row">
+                            <div class="newsletterFormWarnings">
+
+                            </div>
+                        </div>
+                        <div class="contact__form--row columns">
+                            <div class="contact__form--info column is-narrow">
+                                <div class="contact__form--info-required">
+                                    <span>Pola oznaczone gwiazdką</span><span> są obowiązkowe do wypełnienia</span>
+                                </div>
+                            </div>
+                            <div class="contact__form--buttons column">
+                                <button class="contact__form--button contact__form--button-reset contact__form--reset" type="reset" name="reset_form">Wyczyść</button>
+                                <button class="contact__form--button contact__form--button-submit contact__form--submit" type="submit" id="send_newsletter" name="send_newsletter">Zapisz się <i class="contact__form--submit-icon"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="contact__column column is-6">
+                <div class="contact__title">
+                    <h3 class="contact__title--sub">Wiadomość</h3>
+                </div>
+                <div class="contact__message">
+                    <form action="" method="post" autocomplete="off" id="contact-form" class="contact__form">{% csrf_token %}
+                    {% with message_form as f %}
+                        <div class="contact__form--row">
+                            <label for="{{ f.firstname.id_for_label }}" class="contact__form--label">
+                                {{ f.firstname.label }}: *
+                            </label>
+                            {{ f.firstname }}
+
+                            <div class="contact__form--errors">
+                                {{ f.firstname.errors }}
+                            </div>
+                        </div>
+
+                        <div class="contact__form--row">
+                            <label for="{{ f.email.id_for_label }}" class="contact__form--label">
+                                {{ f.email.label }}: *
+                            </label>
+                            {{ f.email }}
+
+                            <div class="contact__form--errors">
+                                {{ f.email.errors }}
+                            </div>
+                        </div>
+
+                        <div class="contact__form--row">
+                            <label for="{{ f.phone.id_for_label }}" class="contact__form--label">
+                                {{ f.phone.label }}
+                            </label>
+                            {{ f.phone }}
+
+                            <div class="contact__form--errors">
+                                {{ f.phone.errors }}
+                            </div>
+                        </div>
+
+                        <div class="contact__form--row">
+                            <label for="{{ f.title.id_for_label }}" class="contact__form--label">
+                                {{ f.title.label }}: *
+                            </label>
+
+                            {{ f.title }}
+
+                            <div class="contact__form--errors">
+                                {{ f.title.errors }}
+                            </div>
+                        </div>
+
+                        <div class="contact__form--row">
+                            <label for="{{ f.message.id_for_label }}" class="contact__form--label">
+                                {{ f.message.label }}
+                            </label>
+                            {{ f.message }}
+                            <div class="contact__form--errors">
+                                {{ f.message.errors }}
+                            </div>
+                        </div>
+                        <div class="contact__form--row">
+                            {{ f.captcha }}
+                            {{ f.captcha.errors }}
+                        </div>
+                    {% endwith %}
+                        <div class="contact__form--row">
+                            <div class="contactFormWarnings">
+
+                            </div>
+                        </div>
+                        <div class="contact__form--row columns">
+                            <div class="contact__form--info column">
+                                <div class="contact__form--info-required">
+                                    <span>Pola oznaczone gwiazdką</span><span> są obowiązkowe do wypełnienia</span>
+                                </div>
+                            </div>
+                            <div class="contact__form--buttons column">
+                                <button class="contact__form--button contact__form--button-reset contact__form--reset" type="reset" name="reset_form">Wyczyść</button>
+                                <button  class="contact__form--button contact__form--button-submit contact__form--submit"type="submit" id="send_message" name="send_message">Wyślij</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

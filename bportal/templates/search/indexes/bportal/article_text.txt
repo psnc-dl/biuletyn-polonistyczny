@@ -1,0 +1,4 @@
+{{ object.article_title_text }}
+{{ object.article_lead|striptags }}
+{{ object.article_description|striptags }}
+{% for tag in object.article_keywords.all %} {{ tag.name }} {% endfor %}

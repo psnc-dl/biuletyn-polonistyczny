@@ -1,0 +1,29 @@
+
+		        <a href="{% url 'joboffer_detail' o.joboffer_position_slug o.joboffer_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+					{% if request.user.userprofile.user_is_editor or user.is_superuser %}
+					<button class="list__item--edit" data-link="{% url 'joboffer_edit' o.joboffer_id %}"><i class="bp-icon-file_edit"></i></button>
+					{% endif %}
+					<div class="list__item--upper">
+						<div class="list__item--upper-date">
+							<div class="list__item--date">
+								<span class="list__text--date">{{ o.joboffer_date_add|date:"d.m.Y" }}</span>
+								{% if not o.joboffer_is_accepted %}
+								<span class="list__text--notpub">NIE OPUBLIKOWANY!</span>
+								{% endif %}
+							</div>
+						</div>
+						<div class="list__item--upper-place">
+							<span class="list__text--upperitem js-truncate">
+								{% for o in o.joboffer_cities.all %}
+									{{ o.name }}{% if forloop.last %}{% else %}, {% endif %}
+								{% endfor %}
+							</span>
+						</div>
+					</div>
+		            <h4 class="list__item--title list__text--title js-truncate-two">
+		                {{ o.joboffer_position|safe|striptags }}
+		            </h4>
+		            {% if o.joboffer_type %}<span class="list__item--subtitle list__text--subtitle">{{ o.joboffer_type }}</span>{% endif %}
+		            {% if o.joboffer_institution %}<span class="list__item--subtitle list__text--subtitle">{{ o.joboffer_institution }}</span>{% endif %}
+		            {% if o.joboffer_lead %}<p class="list__item--excerpt list__text--paragraph js-truncate-three">{{ o.joboffer_lead|safe|striptags }}</p>{% endif %}
+		        </a>

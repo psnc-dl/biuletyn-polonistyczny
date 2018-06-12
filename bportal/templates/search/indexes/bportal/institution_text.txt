@@ -1,0 +1,2 @@
+{{ object.institution_shortname }}
+{{ object.institution_fullname }}

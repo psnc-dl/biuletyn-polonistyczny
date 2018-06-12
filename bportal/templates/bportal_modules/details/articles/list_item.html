@@ -1,0 +1,29 @@
+
+      		        <a href="{% url 'article_detail' n.article_title_slug n.article_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item list__item--cols list__cols{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+		    		{% if request.user.userprofile.user_is_editor or user.is_superuser %}
+					<button class="list__item--edit" data-link="{% url 'article_edit' n.article_id %}"><i class="bp-icon-file_edit"></i></button>
+					{% endif %}
+					<div class="list__cols--photo">
+						{% if n.article_image %}
+						<div class="list__cols--image" style="background-image: url('{{ n.article_image.url }}')"></div>
+						{% else %}
+						<div class="list__cols--noimage"><i class="bp-icon-logo_icon"></i></div>
+						{% endif %}
+					</div>
+					<div class="list__cols--content">
+						<div class="list__item--upper">
+							<div class="list__item--upper-date">
+								<div class="list__item--date">
+									<span class="list__text--date">{{ n.article_date_add|date:"d.m.Y" }}</span>
+									{% if not n.article_is_accepted %}
+									<span class="list__text--notpub">NIE OPUBLIKOWANY!</span>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						<h4 class="list__item--title list__text--title js-truncate-two">
+							{{ n.article_title|safe|striptags }}
+						</h4>
+						<p class="list__item--excerpt list__text--paragraph js-truncate-three">{% if n.article_lead %}{{ n.article_lead|safe|striptags }}{% endif %}</p>
+		       		</div>
+		         </a>

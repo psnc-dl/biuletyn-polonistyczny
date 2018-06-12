@@ -1,0 +1,66 @@
+.registration
+  margin-top: 15px
+  @extend .bp-rwd-fontsize
+
+  &__row
+    &--end
+      .registration__block
+        align-self: flex-end
+
+  &__block
+
+    &--info
+      margin-top: 15px
+      +desktop
+        font-size: 0.8em
+
+      &-required
+        position: relative
+        padding-left: 10px
+
+        &:after
+          content: "*"
+          display: inline-block
+          position: absolute
+          left: 0
+          top: 0
+
+        span
+          +desktop
+            display: block
+
+  &__form
+    &--error
+      text-align: right
+      color: $error
+
+    &--label
+      @extend .bp-label
+
+    &--help
+      padding: 5px 0 0
+      font-size: 0.8em
+
+    &--input
+      @extend .bp-input-line
+
+      &-error
+        border-bottom-color: $error
+
+    &--button
+      text-align: right
+
+      &-submit
+        @extend .bp-btn-main
+
+  .select2-container
+    min-width: 0
+    width: 100% !important
+
+  .select2-container--default .select2-selection--multiple
+    border-radius: 0
+    @extend .bp-input-line
+
+
+
+

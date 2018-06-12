@@ -1,0 +1,369 @@
+import os
+
+DEBUG = True
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'bportal.settings'
+
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
+DATABASE_ENGINE = 'postgresql'
+
+DATABASES = {'default': {
+        'HOST': 'localhost',
+        'PORT': '5432',    
+        'NAME': 'bportal_db',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': 'bportal',
+        'PASSWORD': 'bportal',
+    }
+}
+
+DATE_INPUT_FORMATS = ["%d.%m.%Y",] 
+USE_I18N = True
+USE_TZ = True
+USE_L10N = False
+
+TIME_ZONE = 'Europe/Warsaw'
+DATE_FORMAT = "d.m.Y"
+ 
+LANGUAGE_CODE = 'pl'
+
+
+MEDIA_ROOT = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'media')
+MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static')
+STATIC_URL = '/static/'
+
+ADMIN_MEDIA_PREFIX = '/static/admin'
+
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+        ],
+        'APP_DIRS': True,     
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.request',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
+            ],
+            'debug': DEBUG
+        },
+    },
+]
+
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+
+MIDDLEWARE_CLASSES = (
+    'reversion.middleware.RevisionMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'bportal.auth.middleware.LoginFormMiddleware',
+    'bportal.auth.middleware.LogoutFormMiddleware',
+)
+
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
+ROOT_URLCONF = 'bportal.urls'
+
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'host'
+EMAIL_PORT = 'port'
+EMAIL_HOST_USER = 'user'
+EMAIL_HOST_PASSWORD = 'pass'
+EMAIL_USE_SSL = 'true'
+BPORTAL_CONTACT_EMAIL_ADDRES_FROM = 'x1@y.z'
+BPORTAL_CONTACT_EMAIL_ADDRES_TO = 'x2@y.z'
+
+
+INSTALLED_APPS = (          
+    'bportal.apps.BportalAppConfig',
+    'django_bootstrap_breadcrumbs',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'dal',
+    'dal_select2',
+    'django_addanother',
+    'django.contrib.admin',
+    'django.contrib.staticfiles',
+    'django.views.i18n',
+    'django.contrib.messages',
+    'django.contrib.flatpages',
+    'social_django',    
+    'haystack',
+    'mptt',
+    'reversion',
+    'extra_views',
+    'ckeditor',
+    'ckeditor_uploader',
+    'django_wysiwyg',
+    'taggit',
+    'captcha',
+    'cities_light',
+    'phonenumber_field',
+    'weasyprint',
+    'imagekit',
+    'import_export',
+    'meta',
+)
+
+SITE_ID = 1
+
+LANGUAGES = (
+    ('pl', 'Polish'),
+#    ('en', 'English'),
+)
+
+AUTH_PROFILE_MODULE = "bportal.UserProfile"
+    
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(pathname)s %(module)s %(lineno)d %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+        'message_only': {
+            'format': '%(message)s'
+        },        
+    },    
+    'handlers': {
+        'django_file': {
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': './logs/bportal_django.log',
+            'when': 'midnight',
+            'interval': 1,
+            'formatter': 'simple',
+            'encoding' : 'utf-8',      
+        },
+        'bportal_file': {
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': './logs/bportal_app.log',
+            'when': 'midnight',
+            'interval': 1,
+            'formatter': 'verbose',
+            'encoding' : 'utf-8',
+        }, 
+        'people_import_file': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': './bportal/media/import/people_import_report.csv',
+            #'mode': 'w',
+            'formatter': 'message_only',
+            'encoding' : 'utf-8',
+        },
+        'projects_import_file': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': './bportal/media/import/projects_import_report.csv',
+            #'mode': 'w',
+            'formatter': 'message_only',
+            'encoding' : 'utf-8',
+        },
+        'dissertations_import_file': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': './bportal/media/import/dissertations_import_report.csv',
+            #'mode': 'w',
+            'formatter': 'message_only',
+            'encoding' : 'utf-8',
+        },          
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['django_file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'pysolr': {
+            'handlers': ['django_file'],
+            'level': 'INFO',
+            'propagate': True,
+        },                
+        'bportal': {
+            'handlers': ['bportal_file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'people_import_report': {
+            'handlers': ['people_import_file'],
+            'level': 'INFO',
+            'propagate': True,
+        },     
+        'projects_import_report': {
+            'handlers': ['projects_import_file'],
+            'level': 'INFO',
+            'propagate': True,
+        },     
+        'dissertations_import_report': {
+            'handlers': ['dissertations_import_file'],
+            'level': 'INFO',
+            'propagate': True,
+        },                               
+    },
+}
+
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'URL': 'http://127.0.0.1:8983/solr/bportal',
+    },
+}
+HAYSTACK_SEARCH_RESULTS_PER_PAGE=15
+HAYSTACK_SIGNAL_PROCESSOR = 'bportal.search.signals.BportalRealtimeSignalProcessor'
+
+
+DJANGO_WYSIWYG_FLAVOR = "ckeditor"
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
+CKEDITOR_CONFIGS = {
+    'flat_pages':  {
+        'toolbar': 'custom',
+        'toolbar_custom': [
+            {'name': 'styles', 'items': ['Format']},                           
+            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo']},
+            {'name': 'editing', 'items': ['Find', 'Replace']},
+            #{'name': 'checker', 'items': ['Scayt']}, as far polish language is not accessible             
+            #'/',
+            {'name': 'basicstyles',
+             'items': ['Bold', 'Italic', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+            {'name': 'paragraph',
+             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
+            {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
+            {'name': 'insert', 'items': ['Image', 'HorizontalRule', 'SpecialChar']},
+            {'name': 'document', 'items': ['Source']},            
+        ],
+        'entities': False,                    
+    },
+    'titles': {
+        'toolbar': 'custom',
+        'toolbar_custom': [
+            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo']},
+            #{'name': 'checker', 'items': ['Scayt']}, as far polish language is not accessible             
+            {'name': 'basicstyles',
+             'items': ['Italic', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+            {'name': 'insert', 'items': ['SpecialChar']},                           
+            {'name': 'document', 'items': ['Source']},  
+        ],
+        'entities': False,
+        'height': '8ex',
+        'enterMode': '2',
+    },
+    'leads': {
+        'toolbar': 'custom',
+        'toolbar_custom': [
+            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo']},
+            {'name': 'editing', 'items': ['Find', 'Replace']},
+            #{'name': 'checker', 'items': ['Scayt']}, as far polish language is not accessible             
+            {'name': 'basicstyles',
+             'items': ['Italic', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+            {'name': 'links', 'items': ['Link', 'Unlink']},
+            {'name': 'insert', 'items': ['SpecialChar']},
+            {'name': 'document', 'items': ['Source']},            
+        ],
+        'entities': False,              
+    },                         
+    'default': {
+        'toolbar': 'custom',
+        'toolbar_custom': [
+            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo']},
+            {'name': 'editing', 'items': ['Find', 'Replace']},
+            #{'name': 'checker', 'items': ['Scayt']}, as far polish language is not accessible             
+            {'name': 'basicstyles',
+             'items': ['Bold', 'Italic', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+            {'name': 'paragraph',
+             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
+            {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
+            {'name': 'insert',
+             'items': ['Image', 'Youtube', 'HorizontalRule', 'SpecialChar']},
+            {'name': 'document', 'items': ['Source']},  
+        ],
+        'entities': False,   
+        'extraPlugins': ','.join([
+            'youtube'
+        ]),
+        'youtube_width': '640',      
+        'youtube_height': '480',
+        'youtube_related': False,
+        'youtube_older': False,
+        'youtube_autoplay': False,
+        'youtube_controls': True,
+        'youtube_privacy': True,
+        'youtube_disabled_fields': ['txtEmbed', 'chkRelated', 'chkOlderCode', 'chkPrivacy', 'chkAutoplay', 'txtStartAt', 'chkControls']
+    },
+}
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+}
+
+BREADCRUMBS_TEMPLATE='bportal/main/breadcrumbs.html'
+
+CITIES_LIGHT_TRANSLATION_LANGUAGES = ['pl']
+CITIES_LIGHT_INCLUDE_COUNTRIES = ['PL']
+    
+FILES_UPLOAD_HANDLERS=("django.core.files.uploadhandler.MemoryFileUploadHandler", "django.core.files.uploadhandler.TemporaryFileUploadHandler",)
+ 
+BPORTAL_BASE_URL = ''
+LOGIN_URL = 'home'
+LOGIN_REDIRECT_URL = 'home'
+BPORTAL_HOST = 'http://localhost/'
+BPORTAL_PORT = '8080'
+
+#https://console.developers.google.com/
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'key1'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'secret1'
+
+#https://developers.facebook.com/
+SOCIAL_AUTH_FACEBOOK_KEY = 'key2'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'secret2'
+
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+
+DEFAULT_FILE_STORAGE = 'bportal.module.common.storage.UtfFileSystemStorage'
+IMAGEKIT_DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+DEFAULT_IMPORT_FORMATS = ('tsv', 'csv')
+
+META_SITE_PROTOCOL = 'http'
+META_SITE_DOMAIN = 'http://localhost/'
+
+
+IMPORT_AUTO_PUBLICATION = True
+IMPORT_EXPORT_USE_TRANSACTIONS = False

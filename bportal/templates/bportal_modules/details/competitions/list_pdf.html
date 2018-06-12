@@ -1,0 +1,30 @@
+{% extends "bportal_modules/layout/list_pdf.html" %}
+
+{% load staticfiles %}
+
+{% load l10n %}
+{% load i18n %}
+
+
+{% block content %}
+
+    {% for c in competitions %}
+        {{ c.competition_date_add|date:"d.m.Y" }}<br/>
+        <b><a href="{{ host }}/competitions/{{c.competition_title_slug}},{{c.competition_id}}/details">{{ c.competition_title|safe }}</a></b><br/>
+        {% if c.competition_targets.all %}            
+            {% for o in c.competition_targets.all %}
+                {{ o }}{%if not forloop.last %}, {% endif %}
+            {% endfor %}
+            <br/>
+        {% endif %}
+        {% if c.competition_institutions.all %}        
+            {% for i in c.competition_institutions.all %}
+                {{ i }}{% if not forloop.last %}, {%endif%}
+            {% endfor %}
+            <br/>
+        {% endif %}        
+        {{ c.competition_lead|safe }}
+        <hr/>
+    {% endfor %}
+        
+{% endblock %}

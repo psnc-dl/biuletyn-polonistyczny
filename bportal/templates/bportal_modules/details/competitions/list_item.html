@@ -1,0 +1,20 @@
+
+			    <a href="{% url 'competition_detail' c.competition_title_slug c.competition_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+					{% if request.user.userprofile.user_is_editor or user.is_superuser %}
+					<button class="list__item--edit" data-link="{% url 'competition_edit' c.competition_id %}"><i class="bp-icon-file_edit"></i></button>
+					{% endif %}
+					<div class="list__item--date">
+					    {% if c.competition_date_add %}
+						<span class="list__text--date">{{ c.competition_date_add|date:"d.m.Y" }}</span>
+						{% endif %}
+						{% if not c.competition_is_accepted %}
+						<span class="list__text--notpub">NIE OPUBLIKOWANY!</span>
+						{% endif %}
+					</div>
+			        <h4 class="list__item--title list__text--title js-truncate-two">
+			            {{ c.competition_title|safe|striptags }}
+			        </h4>
+			        {% if c.competition_targets.all %}<span class="list__item--subtitle list__text--subtitle js-truncate">{% for o in c.competition_targets.all %}{{ o }}{%if not forloop.last %} | {% endif %}  {% endfor %}</span>{% endif %}
+			        {% if c.competition_institutions.all %}<span class="list__item--subtitle list__text--subtitle js-truncate">{% for i in c.competition_institutions.all %}{{ i }}{% if not forloop.last %} |  {%endif%}{% endfor %}</span>{% endif %}
+			        {% if c.competition_lead %}<p class="list__item--excerpt list__text--paragraph js-truncate-three">{{ c.competition_lead|safe|striptags }}</p>{% endif %}
+			    </a>

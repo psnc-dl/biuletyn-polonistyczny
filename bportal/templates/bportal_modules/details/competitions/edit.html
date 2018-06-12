@@ -1,0 +1,16 @@
+{% extends "bportal_modules/layout/edit.html" %}
+{% load staticfiles %}
+
+{% block pageFormFields %}
+    {% if field.id_for_label != 'id_competition_is_accepted' and field.id_for_label != 'id_competition_is_promoted' %}
+        {% include 'bportal_modules/layout/forms/fields.html' %}
+    {% endif %}
+{% endblock %}
+
+{% block pageFormsetTitle %}
+    {% include 'bportal_modules/base/competitions/form_formset_title.html' %}
+{% endblock %}
+
+{% block pageSubmitCol %}
+    {% include 'bportal_modules/base/competitions/form_submit_col.html' %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "bportal_modules/layout/edit.html" %}
+{% load staticfiles %}
+
+{% block pageFormFields %}
+    {% if field.id_for_label != 'id_scholarship_is_accepted' %}
+        {% include 'bportal_modules/layout/forms/fields.html' %}
+    {% endif %}
+{% endblock %}
+
+{% block pageFormsetTitle %}
+    {% include 'bportal_modules/base/scholarships/form_formset_title.html' %}
+{% endblock %}
+
+{% block pageSubmitCol %}
+    {% include 'bportal_modules/base/scholarships/form_submit_col.html' %}
+{% endblock %}

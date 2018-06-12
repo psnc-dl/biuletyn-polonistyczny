@@ -1,0 +1,108 @@
+{% extends "bportal_modules/layout/details_pdf.html" %}
+
+{% load staticfiles %}
+{% load static %}
+{% load l10n %}
+{% load i18n %}
+
+{% block title %}
+
+    {{ journalissue.journalissue_date_add|date:"d.m.Y" }}<br/>
+    
+    {{ journalissue.journalissue_category }}<br/>
+
+    <b><a href="{{ host }}/journals/issues/{{journalissue.journalissue_title_slug}},{{journalissue.journalissue_id}}/details">{{ journalissue.journalissue_title|safe }}</a></b><br/>
+
+{% endblock %}
+            
+
+{% block title-attrs %}            
+
+    {% if journalissue.journalissue_journal %}
+        Czasopismo:
+        <a href="{{ host }}{% url 'journal_detail' journalissue.journalissue_journal.journal_title_slug journalissue.journalissue_journal.journal_id %}">{{ journalissue.journalissue_journal.journal_title }}</a>{% if journalissue.journalissue_volume %} | {{ journalissue.journalissue_volume }}{% endif %}{% if journalissue.journalissue_number %}({{ journalissue.journalissue_number }}){% endif %} {% if journalissue.journalissue_year %} | {{ journalissue.journalissue_year }} {% endif %}
+        <br/>                 
+    {% endif %}
+
+    {% if journalissue.journalissue_publisher %}
+        Wydawnictwo:
+        <a href="{{ host }}{% url 'institution_detail' journalissue.journalissue_publisher.institution_slug journalissue.journalissue_publisher.institution_id %}">{{ journalissue.journalissue_publisher.institution_fullname }}</a>
+        <br/>
+    {% endif %}         
+
+    {% if journalissue.journalissue_issn %}
+        ISSN:
+        {{ journalissue.journalissue_issn }}
+        <br/>
+    {% endif %}    
+
+{% endblock %}
+
+
+{% block content %}
+
+    {{ journalissue.journalissue_lead|safe }}<br/>
+    {% if journalissue.journalissue_table_of_contents %}
+        {{ journalissue.journalissue_description|safe }}<br/>
+    {% endif %}        
+    
+    {% if journalissue.journalissue_table_of_contents %}
+        <strong>Spis treści</strong><br/>
+        {{ journalissue.journalissue_table_of_contents|safe }}<br/>
+    {% endif %}
+    
+{% endblock %}
+
+
+{% block content-attrs %}
+
+    {% if journalissue.journalissue_publication_date %}
+        Data publikacji:
+        {{ journalissue.journalissue_publication_date|date:"d.m.Y" }}
+        <br/>
+    {% endif %}
+
+    {% if journalissue.journalissue_pages %}
+        Stron:
+        {{ journalissue.journalissue_pages }}
+        <br/>
+    {% endif %}
+
+    {% if journalissue.journalissue_files.all %}
+        Do pobrania:
+        <ul>
+            {% for o in journalissue.journalissue_files.all %}
+                <li><a href="{% get_media_prefix %}{{ o.file }}"> {{ o }} </a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if journalissue.journalissue_links.all %}
+        Linki:
+        <ul>
+            {% for o in journalissue.journalissue_links.all %}
+                <li><a href="{{ o }}" target="_blank">{{ o }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if journalissue.journalissue_keywords.all %}
+        Słowa kluczowe:
+        {% for o in journalissue.journalissue_keywords.all %}
+            <a href="{% url 'search_view' %}?q={{ o }}">{{ o }}</a>{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+    
+    {% if journalissue.journalissue_content_contributors.all %}
+        <ul>
+        {% for contribution in journalissue.journalissue_content_contributors.all %}
+    	    <li style="list-style-type: none">
+    	        {{ contribution.role }}:
+    	        <a href="{{ host }} {% url 'person_detail' contribution.person.person_slug contribution.person.person_id %}">{{ contribution.person.person_first_name }} {{ contribution.person.person_last_name }}</a>
+            </li>
+        {% endfor %}          
+        <br/>
+    {% endif %}
+        
+{% endblock %}

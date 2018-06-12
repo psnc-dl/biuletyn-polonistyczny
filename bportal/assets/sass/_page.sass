@@ -1,0 +1,377 @@
+.page
+  +desktop
+    margin-bottom: 30px
+
+  &__container
+    @extend .container
+
+
+  &__content
+    padding-top: 35px
+    @extend .bp-rwd-fontsize
+
+    &--title
+      @extend .bp-rwd-fontsize
+    &--subtitle
+
+      margin: 10px 0 0
+      font-size: 0.85em
+    &--about
+
+      margin: 15px 0 0
+      font-size: 0.85em
+      line-height: 1.6em
+    &--info
+      margin: 20px 0 0
+      font-size: 0.85em
+
+    &--image, &--noimage
+      height: 130px
+      margin-bottom: 30px
+
+    &--noimage
+      @extend .bp-noimg
+
+    &--image, &--userimage
+      background-size: cover
+      background-position: center center
+      background-repeat: no-repeat
+
+    &--userimage, &--usernoimage
+      border-radius: 200%
+      position: relative
+      width: 70%
+      margin: 0 auto
+      line-height: 0
+
+      &:after
+        content: ""
+        display: block
+        padding-bottom: 100%
+
+    &--image
+      &-institution
+        background-size: contain
+        background-position: top center
+
+    &--usernoimage
+      border: 1px solid $grey
+      background-size: 70%
+      background-position: bottom 10% center
+      background-repeat: no-repeat
+
+    p:not(:last-child)
+      margin-bottom: 15px
+
+
+  &__box
+    @extend .modal__paddings
+    border: 1px solid $primary
+    position: relative
+    margin: 0 auto
+    +desktop
+      width: 80%
+    +fullhd
+      width: 70%
+    +from(1700px)
+      width: 60%
+
+    &--search
+      +fullhd
+        width: 80%
+
+    &--registration
+      +desktop
+        margin-top: 35px
+
+  &__items
+    @extend .bp-rwd-fontsize
+
+  &__item
+    display: block
+    padding: 10px 0
+    border-bottom: 1px solid $grey-light
+
+    +tablet-only
+      +flex-value(0 1 calc(50% - 15px))
+      &:nth-child(even)
+        margin-left: 15px
+      &:nth-child(odd)
+        margin-right: 15px
+      &:nth-child(2)
+        padding-top: 0
+      &:nth-last-child(2)
+        border-bottom: 0
+
+    &:hover, &:focus
+      .page__text--subtitle
+        @extend .bp-global-arrow
+
+  &__viewall
+    padding: 25px 0 40px
+    text-align: right
+    @extend .bp-rwd-fontsize
+    &--anchor
+      @extend .bp-btn-main
+      @extend .bp-btn-main-witharrow
+
+
+  &__search
+    +desktop
+      padding: 25px 0
+    &--box
+      padding: 15px 0
+
+      input#id_q
+        width: 100%
+        display: block
+        @extend .bp-input
+
+      ul#id_models
+        margin: 15px 0
+        +desktop
+          margin: 35px 0 20px
+
+        +desktop
+          +list-column(2, 15px, "")
+
+        +from(1700px)
+          +list-column(3, 15px, "")
+
+
+        li
+          +columns-avoid
+          padding: 5px 0
+
+  &__buttons
+    text-align: right
+
+    &--inlines
+      border-top: 1px solid $secondary
+      margin-top: 10px
+      padding-top: 10px
+
+  &__button
+    &--submit
+      @extend .bp-btn-main
+
+    &--reset
+      @extend .bp-btn-main
+
+    &--add, &--remove
+      @extend .bp-btn-main
+      font-size: 0.9em
+      padding: 5px 10px
+
+  &__results
+    border-top: 3px solid $primary
+    padding-top: 15px
+    +desktop
+      padding-top: 25px
+
+    &--item
+      margin: 8px 0
+      &:before
+        @extend .bp-icon
+        @extend .bp-icon-line_arrow_right:before
+        margin: 0 5px 0 0
+
+    &--notfound
+      padding: 15px 0
+
+    &--paginate
+      margin-top: 20px
+      +touch
+        margin-top: 15px
+
+      .paginate
+        height: 45px
+        +touch
+          padding: 15px 0
+
+        &__item
+          &--prev
+            float: left
+
+          &--next
+            float: right
+
+    &--anchor
+      @extend .bp-global-arrow-hover
+
+
+
+  &__pass
+    &--row
+      margin-top: 15px
+
+      input
+        @extend .bp-input
+        display: block
+        width: 100%
+
+
+  &__form
+
+    &--row
+      margin-top: 15px
+
+      &-inline
+        margin-top: 45px
+
+      &-publish
+        +flex
+        +flex-direction(row)
+        +flex-justify-content(space-between)
+        +flex-align-items(center)
+        margin-top: 45px
+        border-top: 3px solid $primary
+        padding-top: 25px
+
+    &--input
+      input[type=text]:not(.customfile__input), input[type=number], input[type=email], input[type=url]
+        @extend .bp-input-line
+        display: block
+        width: 100%
+
+      input[type=number]
+        -moz-appearance: textfield
+        &::-webkit-outer-spin-button,&::-webkit-inner-spin-button
+          -webkit-appearance: none
+
+      textarea
+        @extend .bp-textarea
+
+    &--label
+      @extend .bp-label
+
+    &--inlines
+      counter-reset: inline-couter
+
+    &--inline
+      +flex
+      +flex-direction(column)
+      +desktop
+        padding: 10px 0 10px 70px
+        position: relative
+
+      &:not(:first-child)
+        border-top: 1px solid $secondary
+
+      &:before
+        content: counter(inline-couter)
+        counter-increment: inline-couter
+        position: absolute
+        left: 10px
+        top: 7px
+        border-radius: 200%
+        color: $grey
+        border: 1px solid $secondary
+        width: 30px
+        height: 30px
+        text-align: center
+        line-height: 28px
+        +touch
+          display: none
+
+      &[class*="_empty"]
+        display: none
+
+      li
+        &:first-child
+          label
+            margin-top: 0
+
+        label
+          @extend .bp-label
+          display: block
+
+        input[type=text]:not(.customfile__input), input[type=number], input[type=url]
+          @extend .bp-input-line
+          display: block
+          width: 100%
+
+        input[type=number]
+          -moz-appearance: textfield
+          &::-webkit-outer-spin-button,&::-webkit-inner-spin-button
+            -webkit-appearance: none
+
+        textarea
+          @extend .bp-textarea
+
+    &--icon
+      &-add
+        font-size: 1.8em
+        margin-left: 10px
+
+    &--initially-hidden
+      display: none
+      &.is-active
+        display: block
+  &__close
+    @extend .modal__close
+
+  &__title
+    &--head
+      @extend .heading-main
+      @extend .bp-titleline-main
+
+    &--subhead
+      @extend .heading-main
+      @extend .bp-titleline-secondary
+
+    &--inline
+      margin-bottom: 10px
+
+  &__text
+    &--title
+      font-size: 1.7em
+      line-height: 1em
+      font-weight: bold
+      small
+        font-size: 0.6em
+        font-weight: normal
+
+    &--subtitle
+      font-size: 1em
+      line-height: 1em
+      font-weight: bold
+      position: relative
+
+    &--date
+      color: $grey
+      strong
+        color: $primary
+
+    &--content
+      color: $grey
+      padding: 20px 0 10px
+      font-size: 0.85em
+
+    &--search
+      color: $anthracite
+      font-size: 1em
+
+      &:after
+        content: ":"
+
+    &--label
+      &-margin
+        margin-left: 20px
+
+    &--bold
+      font-weight: bold
+
+    &--anchor
+      text-decoration: none
+      border-bottom: 1px solid $grey-light
+      &:hover, &focus
+        border-bottom: 1px solid $primary
+
+
+
+  .related-widget-wrapper
+    +flex
+
+    &-link
+      line-height: 0

@@ -1,0 +1,111 @@
+{% extends "bportal_modules/layout/details_pdf.html" %}
+
+{% load staticfiles %}
+{% load static %}
+{% load l10n %}
+{% load i18n %}
+
+{% block title %}
+
+    {{ book.book_date_add|date:"d.m.Y" }}<br/>
+    
+    {{ book.book_category }}<br/>
+
+    <b><a href="{{ host }}/books/{{book.book_title_slug}},{{book.book_id}}/details">{{ book.book_title|safe }}</a></b><br/>
+
+{% endblock %}
+            
+
+{% block title-attrs %}            
+
+    {% if book.book_authors.all %}
+        Autor/Redaktor:
+        {% for p in book.book_authors.all %}
+            <a href="{{ host }}{% url 'person_detail' p.person_slug p.person_id %}">{{ p.person_first_name }} {{ p.person_last_name }}</a>{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}   
+        <br/>                 
+    {% endif %}
+
+    {% if book.book_publisher %}
+        Wydawnictwo:
+        <a href="{{ host }}{% url 'institution_detail' book.book_publisher.institution_slug book.book_publisher.institution_id %}">{{ book.book_publisher.institution_fullname }}</a>
+        <br/>
+    {% endif %}         
+
+    {% if book.book_isbn %}
+        ISBN:
+        {{ book.book_isbn }}
+        <br/>
+    {% endif %}    
+
+{% endblock %}
+
+
+{% block content %}
+
+    {{ book.book_lead|safe }}<br/>
+    
+    {% if book.book_description %}
+        {{ book.book_description|safe }}<br/>
+    {% endif %}
+    
+    {% if book.book_table_of_contents %}
+        <strong>Spis treści</strong><br/>
+        {{ book.book_table_of_contents|safe }}<br/>
+    {% endif %}
+    
+{% endblock %}
+
+
+{% block content-attrs %}
+
+    {% if book.book_publication_date %}
+        Data publikacji:
+        {{ book.book_publication_date|date:"d.m.Y" }}
+        <br/>
+    {% endif %}
+
+    {% if book.book_pages %}
+        Stron:
+        {{ book.book_pages }}
+        <br/>
+    {% endif %}
+
+    {% if book.book_files.all %}
+        Do pobrania:
+        <ul>
+            {% for o in book.book_files.all %}
+                <li><a href="{% get_media_prefix %}{{ o.file }}"> {{ o }} </a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if book.book_links.all %}
+        Linki:
+        <ul>
+            {% for o in book.book_links.all %}
+                <li><a href="{{ o }}" target="_blank">{{ o }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if book.book_keywords.all %}
+        Słowa kluczowe:
+        {% for o in book.book_keywords.all %}
+            <a href="{% url 'search_view' %}?q={{ o }}">{{ o }}</a>{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+    
+    {% if book.book_content_contributors.all %}
+        <ul>
+        {% for contribution in book.book_content_contributors.all %}
+    	    <li style="list-style-type: none">
+    	        {{ contribution.role }}:
+    	        <a href="{{ host }} {% url 'person_detail' contribution.person.person_slug contribution.person.person_id %}">{{ contribution.person.person_first_name }} {{ contribution.person.person_last_name }}</a>
+            </li>
+        {% endfor %}          
+        <br/>
+    {% endif %}
+        
+{% endblock %}

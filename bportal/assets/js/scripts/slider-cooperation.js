@@ -1,0 +1,36 @@
+$('.cooperation__slider').owlCarousel({
+    loop:true,
+    nav:true,
+    dots: false,
+    navText: ['<i class="bp-icon-chevron_long_left"></i>','<i class="bp-icon-chevron_long_right"></i>'],
+    responsive:{
+        0:{
+            items:1
+        },
+        330:{
+            items:2
+        },
+        450:{
+            items:3
+        },
+        600:{
+            items:4
+        },
+        900:{
+            items:5
+        },
+        1100:{
+            items:6
+        },
+        1400:{
+            items:7
+        },
+        1700:{
+            items:8
+        }
+    },
+    autoplay:true,
+    autoplayTimeout:5000,
+    autoplayHoverPause:true,
+    autoWidth:true,
+})

@@ -1,0 +1,68 @@
+{% load static %}
+{% load i18n %}
+{% load admin_urls %}
+
+<!doctype html>
+<html>
+    <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109676312-1"></script>
+        <script type="text/javascript">
+            if (document.location.hostname == "biuletynpolonistyczny.pl") {
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'UA-109676312-1');
+            }
+        </script>
+        <!-- End of Google Analytics -->
+        
+        <!-- Facebook Pixel Code -->
+        <script type="text/javascript">
+        	if (document.location.hostname == "biuletynpolonistyczny.pl") {
+        		!function(f,b,e,v,n,t,s) {
+        			if(f.fbq) return;
+        			n=f.fbq=function() {
+        				n.callMethod? n.callMethod.apply(n,arguments) : n.queue.push(arguments)
+        			};
+	        		if(!f._fbq) f._fbq=n;
+    	    		n.push=n;
+        			n.loaded=!0;
+        			n.version='2.0';
+	        		n.queue=[];
+    	    		t=b.createElement(e);
+        			t.async=!0;
+        			t.src=v;
+        			s=b.getElementsByTagName(e)[0];
+        			s.parentNode.insertBefore(t,s)        			
+        		}
+        		(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        		fbq('init', '1529982970434092');
+        		fbq('track', 'PageView');
+        	}
+        </script>
+        <noscript>
+        	<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1529982970434092&ev=PageView&noscript=1" />
+        </noscript>
+        <!-- End of Facebook Pixel Code -->
+        
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>{% blocktrans %}Polonist Bulletin{% endblocktrans %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="{% static "bportal/images/favicon.ico" %}">
+        <link rel="stylesheet" href="{% static "bportal/css/main.css" %}">
+
+        {{ form.media.css }}
+        {{ filter.form.media.css }} 
+
+        <link rel="stylesheet" href="{% static "bportal/css/select2.css" %}">        
+        
+        <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+                
+        {{ form.media.js }}
+        {{ filter.form.media.js }}
+
+    </head>
+    <body>

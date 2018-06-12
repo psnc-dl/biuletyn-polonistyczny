@@ -1,0 +1,14 @@
+{% extends "bportal_modules/layout/create.html" %}
+{% load staticfiles %}
+
+{% block pageTitle %}
+Tworzenie nowego sprawozdania z wydarzenia
+{% endblock %}
+
+{% block pageFormFields %}
+    {% include 'bportal_modules/layout/forms/fields.html' %}
+{% endblock %}
+
+{% block pageFormsetTitle %}
+    {% include 'bportal_modules/base/events/summary/form_formset_title.html' %}
+{% endblock %}

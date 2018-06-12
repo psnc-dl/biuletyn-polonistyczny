@@ -1,0 +1,21 @@
+
+		    <a href="{% url 'dissertation_detail' d.dissertation_title_slug d.dissertation_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+				{% if request.user.userprofile.user_is_editor or user.is_superuser %}
+				<button class="list__item--edit" data-link="{% url 'dissertation_edit' d.dissertation_id %}"><i class="bp-icon-file_edit"></i></button>
+				{% endif %}
+				<div class="list__item--date">
+				    {% if d.dissertation_date_add %}
+					<span class="list__text--date">{{ d.dissertation_date_add|date:"d.m.Y" }}</span>
+					{% endif %}
+					{% if not d.dissertation_is_accepted %}
+					<span class="list__text--notpub">NIE OPUBLIKOWANY!</span>
+					{% endif %}
+				</div>
+		        <h4 class="list__item--title list__text--title js-truncate-two">
+		            {{ d.dissertation_title|safe|striptags }}
+		        </h4>
+		        {% if d.dissertation_author %}<span class="list__item--subtitle list__text--subtitle">{{ d.dissertation_author.person_first_name }} {{ d.dissertation_author.person_last_name }}</span>{% endif %}
+                {% if d.dissertation_disciplines.all %}<span class="list__item--subtitle list__text--subtitle js-truncate">{% for i in d.dissertation_disciplines.all %}{{ i }}{% if not forloop.last %} | {% endif %}{% endfor %}</span>{% endif %}
+		        {% if d.dissertation_institution %}<span class="list__item--subtitle list__text--subtitle">{{ d.dissertation_institution }}</span>{% endif %}
+		        {% if d.dissertation_lead %}<p class="list__item--excerpt list__text--paragraph js-truncate-three">{{ d.dissertation_lead|safe|striptags }}</p>{% endif %}
+		    </a>

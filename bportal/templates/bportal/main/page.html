@@ -1,0 +1,30 @@
+{% include "bportal/main/header.html" %}
+{% include "bportal/main/messages.html" %}
+{% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+
+{% endblock %}
+
+<div class="breadcrumbs is-first">
+    <div class="breadcrumbs__container container">
+        <ul class="breadcrumbs__list">
+            {% render_breadcrumbs %}
+        </ul>
+    </div>
+</div>
+
+<div class="page" id="content">
+    <div class="page__container">
+        <div class="page__box {% block pageBoxClass %}{% endblock %}">
+            {% block pageClose %}{% endblock %}
+            <div class="page__title">
+                <h3 class="page__title--head">{% block pageTitle %}{% endblock %}</h3>
+            </div>
+            {% block pageContent %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% include "bportal/main/footer.html" %}

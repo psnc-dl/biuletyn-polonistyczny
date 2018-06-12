@@ -1,0 +1,78 @@
+{% extends "bportal_modules/layout/create.html" %}
+{% load staticfiles %}
+
+
+{% block pageContent %}
+<div class="page__content" id="content">
+    <form enctype="multipart/form-data" action="" method="post" class="page__form">{% csrf_token %}
+        {% if form.errors %}
+            <div class="alert alert__error" role="alert">
+                <h5 class="alert__text--title">Wystąpiły błędy!</h5>
+                <p class="alert__text--info">Proszę popraw formularz.</p>
+                <div style="display: none;">{{ form.errors }}</div>
+            </div>
+        {% endif %}
+
+        {% block pageAlertSameName %}{% endblock %}
+
+        {% for field in form %}
+            {% if field.id_for_label == 'id_new_description' or field.id_for_label == 'id_new_keywords' %}
+                <div class="page__form--row page__form--initially-hidden {{ field.name }}">
+            {% elif field.id_for_label == 'id_new_related_event' %}
+                <div class="page__form--row page__form--initially-hidden {{ field.name }}">
+            {% elif field.id_for_label == 'id_new_related_project' or field.id_for_label == 'id_new_related_dissertation' or field.id_for_label == 'id_new_related_competition' %}
+                <div class="page__form--row page__form--initially-hidden {{ field.name }}">
+            {% elif field.id_for_label == 'id_new_related_joboffer' or field.id_for_label == 'id_new_related_eduoffer' or field.id_for_label == 'id_new_related_scholarship' %}
+                <div class="page__form--row page__form--initially-hidden {{ field.name }}">
+            {% elif field.id_for_label == 'id_new_related_book' or field.id_for_label == 'id_new_related_journalissue' %}
+                <div class="page__form--row page__form--initially-hidden {{ field.name }}">
+            {% elif field.id_for_label == 'id_new_related_article' %}
+                <div class="page__form--row page__form--initially-hidden {{ field.name }}">
+            {% else %}
+                <div class="page__form--row">
+            {% endif %}
+            {% if field.id_for_label != 'id_new_is_accepted' and field.id_for_label != 'id_force'  %}
+                {% include 'bportal_modules/layout/forms/fields.html' %}
+            {% endif %}
+            </div>
+        {% endfor %}
+
+        {% for formset in inlines %}
+            {% if formset.prefix == 'new_files' or formset.prefix == 'new_links' %}
+                <div class="page__form--row page__form--row-inline page__form--initially-hidden {{ formset.prefix }}">
+            {% else %}
+                <div class="page__form--row page__form--row-inline">
+            {% endif %}
+                {{ formset.management_form }}
+                <div class="page__title--subhead page__title--inline">
+                    {% include 'bportal_modules/base/news/form_formset_title.html' %}
+                </div>
+                <div class="page__form--inlines" data-prefix="{{ formset.prefix }}">
+                    {% for f in formset %}
+                    <ul class='page__form--inline table_{{ formset.prefix }}'>
+                        {{ f.as_ul }}
+                    </ul>
+                    {% endfor %}
+                    <ul class='page__form--inline table_{{ formset.prefix }}_empty'>
+                        {{ formset.empty_form.as_ul }}
+                    </ul>
+                    <div class="page__buttons page__buttons--inlines">
+                        <button type="button" class="page__button--remove js-remove-inline">Usuń</button>
+                        <button type="button" class="page__button--add js-add-inline">Dodaj kolejny</button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="page__form--row-publish">
+            <div class="page__publish">{% include 'bportal_modules/base/news/form_submit_col.html' %}</div>
+            <div class="page__buttons">
+                {% block pageSubmitButtons %}
+                    <button type="submit" class="page__button--submit">Utwórz</button>
+                {% endblock %}
+            </div>
+        </div>
+
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,167 @@
+.footer
+  padding: 0
+  color: $primary
+
+  &__sitemap
+    padding: 20px 0
+    +mobile
+      padding: 20px 0 50px
+
+    +tablet-only
+      padding: 50px 0
+
+  &__title
+    &--head
+      @extend .heading-main
+      @extend .bp-titleline-main
+
+
+    &--head2
+      @extend .heading-sub
+      @extend .bp-titleline-secondary
+
+  &__menu
+    font-size: 0.8em
+
+    +touch
+      +flex-direction(column)
+      margin-top: 35px
+
+    +desktop
+      padding: 50px 0 0
+    +widescreen
+      font-size: 0.875em
+    +fullhd
+      font-size: 0.95em
+    +from(1700px)
+      font-size: 1em
+      padding: 75px 0 50px
+
+    &--column
+      +mobile-small
+        padding-top: 8px
+        padding-bottom: 8px
+      +touch-big
+        padding-top: 3px
+        padding-bottom: 3px
+      +desktop
+        padding-right: 20px
+      +widescreen
+        padding-right: 30px
+      +fullhd
+        padding-right: 40px
+      +from(1700px)
+        padding-right: 50px
+
+    &--bold
+      font-weight: bold
+
+
+    &--icon
+      &-chevron
+        display: none
+        font-size: 1.4em
+        line-height: 0
+        position: relative
+        top: 2px
+        margin: 0 10px
+
+        +touch-big
+          display: block
+      &-home
+        &:before
+          margin-left: 0
+
+    &--item, &--subitem
+      white-space: nowrap
+      line-height: 1.7em
+
+      +touch-big
+        +flex
+        +flex-align-items(baseline)
+
+    &--item
+      &-first
+        font-size: 1.5em
+        line-height: 1em
+
+      +touch-big
+        +flex-wrap(nowrap)
+
+    &--sublist
+      +touch-big
+        +flex
+        +flex-wrap(wrap)
+        font-size: 0.95em
+
+      +desktop
+        margin: 5px 0
+        font-size: 0.9em
+      +widescreen
+        margin: 10px 0
+
+      +mobile-small
+        margin: 5px 0
+
+    &--subitem
+      +touch-big
+        margin-right: 10px
+        margin-bottom: 13px
+        &:not(:first-child)
+          padding-left: 8px
+          border-left: 1px solid $primary
+
+        .footer__menu--anchor
+          line-height: 0.9em
+
+      +mobile-small
+        margin-bottom: 5px
+
+    &--anchor
+      position: relative
+
+      &[href]
+        &:hover, &:focus
+          &:after
+            @extend .bp-icon
+            @extend .bp-icon-chevron_long_right:before
+            position: absolute
+            right: -30px
+            font-size: 20px
+            line-height: 1em
+            +touch
+              display: none
+            +desktop
+              right: -23px
+            +widescreen
+              right: -30px
+
+
+        &[target]
+          &:hover, &:focus
+            &:after
+              @extend .bp-icon-open_in_new_window:before
+
+
+  &__copyright
+    border-top: 1px solid $secondary
+    padding: 20px
+    text-align: center
+
+    &--text
+      font-size: 0.8em
+      +tablet
+        display: block
+      +widescreen
+        display: inline
+
+    &--anchor
+      display: inline-block
+      +mobile
+        display: inline
+      border-bottom: 1px solid $secondary
+      line-height: 1em
+      &:hover, &:focus
+        color: inherit
+        border-color: $primary
+

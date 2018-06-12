@@ -1,0 +1,41 @@
+{% extends "bportal_modules/layout/list_pdf.html" %}
+
+{% load staticfiles %}
+
+{% load l10n %}
+{% load i18n %}
+
+
+{% block content %}
+
+    {% for n in news %}
+        {{ n.new_date_add|date:"d.m.Y" }}<br/>
+        {{ n.new_category.new_category_item_name }}<br/>
+        {% if n.new_related_event %}
+            <b><a href="{{ host }}/events/{{n.new_related_event.event_name_slug}},{{n.new_related_event.event_id}}/details">{{ n.new_title|safe }}</a></b><br>
+        {% elif n.new_related_project %}
+            <b><a href="{{ host }}/projects/{{n.new_related_project.project_title_slug}},{{n.new_related_project.project_id}}/details">{{ n.new_title|safe }}</a></b><br>
+        {% elif n.new_related_dissertation %}
+            <b><a href="{{ host }}/dissertations/{{n.new_related_dissertation.dissertation_title_slug}},{{n.new_related_dissertation.dissertation_id}}/details">{{ n.new_title|safe }}</a></b><br>
+        {% elif n.new_related_competition %}
+            <b><a href="{{ host }}/competitions/{{n.new_related_competition.competition_title_slug}},{{n.new_related_competition.competition_id}}/details">{{ n.new_title|safe }}</a></b><br>
+        {% elif n.new_related_joboffer %}
+            <b><a href="{{ host }}/joboffers/{{n.new_related_joboffer.joboffer_position_slug}},{{n.new_related_joboffer.joboffer_id}}/details">{{ n.new_title|safe }}</a></b><br>
+        {% elif n.new_related_eduoffer %}
+            <b><a href="{{ host }}/eduoffers/{{n.new_related_eduoffer.eduoffer_position_slug}},{{n.new_related_eduoffer.eduoffer_id}}/details">{{ n.new_title|safe }}</a></b><br>
+        {% elif n.new_related_scholarship %}
+            <b><a href="{{ host }}/scholarships/{{n.new_related_scholarship.scholarship_name_slug}},{{n.new_related_scholarship.scholarship_id}}/details">{{ n.new_title|safe }}</a></b><br>
+        {% elif n.new_related_book %}
+            <b><a href="{{ host }}/books/{{n.new_related_book.book_title_slug}},{{n.new_related_book.book_id}}/details">{{ n.new_title|safe }}</a></b><br>
+        {% elif n.new_related_article %}
+            <b><a href="{{ host }}/articles/{{n.new_related_article.article_title_slug}},{{n.new_related_article.article_id}}/details">{{ n.new_title|safe }}</a></b><br>
+        {% elif n.new_related_journalissue %}
+            <b><a href="{{ host }}/journals/issues/{{n.new_related_journalissue.journalissue_title_slug}},{{n.new_related_journalissue.journalissue_id}}/details">{{ n.new_title|safe }}</a></b><br>
+        {% else %}
+            <b><a href="{{ host }}/news/{{n.new_title_slug}},{{n.new_id}}/details">{{ n.new_title|safe }}</a></b><br>
+        {% endif %}
+        {{n.new_lead|safe }}
+        <hr/>
+    {% endfor %}
+        
+{% endblock %}

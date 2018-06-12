@@ -1,0 +1,256 @@
+.bp-btn
+  @extend .bp-form-tpl
+
+  display: inline-block
+  position: relative
+  font-size: 1em
+  cursor: pointer
+  padding: 0
+  border-radius: 0
+  +touch
+    width: 32px
+  +desktop
+    width: 23px
+  +fullhd
+    width: 30px
+
+  &:after
+    width: 2px
+    background: $white
+    display: block
+    content: ""
+    left: -1px
+    top: 0
+    bottom: 0
+    margin-top: auto
+    margin-bottom: auto
+    position: absolute
+    z-index: 0
+    +touch
+      height: 20px
+    +desktop
+      height: 15px
+    +fullhd
+      height: 19px
+
+.bp-btn-zero
+  background: transparent
+  border: 0
+  font-size: 1em
+  cursor: pointer
+  padding: 0
+
+.bp-btn-text
+  margin-right: 10px
+  font-weight: 700
+  align-self: center
+  white-space: nowrap
+  letter-spacing: 0.5px
+  line-height: 1em
+
+  +touch
+    font-size: 0.8em
+  +desktop
+    font-size: 1em
+
+.bp-btn-text-icon
+  @extend .bp-btn
+  line-height: 0
+
+  +touch
+    font-size: 1.9em
+  +desktop
+    font-size: 1.6em
+  +widescreen
+    font-size: 1.5em
+  +fullhd
+    font-size: 1.8em
+
+  i
+    line-height: 0
+    position: absolute
+    top: 50%
+
+
+    &:before
+      margin: 0
+      line-height: 0
+
+.bp-btn-text-icon-hover
+  +box-shadow(inset 0px 0px 0px 1px $primary)
+  border-color: $primary
+
+
+.bp-btn-icon
+  display: inline-block
+  text-align: center
+  background: $white
+  border: 1px solid $secondary
+  width: 30px
+  height: 30px
+  font-size: 1.4em
+  padding: 0
+  cursor: pointer
+  margin-left: 15px
+
+  i
+    &:before
+      margin: 0
+
+  &:hover, &:focus
+    background: $anthracite
+    border-color: $anthracite
+    color: $white
+
+.bp-btn-icon-social
+  @extend .bp-btn-icon
+  margin-left: 0
+  margin-right: 10px
+  font-size: 1em
+  text-align: center
+  i
+    height: 100%
+    text-align: center
+    +flex
+    +flex-direction(column)
+    +flex-justify-content(center)
+    &:before
+      margin: 0 auto
+
+.bp-btn-main-template
+  font-size: 1em
+  line-height: 1em
+  background: transparent
+  border: 0
+  margin-left: 15px
+  cursor: pointer
+  letter-spacing: 0.5px
+  display: inline-block
+
+  +mobile-small
+    +text-elipsis
+    margin-left: 0
+    width: 100%
+
+.bp-btn-main
+  @extend .bp-btn-main-template
+  border: 1px solid $secondary
+  padding: 4px 15px
+  +desktop
+    padding: 5px 15px
+  +widescreen
+    padding: 6px 20px
+  +fullhd
+    padding: 7px 30px
+
+  &:hover
+    border-color: $primary
+    +box-shadow(inset 0px 0px 0px 1px $primary)
+
+  &:focus
+    background: $primary
+    border-color: $primary
+    color: $white
+    +box-shadow(none)
+
+.bp-btn-main-noborder
+  @extend .bp-btn-main-template
+  padding: 0
+  margin: 0 15px
+  display: inline-block
+  border-bottom: 1px solid $secondary
+  line-height: 1em
+  &:hover, &:focus
+    color: inherit
+    border-color: $primary
+
+.bp-btn-main-witharrow
+  &:after
+    @extend .bp-icon
+    @extend .bp-icon-chevron_long_right:before
+    font-size: 1.4em
+    line-height: 0
+    position: relative
+    top: 2px
+    margin-left: 5px
+
+.bp-btn-main-witharrow-left
+  &:before
+    @extend .bp-icon
+    @extend .bp-icon-chevron_long_left:before
+    font-size: 1.4em
+    line-height: 0
+    position: relative
+    top: 2px
+    margin-right: 15px
+    margin-left: -10px
+    +widescreen
+      margin-left: -15px
+
+
+
+.bp-btn-social
+  font-size: 1em
+  border: 1px solid $secondary
+  background: transparent
+
+  line-height: 1.5em
+  cursor: pointer
+  padding: 4px 10px 4px 5px
+
+  +desktop
+  +widescreen
+  +fullhd
+    padding: 4px 15px 4px 5px
+    line-height: 1.6em
+
+  &:hover, &:focus
+    +box-shadow(inset 0px 0px 0px 1px $secondary)
+
+
+  i
+    border-right: 1px solid $secondary
+
+    margin-right: 5px
+    line-height: 1.5em
+    padding: 2px 3px
+
+    +desktop
+    +widescreen
+    +fullhd
+      line-height: 1.6em
+      padding: 4px 5px
+      margin-right: 10px
+
+    &:before
+      margin-left: 0
+
+.bp-btn-action
+  display: inline-block
+  line-height: 1em
+  border: 1px solid $anthracite
+  padding: 5px 25px
+
+  font-size: 1em
+  cursor: pointer
+  text-align: center
+  @extend .bp-rwd-fontsize
+  +desktop
+    min-width: 150px
+
+.bp-btn-action-white
+  @extend .bp-btn-action
+  &:hover, &:focus
+    +box-shadow(inset 0px 0px 0px 1px  $anthracite)
+
+
+
+.bp-btn-action-black
+  @extend .bp-btn-action
+  background: $anthracite
+  color: #fff
+  &:hover, &:focus
+    background: #fff
+    color:  $anthracite
+
+

@@ -1,0 +1,15 @@
+{% if formset.prefix = 'event_summary_pictures' %}
+<h4 class="page__text--subtitle">Zdjęcia z wydarzenia</h4>
+{% endif %}
+{% if formset.prefix = 'event_summary_files' %}
+<h4 class="page__text--subtitle">Pliki</h4>
+{% endif %}
+{% if formset.prefix = 'event_summary_publications' %}
+<h4 class="page__text--subtitle">Publikacje</h4>
+{% endif %}
+{% if formset.prefix = 'event_summary_links' %}
+<h4 class="page__text--subtitle">Linki</h4>
+{% endif %}
+{% if formset.prefix = 'event_summary_content_contributors' %}
+<h4 class="page__text--subtitle">Role osób we wkład treści</h4>
+{% endif %}

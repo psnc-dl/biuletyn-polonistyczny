@@ -1,0 +1,235 @@
+.account
+  &__container
+
+  &__columns
+    @extend .bp-columns-with-line
+
+    &--left
+      +tablet
+        border-right: 1px solid $primary
+    &--right
+      +tablet
+        padding: 25px 10px 25px 25px
+
+  &__photo
+    margin-top: 15px
+    margin-bottom: 5px
+    +tablet
+      margin-top: 75px
+    +flex
+    +flex-wrap(wrap)
+
+    +flex-align-items(flex-end)
+
+    &--changeuserpic
+      position: relative
+      align-self: flex-end
+
+      +mobile
+        margin-top: 10px
+
+      &.is-active
+        .account__changeuserpic
+          display: block
+        +touch
+          +flex-value(1 1 100%)
+
+    &--picture
+      font-size: 9em
+      color: $secondary
+      border: 1px solid $secondary
+      line-height: 0.4em
+      display: inline-block
+      margin-right: 10px
+
+      i
+        &:before
+          margin: 0
+
+    &--image
+      max-width: 150px
+      max-height: 150px
+      margin: 10px
+      line-height: 0
+
+    &--button
+      @extend .bp-btn
+      +desktop
+        position: absolute
+        bottom: 0
+      +fullhd
+        font-size: 25px
+        line-height: 1em
+
+      i
+        &:before
+          margin: 0
+          line-height: 0
+
+  &__changeuserpic
+    display: none
+    +tablet
+      position: absolute
+      min-width: 400px
+      z-index: 1
+    margin-top: 10px
+
+    background: #fff
+
+    border: 1px solid $secondary
+    padding: 15px 10px 10px
+    border-radius: 0
+
+    font-size: 0.9em
+
+    +tablet
+      &:before
+        background: $white
+        border-left: 1px solid $secondary
+        border-top: 1px solid $secondary
+        width: 6px
+        height: 6px
+        content: ""
+        position: absolute
+        left: 15px
+        top: -4px
+        +rotate(45deg)
+
+
+
+
+    &--form
+
+    &--inputrow
+      padding: 10px 0
+      border-bottom: 1px solid $secondary
+    &--submitrow
+      +flex
+      +flex-justify-content(space-between)
+      padding: 15px 0 5px
+
+      &-left
+        align-self: center
+
+  &__tabs
+    &--list
+      border-bottom: 2px solid $primary
+    &--item
+      display: inline-block
+      border: 1px solid $secondary
+      margin-bottom: -2px
+      border-bottom: 0px solid $white
+
+      &:first-child
+        &:not(.active)
+          border-right: 0
+
+      &.active
+        border: 2px solid $primary
+        border-bottom: 0 solid $white
+        background: #fff
+        pointer-events: none
+
+        & + li
+          border-left: 0
+
+    &--anchor
+      padding: 6px
+
+      +desktop
+        padding: 6px 100px
+      display: block
+      font-weight: bold
+
+      &:hover, &:focus
+        background: $primary
+        border-color: $primary
+        color: $white
+
+  &__profile
+    margin-top: 30px
+    +desktop
+      margin: 40px -15px 40px 20px
+
+  &__newsletter
+    +desktop
+      margin-top: 20px
+
+    &--column
+      +flex
+      +flex-wrap(wrap)
+
+    &--box
+      padding: 15px 0
+      +flex-value(0 1 100%)
+      +desktop
+        +flex-value(0 1 50%)
+        padding: 15px
+
+      .account__form--row
+        padding: 5px 0
+
+    &--fullbox
+      width: 100%
+      padding: 15px 0
+      +desktop
+        padding: 15px 0 15px 15px
+
+  &__info
+    margin: 10px 0
+    +desktop
+      margin: 10px 30px 80px
+      font-size: 0.8em
+
+  &__form
+    margin-top: 10px
+    +desktop
+      margin-top: 25px
+    &--buttons
+      text-align: right
+      padding: 15px 0
+    &--label
+      @extend .bp-label
+
+    &--input
+      @extend .bp-input-line
+      font-weight: bold
+      &[disabled]
+        color: $primary
+        background-color: $tertiary
+
+  &__questionnaire
+    margin-top: 15px
+    +desktop
+      margin-top: 50px
+      font-size: 0.9em
+
+  &__button
+    &--cancel
+      @extend .bp-btn-action-white
+    &--submit
+      @extend .bp-btn-action-black
+
+  &__title
+    &--head
+      @extend .heading-main
+      @extend .bp-titleline-main
+
+    &--subhead
+      @extend .heading-sub
+      @extend .bp-titleline-secondary
+
+      &-photo
+        font-size: 1em
+
+  &__text
+    &--title
+      font-weight: bold
+      margin-top: 10px
+    &--user
+      margin-bottom: 15px
+
+    &--userrole
+      +desktop
+        font-size: 1.5em
+      font-weight: bold

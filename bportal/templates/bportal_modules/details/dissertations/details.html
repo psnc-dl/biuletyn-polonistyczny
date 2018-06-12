@@ -1,0 +1,387 @@
+{% extends "bportal_modules/base/research/details.html" %}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Prace doktorskie i habilitacyjne" "dissertation_list" %}
+    {% breadcrumb  object.dissertation_title_text "" %}
+{% endblock %}
+
+{% block details-title %}
+<div class="details__title">
+    <h3 class="details__title--head">{{ object.get_dissertation_type_display }}</h3>
+</div>
+{% endblock %}
+
+{% block details-head %}
+<div class="details__head">
+    <div class="details__head--photo">
+        {% if object.dissertation_image %}
+        <a href="{{ MEDIA_URL }}{{ object.dissertation_image }}" data-lightbox="gallery" class="details__head--image" style="background-image: url('{{ MEDIA_URL }}{{ object.dissertation_image }}')"></a>
+        {% else %}
+        <div class="details__head--noimage"><i class="bp-icon-logo_icon"></i></div>
+        {% endif %}
+    </div>
+    <div class="details__head--content">
+        <div class="details__head--cols">
+            <div class="details__head--date">
+                <span class="details__text--date">Data dodania: {{ object.dissertation_date_add|date:"d.m.Y" }}</span>
+            </div>
+            <div class="details__head--icons">
+                <ul class="details__icons">
+                    <li class="details__icons--item">
+                        <a href="{% url 'dissertation_pdf' %}?dissertation_id={{ object.dissertation_id }}" class="details__icons--anchor" target="_blank"  title="Pobierz w formie .pdf"><i class="bp-icon-pdf list__icons--icon"></i></a>
+                    </li>
+                    {% if request.user.userprofile.user_is_editor or user.is_superuser %}
+                    <li class="details__icons--item">
+                        <a href="{% url 'dissertation_edit' object.dissertation_id %}" class="details__icons--anchor" title="Edytuj pozycję"><i class="bp-icon-file_edit list__icons--icon"></i></a>
+                    </li>
+                    <li class="details__icons--item">
+                        <a href="{% url 'dissertation_delete' object.dissertation_id %}" class="details__icons--anchor" title="Usuń pozycję"><i class="bp-icon-file_minus list__icons--icon"></i></a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="details__head--title">
+            <h1 class="details__text--title">{{ object.dissertation_title|safe }}</h1>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block details-about %}
+<div class="details__about">
+    {% if object.dissertation_author %}
+    <div class="details__about--row">
+        <div class="details__about--label">
+                    <span class="details__text--label">
+                        Autor:
+                    </span>
+        </div>
+        <div class="details__about--value">
+            <a href="{% url 'person_detail' object.dissertation_author.person_slug object.dissertation_author.person_id %}" class="details__text--anchor details__text--value details__text--bold">{{ object.dissertation_author.person_first_name }} {{ object.dissertation_author.person_last_name }}</a>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if object.dissertation_disciplines.all %}
+    <div class="details__about--row">
+        <div class="details__about--label">
+                    <span class="details__text--label">
+                        Dziedzina:
+                    </span>
+        </div>
+        <div class="details__about--value">
+                {% for discipline in object.dissertation_disciplines.all %}
+                    <span class="details__text--value details__text--bold">{{ discipline }}</span>{% if forloop.last %}{% else %}, {% endif %}
+                {% endfor %}        
+        </div>
+    </div>
+    {% endif %}
+
+    {% if object.dissertation_institution %}
+    <div class="details__about--row">
+        <div class="details__about--label">
+                    <span class="details__text--label">
+                        Instytucja:
+                    </span>
+        </div>
+        <div class="details__about--value">
+            <a href="{% url 'institution_detail' object.dissertation_institution.institution_slug object.dissertation_institution.institution_id %}" class="details__text--anchor details__text--value details__text--bold">{{ object.dissertation_institution }}</a>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if object.dissertation_city %}
+    <div class="details__about--row">
+        <div class="details__about--label">
+                    <span class="details__text--label">
+                        Miejscowość:
+                    </span>
+        </div>
+        <div class="details__about--value">
+            <span class="details__text--value details__text--bold">{{ object.dissertation_city.name }}</span>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if object.dissertation_supervisors.all %}
+    <div class="details__about--row">
+        <div class="details__about--label">
+                    <span class="details__text--label">
+                        Promotorzy:
+                    </span>
+        </div>
+        <div class="details__about--value">
+            {% for supervisior in object.dissertation_supervisors.all %}
+                <a href="{% url 'person_detail' supervisior.person_slug supervisior.person_id %}" class="details__text--anchor details__text--value details__text--bold">{{ supervisior.person_first_name }} {{ supervisior.person_last_name }}</a>{% if forloop.last %}{% else %}, {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if object.dissertation_reviewers.all %}
+    <div class="details__about--row">
+        <div class="details__about--label">
+                    <span class="details__text--label">
+                        Recenzenci:
+                    </span>
+        </div>
+        <div class="details__about--value">
+            {% for reviewer in object.dissertation_reviewers.all %}
+                <a href="{% url 'person_detail' reviewer.person_slug reviewer.person_id %}" class="details__text--anchor details__text--value details__text--bold">{{ reviewer.person_first_name }} {{ reviewer.person_last_name }}</a>{% if forloop.last %}{% else %}, {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}
+
+{% block details-content %}
+<div class="details__explication">
+    {% if object.dissertation_lead %}
+    <div class="details__explication--lead">
+        {{ object.dissertation_lead|safe }}
+    </div>
+    {% endif %}
+    {{ object.dissertation_description|safe }}
+</div>
+{% endblock %}
+
+
+
+{% block details-information %}
+<div class="details__information--content">
+    {% if object.dissertation_date_start %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+            <span class="details__text--label">
+                Data otwarcia przewodu:
+            </span>
+        </div>
+        <div class="details__information--value">
+            <span class="details__text--value">
+                {{ object.dissertation_date_start|date:"d.m.Y" }}
+            </span>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if object.dissertation_date_end %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+            <span class="details__text--label">
+                Termin zakończenia pracy:
+            </span>
+        </div>
+        <div class="details__information--value">
+            <span class="details__text--value">
+                {{ object.dissertation_date_end|date:"d.m.Y" }}
+            </span>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if object.dissertation_file or object.dissertation_files.all %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+                <span class="details__text--label">
+                    Do pobrania:
+                </span>
+        </div>
+        <div class="details__information--value">
+            <ul class="details__information--list">
+                {% if object.dissertation_file %}
+                <li class="details__information--list-item">
+                    <div class="details__information--list-text">
+                        <span class="details__text--value details__text--lowercase"><strong>1</strong>.  <a href="{{ MEDIA_URL }}{{ object.dissertation_file }}" class="details__text--anchor">{{ object.dissertation_file_name }}</a></span>
+                    </div>
+                    <div class="details__information--list-download">
+                        <a href="{% url 'download' %}?location={{ object.dissertation_file }}" class="details__text--anchor-download">Pobierz</a>
+                    </div>
+                </li>
+                {% endif %}
+                {% for o in object.dissertation_files.all %}
+                <li class="details__information--list-item">
+                    <div class="details__information--list-text">
+                        <span class="details__text--value details__text--lowercase"><strong>{{forloop.counter}}</strong>.  <a href="{{ MEDIA_URL }}{{ o.file }}" class="details__text--anchor">{{ o }}</a></span>
+                    </div>
+                    <div class="details__information--list-download">
+                        <a href="{% url 'download' %}?location={{ o.file }}" class="details__text--anchor-download">Pobierz</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+    {% if object.dissertation_links.all %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+                <span class="details__text--label">
+                    Linki:
+                </span>
+        </div>
+        <div class="details__information--value">
+            <ul class="details__information--list">
+                {% for o in object.dissertation_links.all %}
+                <li class="details__information--list-link">
+                    <div class="details__information--list-text">
+                        <span class="details__text--value details__text--lowercase"><strong>{{forloop.counter}}</strong>.</span> <a href="{{ o }}" class="details__text--anchor" target="_blank">{{ o }}</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+    {% if object.dissertation_keywords %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+                <span class="details__text--label">
+                    Słowa kluczowe:
+                </span>
+        </div>
+        <div class="details__information--value">
+            {% for o in object.dissertation_keywords.all %}
+            <a href="{% url 'search_view' %}?q={{ o }}" class="details__text--anchor-border details__text--value">{{ o }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+	{% for contribution in object.dissertation_content_contributors.all %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+            <span class="details__text--label">
+                {{ contribution.role }}:
+            </span>
+        </div>
+        <div class="details__information--value">
+            <a href="{% url 'person_detail' contribution.person.person_slug contribution.person.person_id %}" class="details__text--value details__text--anchor details__text--bold">{{ contribution.person.person_first_name }} {{ contribution.person.person_last_name }}</a>
+            {% if contribution.person.person_biogram %}
+             	<div class="details__text--value details__text--paragraph details__text--margin-top">{{ contribution.person.person_biogram|safe }}</div>
+            {% endif %}
+        </div>
+    </div>
+	{% endfor %}
+    
+    {% if request.user.userprofile.user_is_editor or user.is_superuser %}    
+        {% if object.dissertation_date_add %}
+        <div class="details__information--row">
+            <div class="details__information--label">
+                <span class="details__text--label">
+                    Data dodania:
+                </span>
+            </div>
+            <div class="details__information--value">
+                <span class="details__text--value">
+                    {{ object.dissertation_date_add | date:"j E Y"}}; {{ object.dissertation_date_add | time:"H:i"}} {% if object.dissertation_added_by %}({{ object.dissertation_added_by.first_name }} {{ object.dissertation_added_by.last_name }}) {% endif %}
+                </span>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if object.dissertation_date_edit %}
+        <div class="details__information--row">
+            <div class="details__information--label">
+                <span class="details__text--label">
+                    Data edycji:
+                </span>
+            </div>
+            <div class="details__information--value">
+                <span class="details__text--value">
+                    {{ object.dissertation_date_edit | date:"j E Y" }}; {{ object.dissertation_date_edit | time:"H:i" }} {% if object.dissertation_modified_by %}({{ object.dissertation_modified_by.first_name }} {{ object.dissertation_modified_by.last_name }}) {% endif %}
+                </span>
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
+
+</div>
+{% endblock %}
+
+
+{% block details-rightcol%}
+
+{% if object.dissertation_related_objects %}
+    <div class="details__title">
+        <h3 class="details__title--head">Powiązane z pracą</h3>
+    </div>
+
+    <div class="details__items">
+    {% for ro in object.dissertation_related_objects %}
+        <a href="{{ro.url}}" class="details__item">
+            {% comment %}	
+            <div class="details__item--photo">
+                {% if ro.photo %}
+                    <div class="details__item--image" style="background-image: url('{{ MEDIA_URL }}{{ ro.photo }}')"></div>
+                {% else %}
+                    <div class="details__item--noimage"><i class="bp-icon-logo_icon"></i></div>
+                {% endif %}
+            </div>
+            {% endcomment %}        
+            <div class="details__item--upper">
+                <div class="details__item--upper-date details__text--date details__text--value">{{ ro.date_add|date:"d.m.Y" }}</div>
+                <div class="details__item--upper-type details__text--type details__text--value">{{ ro.category }}</div>
+            </div>
+            <div class="details__item--title">
+                <h4 class="details__text--title-small js-truncate-two">{{ ro.title|safe|striptags }}</h4>
+            </div>
+            <div class="details__item--excerpt">
+                <p class="details__text--paragraph js-truncate-three">
+                    {% if ro.lead %}{{ ro.lead|safe|striptags }}{% endif %}
+                </p>
+            </div>
+        </a>
+    {% endfor %}
+    </div>
+{% endif %}
+
+{% if object.dissertation_related_objects and object.dissertation_similar_dissertations %}
+    </br>
+{% endif %}
+
+{% if object.dissertation_similar_dissertations %}
+    <div class="details__title">
+        <h3 class="details__title--head">Zobacz także</h3>
+    </div>
+
+    <div class="details__items">
+    {% for sd in object.dissertation_similar_dissertations %}
+        <a href="{{sd.url}}" class="details__item">
+            {% comment %}	
+            <div class="details__item--photo">
+                {% if sd.photo %}
+                    <div class="details__item--image" style="background-image: url('{{ MEDIA_URL }}{{ sd.photo }}')"></div>
+                {% else %}
+                    <div class="details__item--noimage"><i class="bp-icon-logo_icon"></i></div>
+                {% endif %}
+            </div>
+            {% endcomment %}        
+            <div class="details__item--upper">
+                <div class="details__item--upper-date details__text--date details__text--value">{{ sd.date_add|date:"d.m.Y" }}</div>
+                <div class="details__item--upper-type details__text--type details__text--value"></div>
+            </div>
+            <div class="details__item--title">
+                <h4 class="details__text--title-small js-truncate-two">{{ sd.title|safe|striptags }}</h4>
+            </div>
+            <div class="details__item--excerpt">
+                <p class="details__text--paragraph js-truncate-three">
+                    {% if sd.lead %}{{ sd.lead|safe|striptags }}{% endif %}
+                </p>
+            </div>
+        </a>
+    {% endfor %}
+    </div> 
+    
+    <div class="details__viewall">
+        <a href="{% url 'dissertation_list' %}" class="details__viewall--anchor">Przeglądaj prace</a>
+    </div>
+{% endif %}
+
+{% endblock %}

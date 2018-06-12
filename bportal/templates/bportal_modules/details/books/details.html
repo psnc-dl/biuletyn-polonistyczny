@@ -1,0 +1,304 @@
+{% extends "bportal_modules/base/publications/details.html" %}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+{% breadcrumb "Nowości wydawnicze" "book_list" %}
+{% breadcrumb  object.book_title_text "" %}
+{% endblock %}
+
+{% block details-title %}
+<div class="details__title">
+    <h3 class="details__title--head">Nowość wydawnicza</h3>
+</div>
+{% endblock %}
+
+{% block details-publication %}
+<div class="details__pub">
+    <div class="details__pub--photo">
+        {% if object.book_image %}
+        <a href="{{ MEDIA_URL }}{{ object.book_image }}" data-lightbox="gallery" class="details__pub--anchor">
+            <img src="{{ MEDIA_URL }}{{ object.book_image }}" class="details__pub--image">
+        </a>
+        {% else %}
+        <div class="details__pub--noimage"><i class="bp-icon-logo_icon"></i></div>
+        {% endif %}
+    </div>
+    <div class="details__pub--content">
+        <div class="details__head--content">
+            <div class="details__head--cols">
+                <div class="details__head--dates">
+                    <div class="details__head--date">
+                        <span class="details__text--date">Data dodania: {{ object.book_date_add|date:"d.m.Y" }}</span>
+                    </div>
+                    <div class="details__head--date details__head--date-right">
+                        <span class="details__text--date">{{ object.book_category }}</span>
+                    </div>
+                </div>
+                <div class="details__head--icons">
+                    <ul class="details__icons">
+                        <li class="details__icons--item">
+                            <a href="{% url 'book_pdf' %}?book_id={{ object.book_id }}" target="_blank"  class="details__icons--anchor" title="Pobierz w formie .pdf"><i class="bp-icon-pdf list__icons--icon"></i></a>
+                        </li>
+                        {% if request.user.userprofile.user_is_editor or user.is_superuser %}
+                        <li class="details__icons--item">
+                            <a href="{% url 'book_edit' object.book_id %}" class="details__icons--anchor" title="Edytuj pozycję"><i class="bp-icon-file_edit list__icons--icon"></i></a>
+                        </li>
+                        <li class="details__icons--item">
+                            <a href="{% url 'book_delete' object.book_id %}" class="details__icons--anchor" title="Usuń pozycję"><i class="bp-icon-file_minus list__icons--icon"></i></a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="details__head--title">
+                <h1 class="details__text--title">{{ object.book_title|safe }}</h1>
+            </div>
+        </div>
+        <div class="details__meta">
+            {% if object.book_authors.all %}
+            <div class="details__meta--row details__meta--row-margin-bottom">
+                <div class="details__meta--label">
+                    <span class="details__text--label">Autor/Redaktor:</span>
+                </div>
+                <div class="details__meta--value">
+                    {% for p in object.book_authors.all %}
+                        <a href="{% url 'person_detail' p.person_slug p.person_id %}" class="details__text--anchor details__text--value details__text--bold">{{ p.person_first_name }} {{ p.person_last_name }}</a>{% if forloop.last %}{% else %}, {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% if object.book_publisher %}
+            <div class="details__meta--row">
+                <div class="details__meta--label">
+                    <span class="details__text--label">Wydawnictwo:</span>
+                </div>
+                <div class="details__meta--value">
+                    <a href="{% url 'institution_detail' object.book_publisher.institution_slug object.book_publisher.institution_id %}" class="details__text--anchor details__text--value details__text--bold">{{ object.book_publisher.institution_fullname }}</a>
+                </div>
+            </div>
+            {% endif %}
+            {% if object.book_isbn %}
+            <div class="details__meta--row">
+                <div class="details__meta--label">
+                    <span class="details__text--label">ISBN:</span>
+                </div>
+                <div class="details__meta--value">
+                    <span class="details__text--value">{{ object.book_isbn }}</span>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="details__explication">
+            {% if object.book_lead %}
+            <div class="details__explication--lead">
+                {{ object.book_lead|safe }}
+            </div>
+            {% endif %}
+            {% if object.book_description %}
+            {{ object.book_description|safe }}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block details-tableofcontents %}
+    {% if object.book_table_of_contents %}
+        <div class="details__tableofcontents">
+            <div class="details__tableofcontents--head details__title">
+                <h3 class="details__title--subhead">Spis treści</h3>
+            </div>
+            <div class="details__tableofcontents--content">
+                {{ object.book_table_of_contents|safe }}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block details-head %}{% endblock %}
+{% block details-about %}{% endblock %}
+{% block details-content %}{% endblock %}
+
+{% block details-information %}
+<div class="details__information--content">
+
+    {% if object.book_publication_date %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+                    <span class="details__text--label">
+                        Data publikacji:
+                    </span>
+        </div>
+        <div class="details__information--value">
+            <span class="details__text--value details__text--bold">{{ object.book_publication_date|date:"d.m.Y" }}</span>
+        </div>
+    </div>
+    {% endif %}
+    {% if object.book_pages %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+                    <span class="details__text--label">
+                        Stron:
+                    </span>
+        </div>
+        <div class="details__information--value">
+            <span class="details__text--value details__text--bold">{{ object.book_pages }}</span>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if object.book_files.all %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+                <span class="details__text--label">
+                    Do pobrania:
+                </span>
+        </div>
+        <div class="details__information--value">
+            <ul class="details__information--list">
+                {% for o in object.book_files.all %}
+                <li class="details__information--list-item">
+                    <div class="details__information--list-text">
+                        <span class="details__text--value details__text--lowercase"><strong>{{forloop.counter}}</strong>.  <a href="{{ MEDIA_URL }}{{ o.file }}" class="details__text--anchor">{{ o }}</a></span>
+                    </div>
+                    <div class="details__information--list-download">
+                        <a href="{% url 'download' %}?location={{ o.file }}" class="details__text--anchor-download">Pobierz</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+    {% if object.book_links.all %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+                <span class="details__text--label">
+                    Linki:
+                </span>
+        </div>
+        <div class="details__information--value">
+            <ul class="details__information--list">
+                {% for o in object.book_links.all %}
+                <li class="details__information--list-link">
+                    <div class="details__information--list-text">
+                        <span class="details__text--value details__text--lowercase"><strong>{{ forloop.counter }}</strong>.</span> <a href="{{ o }}" class="details__text--anchor" target="_blank">{{ o }}</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+    {% if object.book_keywords.all %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+                <span class="details__text--label">
+                    Słowa kluczowe:
+                </span>
+        </div>
+        <div class="details__information--value">
+            {% for o in object.book_keywords.all %}
+            <a href="{% url 'search_view' %}?q={{ o }}" class="details__text--anchor-border details__text--value">{{ o }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+	{% for contribution in object.book_content_contributors.all %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+            <span class="details__text--label">
+                {{ contribution.role }}:
+            </span>
+        </div>
+        <div class="details__information--value">
+            <a href="{% url 'person_detail' contribution.person.person_slug contribution.person.person_id %}" class="details__text--value details__text--anchor details__text--bold">{{ contribution.person.person_first_name }} {{ contribution.person.person_last_name }}</a>
+            {% if contribution.person.person_biogram %}
+             	<div class="details__text--value details__text--paragraph details__text--margin-top">{{ contribution.person.person_biogram|safe }}</div>
+            {% endif %}
+        </div>
+    </div>
+	{% endfor %}
+
+    {% if request.user.userprofile.user_is_editor or user.is_superuser %}
+        {% if object.book_date_add %}
+        <div class="details__information--row">
+            <div class="details__information--label">
+                <span class="details__text--label">
+                    Data dodania:
+                </span>
+            </div>
+            <div class="details__information--value">
+                <span class="details__text--value">{{ object.book_date_add | date:"j E Y"  }}; {{ object.book_date_add |time:"H:i" }} {% if object.book_added_by %}({{ object.book_added_by.first_name }} {{ object.book_added_by.last_name }}) {% endif %}</span>
+            </div>
+        </div>
+        {% endif %}
+    
+        {% if object.book_date_edit %}
+        <div class="details__information--row">
+            <div class="details__information--label">
+                            <span class="details__text--label">
+                                Data edycji:
+                            </span>
+            </div>
+            <div class="details__information--value">
+                <span class="details__text--value">{{ object.book_date_edit | date:"j E Y"  }}; {{ object.book_date_edit |time:"H:i" }} {% if object.book_modified_by %}({{ object.book_modified_by.first_name }} {{ object.book_modified_by.last_name }}){% endif %}</span>
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
+
+</div>
+{% endblock %}
+
+
+{% block details-rightcol%}
+
+{% if object.book_similar_books %}
+    <div class="details__title">
+        <h3 class="details__title--head">Zobacz także</h3>
+    </div>
+
+    <div class="details__items">
+    {% for sb in object.book_similar_books %}
+        <a href="{{sb.url}}" class="details__item">
+            <div class="details__item--photo">
+                {% if sb.photo %}
+                    <div class="details__item--image details__item--image-publications" style="background-image: url('{{ MEDIA_URL }}{{ sb.photo }}')"></div>
+                {% else %}
+                    <div class="details__item--noimage details__item--noimage-publications"><i class="bp-icon-logo_icon"></i></div>
+                {% endif %}
+            </div>
+            <div class="details__item--upper">
+                <div class="details__item--upper-date details__text--date details__text--value">{{ sb.date_add|date:"d.m.Y" }}</div>
+                <div class="details__item--upper-type details__text--type details__text--value">{{ sb.category }}</div>
+            </div>
+            <div class="details__item--title">
+                <h4 class="details__text--title-small js-truncate-two">{{ sb.title|safe|striptags }}</h4>
+            </div>
+            <div class="details__item--subtitle">
+                <p class="details__text--paragraph js-truncate-note-two">
+                    Autor/Redaktor: {% if sb.prelead %}<strong>{{ sb.prelead|safe|striptags }}</strong>{% endif %}
+                </p>
+            </div>
+
+            <div class="details__item--excerpt">
+                <p class="details__text--paragraph js-truncate-three">
+                    {% if sb.lead %}{{ sb.lead|safe|striptags }}{% endif %}
+                </p>
+            </div>
+        </a>
+    {% endfor %}
+    </div> 
+    
+    <div class="details__viewall">
+        <a href="{% url 'book_list' %}" class="details__viewall--anchor">Przeglądaj nowości</a>
+    </div>
+{% endif %}
+
+{% endblock %}

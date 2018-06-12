@@ -1,0 +1,77 @@
+.cookies
+  pointer-events: auto
+  background: rgba(28, 29, 28, 0.92)
+  position: fixed
+  bottom: 0
+  left: 0
+  width: 100%
+  z-index: 9999
+  padding: 5px
+  color: #fff
+  display: none
+
+  &__border
+    border: 1px solid rgba(194, 194, 194, 0.92)
+
+  &__container
+    +flex
+    +flex-align-items(center)
+    +mobile
+      +flex-direction(column)
+    padding-top: 10px
+    padding-bottom: 10px
+
+  &__content
+    +flex-value(1)
+    text-align: center
+    line-height: 1.2em
+    +tablet
+      margin-right: 25px
+
+    +mobile
+      line-height: 1em
+
+  &__link
+    +fullhd
+      display: block
+
+  &__buttons
+    +mobile
+      margin-top: 10px
+      width: 100%
+
+
+  &__button
+    border: 1px solid rgba(194, 194, 194, 0.92)
+    background: transparent
+    color: white
+    font-size: 1em
+    letter-spacing: 1px
+    padding: 5px
+    cursor: pointer
+    +tablet
+      padding: 5px 70px
+    +mobile
+      width: 100%
+      font-size: 0.8em
+
+    &:hover, &:focus
+      +box-shadow(inset 0px 0px 0px 1px white)
+
+  &__text
+    &--main, &--anchor
+      font-size: 0.8em
+      +mobile
+        font-size: 0.75em
+
+    &--anchor
+      color: white
+      text-decoration: underline
+      &:hover, &:focus
+        color: white
+        opacity: 0.8
+
+
+
+
+

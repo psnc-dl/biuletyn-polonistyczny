@@ -1,0 +1,332 @@
+{% extends "bportal_modules/base/events/details.html" %}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+{% load youtube %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb  object.event_name_text "" %}
+{% endblock %}
+
+{% block details-class %}{% if object.event_summary %}details--summary{% endif %}{% endblock %}
+
+{% block details-title %}
+    {% if object.event_summary %}
+        <div class="list__tabs">
+            <ul class="list__tabs--list">
+                <li class="list__tabs--item active"><a href="{{ object.get_absolute_url }}" class="list__tabs--anchor">Wydarzenie</a></li>
+                <li class="list__tabs--item"><a href="{{ object.event_summary.get_absolute_url }}" class="list__tabs--anchor">Sprawozdanie</a></li>
+            </ul>
+        </div>
+    {% else %}
+        <div class="details__title">
+            <h3 class="details__title--head">Wydarzenie</h3>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block details-head %}
+<div class="details__head">
+    <div class="details__head--content">
+        <div class="details__head--cols">
+            <div class="details__head--dates">
+                <div class="details__head--date">
+                    <span class="details__text--date">Data dodania: {{ object.event_date_add|date:"d.m.Y" }}</span>
+                </div>
+                <div class="details__head--date details__head--date-right">
+                    <span class="details__text--date">Data wydarzenia: <strong>{{ object.event_date_from | date:"d.m.Y"}} {% if object.event_time_from %} g.{{ object.event_time_from | time:"H:i" }}{% endif %} {% if object.event_date_to %} - {{ object.event_date_to | date:"d.m.Y" }} {% endif %} {% if object.event_time_to %} g.{{ object.event_time_to | time:"H:i"}}{% endif %}</strong></span>
+                </div>
+            </div>
+            <div class="details__head--icons">
+                <ul class="details__icons">
+                    <li class="details__icons--item">
+                        <button class="list__event--addtocal js-addToCal"
+                                title="Dodaj do kalendarza Google"
+                                data-title="{{ object.event_name|safe }}"
+                                data-date-from="{{ object.event_date_from | date:"Y-m-d"}}"
+                                data-date-to="{{ object.event_date_to | date:"Y-m-d"}}"
+                                data-time-from="{{ object.event_time_from | time:"H:i" }}"
+                                data-time-to="{{ object.event_time_to | time:"H:i" }}"
+                                data-location="{{ object.event_city }}"
+                                data-url="{{ request.get_host }}{{ request.path }}">
+                            <i class="bp-icon-calendar"></i>
+                        </button>
+                    </li>
+                    <li class="details__icons--item">
+                        <a href="{% url 'event_pdf' %}?event_id={{ object.event_id }}" class="details__icons--anchor" target="_blank"  title="Pobierz w formie .pdf"><i class="bp-icon-pdf list__icons--icon"></i></a>
+                    </li>
+                    {% if request.user.userprofile.user_is_editor or user.is_superuser %}
+                    {% if not object.event_summary %}
+                    <li class="details__icons--item">
+                        <a href="{% url 'event_summary_create' %}?event_id={{ object.event_id }}" class="details__icons--anchor" title="Utwórz sprawozdanie"><i class="bp-icon-file_plus list__icons--icon"></i></a>
+                    </li>
+                    {% endif %}
+                    <li class="details__icons--item">
+                        <a href="{% url 'event_edit' object.event_id %}" class="details__icons--anchor" title="Edytuj wydarzenie"><i class="bp-icon-file_edit list__icons--icon"></i></a>
+                    </li>
+                    <li class="details__icons--item">
+                        <a href="{% url 'event_delete' object.event_id %}" class="details__icons--anchor" title="Usuń wydarzenie"><i class="bp-icon-file_minus list__icons--icon"></i></a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="details__head--title">
+            <h1 class="details__text--title">{{ object.event_name|safe }}</h1>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block details-about %}
+<div class="details__about">
+    {% if object.event_category %}
+    <div class="details__about--row">
+        <div class="details__about--label">
+                    <span class="details__text--label">
+                        Typ wydarzenia:
+                    </span>
+        </div>
+        <div class="details__about--value">
+            <span class="details__text--value details__text--bold">{{ object.event_category }}</span>
+        </div>
+    </div>
+    {% endif %}
+    {% if object.event_city %}
+    <div class="details__about--row">
+        <div class="details__about--label">
+                    <span class="details__text--label">
+                        Miejscowość:
+                    </span>
+        </div>
+        <div class="details__about--value">
+            <span class="details__text--value details__text--bold">{{ object.event_city.name }}</span>
+        </div>
+    </div>
+    {% endif %}
+    {% if object.event_institutions.all %}
+    <div class="details__about--row">
+        <div class="details__about--label">
+                    <span class="details__text--label">
+                        Organizatorzy:
+                    </span>
+        </div>
+        <div class="details__about--value">
+            {% for o in object.event_institutions.all %}
+                <a href="{% url 'institution_detail' o.institution_slug o.institution_id %}" class="details__text--anchor details__text--value details__text--bold">{{ o }}</a>{% if not forloop.last %}, {%endif%}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+        {% if object.event_targets.all %}
+        <div class="details__about--row">
+            <div class="details__about--label">
+                    <span class="details__text--label">
+                        Grupy docelowe:
+                    </span>
+            </div>
+            <div class="details__about--value">
+                {% for target in object.event_targets.all %}
+                    <span class="details__text--value details__text--bold">{{ target }}</span>{% if forloop.last %}{% else %}, {% endif %}
+                {% endfor %}
+            </div>
+        </div>    
+        {% endif %}      
+</div>
+
+{% endblock %}
+
+{% block details-content %}
+    <div class="details__explication">
+        {% if object.event_lead %}
+        <div class="details__explication--lead">
+            {{ object.event_lead|safe }}
+        </div>
+        {% endif %}
+
+        {% if object.event_youtube_movie %}
+		<div class="details__content--youtube">
+			<iframe allowfullscreen="" frameborder="0" height="480" src="{{ object.event_youtube_movie|youtube_view_url }}" width="640"></iframe>
+		</div>
+        {% else %}
+            {% if object.event_poster %}
+                <figure class="details__picture">
+                    <a href="{{MEDIA_URL}}{{ object.event_poster }}" class="details__picture--picture" data-lightbox="gallery" {% if object.event_poster_caption %}data-title="{{object.event_poster_caption}}"{% endif %}>
+                        <img src="{{MEDIA_URL}}{{ object.event_poster }}" class="details__picture--image">
+                    </a>
+                    {% if object.event_poster_caption %}
+                    <figcaption class="details__picture--description details__picture--description-nomargin">
+                        <span class="details__text--description">{{object.event_poster_caption}}</span>
+                    </figcaption>
+                    {% endif %}
+
+                </figure>
+            {% endif %}
+        {% endif %}    	
+    	
+        {{ object.event_description|safe }}
+    </div>
+{% endblock %}
+
+{% block details-information %}
+    <div class="details__information--content">
+        {% if object.event_addres %}
+        <div class="details__information--row">
+            <div class="details__information--label">
+                <span class="details__text--label">
+                    Adres:
+                </span>
+            </div>
+            <div class="details__information--value">
+                <span class="details__text--value">{{ object.event_addres }}</span>
+            </div>
+        </div>
+        {% endif %}
+        {% if object.event_contributors_date %}
+        <div class="details__information--row">
+            <div class="details__information--label">
+                <span class="details__text--label">
+                    Termin zgłaszania prelegentów:
+                </span>
+            </div>
+            <div class="details__information--value">
+                <span class="details__text--value">{{ object.event_contributors_date | date:"d.m.Y" }} {{ object.event_contributors_time | time:"H:i" }}</span>
+            </div>
+        </div>
+        {% endif %}
+        {% if object.event_participants_date %}
+        <div class="details__information--row">
+            <div class="details__information--label">
+                <span class="details__text--label">
+                    Termin zgłaszania uczestników:
+                </span>
+            </div>
+            <div class="details__information--value">
+                <span class="details__text--value">{{ object.event_participants_date | date:"d.m.Y" }} {{ object.event_participants_time | time:"H:i" }}</span>
+            </div>
+        </div>
+        {% endif %}
+        {% if object.event_fees %}
+        <div class="details__information--row">
+            <div class="details__information--label">
+                <span class="details__text--label">
+                    Opłata:
+                </span>
+            </div>
+            <div class="details__information--value">
+                <span class="details__text--value">{{ object.event_fees }}</span>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if object.event_files.all %}
+        <div class="details__information--row">
+            <div class="details__information--label">
+                <span class="details__text--label">
+                    Do pobrania:
+                </span>
+            </div>
+            <div class="details__information--value">
+                <ul class="details__information--list">
+                    {% for o in object.event_files.all %}
+                    <li class="details__information--list-item">
+                        <div class="details__information--list-text">
+                            <span class="details__text--value details__text--lowercase"><strong>{{forloop.counter}}</strong>.  <a href="{{ MEDIA_URL }}{{ o.file }}" class="details__text--anchor">{{ o }}</a></span>
+                        </div>
+                        <div class="details__information--list-download">
+                            <a href="{% url 'download' %}?location={{ o.file }}" class="details__text--anchor-download">Pobierz</a>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+        {% if object.event_links.all %}
+        <div class="details__information--row">
+            <div class="details__information--label">
+                <span class="details__text--label">
+                    Linki:
+                </span>
+            </div>
+            <div class="details__information--value">
+                <ul class="details__information--list">
+                    {% for o in object.event_links.all %}
+                    <li class="details__information--list-link">
+                        <div class="details__information--list-text">
+                            <span class="details__text--value details__text--lowercase"><strong>{{forloop.counter}}</strong>.</span> <a href="{{ o }}" class="details__text--anchor" target="_blank">{{ o }}</a>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+        {% if object.event_keywords.all %}
+        <div class="details__information--row">
+            <div class="details__information--label">
+                <span class="details__text--label">
+                    Słowa kluczowe:
+                </span>
+            </div>
+            <div class="details__information--value">
+                {% for o in object.event_keywords.all %}
+                    <a href="{% url 'search_view' %}?q={{ o }}" class="details__text--anchor-border details__text--value">{{ o }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+		{% for contribution in object.event_content_contributors.all %}
+    	<div class="details__information--row">
+        	<div class="details__information--label">
+            	<span class="details__text--label">
+                	{{ contribution.role }}:
+            	</span>
+        	</div>
+        	<div class="details__information--value">
+            	<a href="{% url 'person_detail' contribution.person.person_slug contribution.person.person_id %}" class="details__text--value details__text--anchor details__text--bold">{{ contribution.person.person_first_name }} {{ contribution.person.person_last_name }}</a>
+            	{% if contribution.person.person_biogram %}
+             		<div class="details__text--value details__text--paragraph details__text--margin-top">{{ contribution.person.person_biogram|safe }}</div>
+            	{% endif %}
+        	</div>
+    	</div>
+		{% endfor %}        
+
+    {% if request.user.userprofile.user_is_editor or user.is_superuser %}
+        {% if  object.event_date_add %}
+            <div class="details__information--row">
+                <div class="details__information--label">
+                    <span class="details__text--label">
+                        Data dodania:
+                    </span>
+                </div>
+                <div class="details__information--value">
+                    <span class="details__text--value">{{ object.event_date_add | date:"j E Y"  }}; {{ object.event_date_add | time:"H:i" }} {% if object.event_added_by %}({{ object.event_added_by.first_name }} {{ object.event_added_by.last_name }}){% endif %}</span>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if  object.event_date_edit %}
+            <div class="details__information--row">
+                <div class="details__information--label">
+                    <span class="details__text--label">
+                        Data edycji:
+                    </span>
+                </div>
+                <div class="details__information--value">
+                    <span class="details__text--value">{{ object.event_date_edit | date:"j E Y"  }}; {{ object.event_date_edit | time:"H:i" }} {% if object.event_modified_by %}({{ object.event_modified_by.first_name }} {{ object.event_modified_by.last_name }}){% endif %}</span>
+                </div>
+            </div>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+{% block details-rightcol%}
+
+    {% include "bportal_modules/base/events/related_objects.html" with object=object %}
+
+{% endblock %}

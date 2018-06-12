@@ -1,0 +1,4 @@
+{{ object.dissertation_title_text }}
+{{ object.dissertation_lead|striptags }}
+{{ object.dissertation_description|striptags }}
+{% for tag in object.dissertation_keywords.all %} {{ tag.name }} {% endfor %}

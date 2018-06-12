@@ -1,0 +1,106 @@
+{% extends "bportal/main/page.html" %}
+{% load staticfiles %}
+{% load userprofile %}
+
+{% block pageTitle %}
+        Czasopismo
+{% endblock %}
+
+{% block pageClose %}
+    <a class="page__close js-goback"><i class="bp-icon-close_bold"></i></a>
+{% endblock %}
+
+
+{% block pageContent %}
+    <div class="page__content page__columns columns">
+        <div class="page__columns--content column">
+            <div class="page__content--title">
+                <h1 class="page__text--title">{{ object }}</h1>
+            </div>
+            <div class="page__content--about">
+                {% if object.journal_publisher %}
+                  {% with object.journal_publisher as institution %}
+                    <div class="page__content--about-row">
+                        <span class="page__text--label">Wydawnictwo:</span>
+                        <a href="{% url 'institution_detail' institution.institution_slug institution.institution_id %}" class="page__text--value page__text--anchor page__text--bold" target="_blank">{{object.journal_publisher}}</a>
+                    </div>
+                  {% endwith %}
+                {% endif %}
+                
+                {% if object.journal_categories.all %}
+                    <div class="page__content--about-row">
+                        <span class="page__text--label">Dziedina:</span>
+	                    {% for c in object.journal_categories.all %}
+	                        <span class="details__text--value details__text--bold">{{ c }}</span>{% if forloop.last %}{% else %}, {% endif %}
+	                    {% endfor %}
+	                 </div>
+                {% endif %}
+                
+               	{% if object.journal_editorial_office %}
+                    <div class="page__content--about-row">
+                        <span class="page__text--label">Adres redakcji:</span>
+                        {{object.journal_editorial_office}}
+                    </div>
+                {% endif %}
+
+                {% if object.journal_editor_in_chief %}
+                  {% with object.journal_editor_in_chief as editor %}
+                    <div class="page__content--about-row">
+                        <span class="page__text--label">Redaktor naczelny:</span>
+                        <a href="{% url 'person_detail' editor.person_slug editor.person_id %}" class="page__text--value page__text--anchor page__text--bold">{{ editor.person_first_name }} {{ editor.person_last_name }}</a>
+                    </div>
+                  {% endwith %}
+                {% endif %}
+
+               	{% if object.journal_first_issue_date %}
+                    <div class="page__content--about-row">
+                        <span class="page__text--label">Adres redakcji:</span>
+                        {{object.journal_first_issue_date|date:"d.m.Y"}}
+                    </div>
+                {% endif %}
+
+            
+            </div>
+            <div class="page__content--info">
+                {% if object.journal_lead %}
+	              <div class="page__text--paragraph">
+	                {{ object.journal_lead|safe }}
+	              </div>
+	            {% endif %}
+            </div>
+
+
+        </div>
+    </div>
+    {% if object.journal_journalissues.all %}
+    <h5 class="page__text--content">Ostatnio dodane numery:</h5>
+    {% endif %}
+
+    {% if last_added_issues %}
+        <div class="page__items">
+            {% for i in last_added_issues %}
+                {% if forloop.counter0 < 3 %}
+                    {% if request.user|check_journalissue_read_permission:i %}
+                        <a href="{% url 'journalissue_detail' i.journalissue_title_slug i.journalissue_id %}" class="page__item">
+                            <div class="page__item--date">
+                                <span class="page__text--date">
+                                    {{ i.journalissue_date_add|date:"d.m.Y" }}
+                                </span>
+                            </div>
+                            <div class="page__item--title">
+                                <span class="page__text--subtitle">
+                                    {{i.journalissue_journal }} | {% if i.journalissue_volume %}{{ i.journalissue_volume }}{% endif %}{% if i.journalissue_number %}({{ i.journalissue_number }}){% endif %} | {{ i.journalissue_year }}
+                                </span>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="page__viewall">
+            <a href="{% url 'journalissue_list' %}?journalissue_journal={{ object.journal_id }}" class="page__viewall--anchor">Przeglądaj numery czasopisma</a>
+        </div>
+    {% endif %}
+    
+{% endblock %}

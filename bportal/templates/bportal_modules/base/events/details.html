@@ -1,0 +1,41 @@
+{% extends "bportal_modules/layout/details.html" %}
+
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+{% breadcrumb "Wydarzenia" "event_list" %}
+{% endblock %}
+
+{% block content %}
+{% block details-head %}
+{% endblock %}
+{% block details-about %}
+{% endblock %}
+{% block details-content %}
+{% endblock %}
+<div class="details__social">
+    <div class="details__social--row">
+        <div class="details__social--label">
+                <span class="details__text--label details__social--text">
+                    Udostępnij:
+                </span>
+        </div>
+        <div class="details__social--value">
+            <a href="http://www.facebook.com/share.php?u={{request.build_absolute_uri}}" target="_blank" class="details__social--anchor"><i class="bp-icon-socialmedia_facebook"></i></a>
+            <a href="http://twitter.com/home?status=+{{request.build_absolute_uri}}" target="_blank" class="details__social--anchor"><i class="bp-icon-socialmedia_twitter"></i></a>
+            <a href="https://plus.google.com/share?url={{request.build_absolute_uri}}" target="_blank" class="details__social--anchor"><i class="bp-icon-socialmedia_googleplus"></i></a>
+        </div>
+    </div>
+
+</div>
+<div class="details__information">
+    <div class="details__title">
+        <h3 class="details__title--subhead">Informacje</h3>
+    </div>
+    {% block details-information %}
+    {% endblock%}
+</div>
+
+{% endblock %}

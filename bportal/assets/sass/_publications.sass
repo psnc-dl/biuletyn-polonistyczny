@@ -1,0 +1,95 @@
+.publications
+  margin-top: 30px
+
+  &__columns, &__block
+    margin-top: 15px
+
+  &__column
+    +flex
+    +flex-justify-content(space-between)
+    +flex-direction(column)
+
+  &__block
+    +flex-value(1)
+
+  &__item
+    &:last-child
+      +desktop
+        display: none
+      +fullhd
+        display: block
+
+    &--image
+      height: 150px
+      overflow: hidden
+
+    &--noimage
+      @extend .bp-noimg
+      height: 150px
+      width: 105px
+
+    &--picture
+      max-height: 150px
+
+    &--upper
+      @extend .bp-rwd-fontsize
+      +flex
+      margin-top: 5px
+
+      &-date, &-type
+
+      &-type
+        +flex-value(1 1 auto)
+        text-align: right
+
+    &--info
+      @extend .bp-rwd-fontsize
+
+    &--title
+      margin: 10px 0
+      line-height: 1.2em
+      @extend .bp-rwd-fontsize
+
+    &--excerpt
+      margin: 10px 0
+      line-height: 1.2em
+      @extend .bp-rwd-fontsize
+
+    &:hover, &:focus
+      .publications__text--title
+        @extend .bp-global-arrow
+
+  &__bottom
+    @extend .bp-bottom-anchor
+    @extend .bp-rwd-fontsize
+    &--anchor
+      @extend .bp-btn-main
+      @extend .bp-btn-main-witharrow
+
+  &__title
+    &--link
+      &:hover, &:focus
+        & > [class^="publications__title"]
+          &:before
+            width: 100%
+
+    &--head
+      @extend .heading-main
+      @extend .bp-titleline-main
+
+    &--sub
+      @extend .heading-sub
+      @extend .bp-titleline-secondary
+
+  &__text
+    &--title
+      font-size: 1.15em
+      font-weight: bold
+    &--date, &--type
+      font-size: 0.9em
+      color: $grey
+    &--info
+      font-size: 0.9em
+      display: block
+    &--excerpt
+      font-size: 0.95em

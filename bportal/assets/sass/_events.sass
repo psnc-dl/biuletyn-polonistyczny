@@ -1,0 +1,165 @@
+.events
+  +flex
+  +flex-direction(column)
+
+  &__title
+    &--head
+      @extend .heading-main
+      @extend .bp-titleline-main
+
+    &--link
+      &:hover, &:focus
+        & > [class^="events__title"]
+          &:before
+            width: 100%
+
+  &__text
+    &--title
+      font-size: 1.3em
+      font-weight: bold
+      line-height: 1.2em
+      display: inline
+      position: relative
+      +fullhd
+        font-size: 1.4em
+      +from(1700px)
+        font-size: 1.5em
+      +mobile
+        font-size: 1.2em
+
+    &--block
+      display: block
+
+    &--date
+      color: $grey
+      font-size: 0.9em
+      strong
+        color: $primary
+    &--info
+      font-size: 0.9em
+
+
+  &__slider
+    @extend .bp-rwd-fontsize
+    +flex-value(1 1 auto)
+    margin: 25px 0 10px
+    +desktop
+      margin: 20px 0
+    +widescreen
+      margin: 30px 0 15px
+    +fullhd
+      margin: 35px 0 15px
+    +from(1700px)
+      margin: 45px 0 15px
+
+    .owl-prev, .owl-next, .owl-dots
+      position: absolute
+
+      z-index: 5
+      top: 125px
+      font-size: 1.9em
+      +tablet
+        top: 215px
+      +desktop
+        top: 216px
+      +fullhd
+        top: 263px
+      +from(1700px)
+        top: 340px
+
+    .owl-prev, .owl-next
+      border: 1px solid transparent
+      line-height: 0
+      margin-top: 10px
+
+      &:hover
+        border: 1px solid $grey
+        padding: 0 15px
+
+      i
+        &:before
+          margin: 0 5px 0 0
+          line-height: 0.75em
+
+    .owl-prev
+      left: 0
+
+    .owl-next
+      right: 0
+
+    .owl-dots
+      z-index: 3
+      text-align: center
+      width: 100%
+      margin-top: -3px
+
+    .owl-dot
+      @extend .bp-owl-dot
+
+
+  &__slide
+    display: block
+
+    &--image, &--noimage
+      height: 130px
+      margin-bottom: 30px
+      +tablet
+        height: 220px
+      +desktop
+        height: 225px
+        margin-bottom: 33px
+      +fullhd
+        height: 270px
+        margin-bottom: 35px
+      +from(1700px)
+        height: 345px
+        margin-bottom: 35px
+
+    &--noimage
+      @extend .bp-noimg
+
+    &--image
+      background-size: cover
+      background-position: center center
+      background-repeat: no-repeat
+
+    &--dates
+      +desktop
+        +flex
+        +flex-justify-content(space-between)
+
+    &--date-event
+      +desktop
+        text-align: right
+
+    &--title
+      padding: 6px 0 13px
+      +fullhd
+        padding: 5px 0 10px
+      +mobile-small
+        padding: 5px 0 15px
+
+    &--excerpt
+      margin: 18px 0 0
+      line-height: 1.25em
+      +fullhd
+        margin: 10px 0
+      +mobile-small
+        padding: 8px 0
+        margin: 5px 0 0
+
+    &:hover, &:focus
+      .events__text--title
+        @extend .bp-global-arrow
+
+  &__bottom
+    @extend .bp-bottom-anchor
+    @extend .bp-rwd-fontsize
+    &--anchor
+      @extend .bp-btn-main
+      @extend .bp-btn-main-witharrow
+
+
+
+
+

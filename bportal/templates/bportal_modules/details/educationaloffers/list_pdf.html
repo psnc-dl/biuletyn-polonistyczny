@@ -1,0 +1,26 @@
+{% extends "bportal_modules/layout/list_pdf.html" %}
+
+{% load staticfiles %}
+
+{% load l10n %}
+{% load i18n %}
+
+
+{% block content %}
+
+    {% for e in eduoffers %}
+        {{ e.eduoffer_date_add|date:"d.m.Y" }}<br/>
+        <b><a href="{{ host }}/eduoffers/{{e.eduoffer_position_slug}},{{e.eduoffer_id}}/details">{{ e.eduoffer_position|safe }}</a></b><br/>
+        {% if e.eduoffer_mode %}            
+            {{ e.eduoffer_mode }}
+            <br/>
+        {% endif %}
+        {% if e.eduoffer_institution %}        
+            {{ e.eduoffer_institution }}
+            <br/>
+        {% endif %}        
+        {{ e.eduoffer_lead|safe }}
+        <hr/>
+    {% endfor %}
+        
+{% endblock %}

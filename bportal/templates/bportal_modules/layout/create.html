@@ -1,0 +1,34 @@
+{% extends "bportal_modules/layout/edit.html" %}
+{% load staticfiles %}
+
+{% block pageTitle %}
+    Tworzenie nowej pozycji
+{% endblock %}
+
+{% block pageClose %}
+    <a class="page__close js-goback"><i class="bp-icon-close_bold"></i></a>
+{% endblock %}
+
+{% block pageAlertSameName %}
+    {% with form as f %}
+        {% if f.force %}
+            <div class="alert alert__same-name">
+                <h5 class="alert__text--title">Uwaga!</h5>
+                <p class="alert__text--info">Pozycja o takim tytule już istnieje. Proszę potwierdź, że chcesz dodać tą pozycję.</p>
+                <div class="alert__confirm">
+                    {{ f.force }}
+                    <label for="{{ f.force.id_for_label }}">
+                        {{ f.force.label }}
+                    </label>
+                    <div class="alert__confirm--error">
+                        {{ f.force.errors }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endwith %}
+{% endblock %}
+
+{% block pageSubmitButtons %}
+    <button type="submit" class="page__button--submit">Utwórz</button>
+{% endblock %}

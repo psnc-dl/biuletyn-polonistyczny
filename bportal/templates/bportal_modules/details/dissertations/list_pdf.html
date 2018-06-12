@@ -1,0 +1,29 @@
+{% extends "bportal_modules/layout/list_pdf.html" %}
+
+{% load staticfiles %}
+
+{% load l10n %}
+{% load i18n %}
+
+
+{% block content %}
+
+    {% for d in dissertations %}
+        {{ d.dissertation_date_add|date:"d.m.Y" }}<br/>
+        <b><a href="{{ host }}/dissertations/{{d.dissertation_title_slug}},{{d.dissertation_id}}/details">{{ d.dissertation_title|safe }}</a></b><br/>
+        {{ d.dissertation_author.person_first_name }} {{ d.dissertation_author.person_last_name }} </br>
+        {% if d.dissertation_disciplines.all %}            
+            {% for o in d.dissertation_disciplines.all %}
+                {{ o }}{%if not forloop.last %}, {% endif %}
+            {% endfor %}
+            <br/>
+        {% endif %}
+        {% if d.dissertation_institution %}        
+            {{ d.dissertation_institution }}
+            <br/>
+        {% endif %}        
+        {{ d.dissertation_lead|safe }}
+        <hr/>
+    {% endfor %}
+        
+{% endblock %}

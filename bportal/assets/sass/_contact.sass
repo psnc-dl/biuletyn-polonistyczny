@@ -1,0 +1,172 @@
+.contact
+  margin-top: 30px
+
+  &__columns
+
+    margin-top: 5px
+    +desktop
+      margin-top: 10px
+    +widescreen
+      margin-top: 25px
+    +fullhd
+      margin-top: 30px
+    +from(1700px)
+      margin-top: 40px
+
+  &__title
+    &--head
+      @extend .heading-main
+      @extend .bp-titleline-main
+
+    &--sub
+      @extend .heading-main
+      @extend .bp-titleline-secondary
+      +mobile
+        font-size: 0.85em
+
+  &__info, &__newsletter, &__message, &__details
+    @extend .bp-rwd-fontsize
+
+  &__info
+    padding-bottom: 20px
+    +mobile
+      line-height: 1.3em
+      padding-bottom: 40px
+    +desktop
+      padding-bottom: 35px
+
+    +widescreen
+      padding-bottom: 37px
+    +fullhd
+      padding-bottom: 38px
+    +from(1700px)
+      padding-bottom: 39px
+
+    &--anchor
+      @extend .bp-underline
+      padding-right: 5px
+      line-height: 0
+
+      &:after
+        @extend .bp-icon
+        @extend .bp-icon-open_in_new_window:before
+        margin: 0
+        padding: 0 5px
+        font-size: 1.3em
+
+
+  &__details
+    padding: 20px 0
+    +mobile
+      padding: 30px 0 40px
+    +desktop
+      padding: 30px 0 29px
+    +widescreen
+      padding: 30px 0 40px
+    +from(1700px)
+      padding: 30px 0 37px
+    &--title
+      +flex-align-self(center)
+      &:after
+        content: ": "
+
+    &--bold
+      font-weight: bold
+
+    &--address, &--email, &--issn
+      margin-bottom: 15px
+
+    &--issn, &--social
+      +flex
+
+    &--social
+      .contact__details--text
+        margin-left: 10px
+
+    &--anchor
+      &-icon
+        @extend .bp-btn-icon-social
+      &-mail
+        @extend .bp-underline
+        line-height: 1em
+
+  &__form
+    margin: 30px 0
+    +mobile
+      margin: 25px 0
+    +from(1700px)
+      width: 70%
+
+    &--row
+      &:last-child
+        margin-left: 0
+        margin-right: 0
+        margin-top: 0
+
+        +touch
+          +flex-direction(column)
+
+
+    &--info, &--buttons
+      padding-left: 0
+      padding-right: 0
+
+      +touch
+        padding-top: 7px
+        padding-bottom: 7px
+
+    &--info
+
+      font-size: 0.8em
+
+      &-required
+        position: relative
+        padding-left: 10px
+
+        &:after
+          content: "*"
+          display: inline-block
+          position: absolute
+          left: 0
+          top: 0
+
+        span
+          +desktop
+            display: block
+
+    &--buttons
+      text-align: right
+
+
+    &--captcha
+      margin: 10px 0 0
+      +flex
+
+      &-img
+        max-height: 33px
+
+      &-refresh
+        @extend .bp-btn-icon
+
+    &--button
+      &-submit
+        @extend .bp-btn-main
+        @extend .bp-btn-main-witharrow
+
+      &-reset
+        @extend .bp-btn-main-noborder
+
+    &--label
+      @extend .bp-label
+
+    &--input
+      @extend .bp-input-line
+
+    &--textarea
+      @extend .bp-textarea
+
+
+
+
+
+

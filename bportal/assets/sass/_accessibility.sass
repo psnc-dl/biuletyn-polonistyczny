@@ -1,0 +1,124 @@
+[data-fontsize="medium"]
+  font-size: 19px
+
+  .header
+    &__inner
+      +fullhd
+        padding-top: 65px
+        padding-bottom: 30px
+
+    &__menu
+      &--icon
+        i
+          right: -2px
+
+    &__blocks
+      +touch
+        margin-top: 1px
+
+    &__nav
+      +touch
+        top: 79px
+      +mobile
+        top: 73px
+
+    &__login, &__logout
+      &--text
+        +touch
+          margin-right: 20px
+
+  .calendar
+    &__button
+      font-size: 1.2em
+
+  .paginate
+    &__button
+      i
+        &:before
+          +fullhd
+            top: 6px
+
+  .is-first
+    +touch
+      padding-top: 105px
+
+
+[data-fontsize="big"]
+  font-size: 22px
+
+  .header
+    &__inner
+      +fullhd
+        padding-top: 55px
+        padding-bottom: 23px
+
+    &__menu
+      &--icon
+        i
+          right: -5px
+
+    &__blocks
+      +touch
+        margin-top: 5px
+
+    &__nav
+      +touch
+        top: 89px
+      +mobile
+        top: 81px
+
+    &__login, &__logout
+      &--text
+        +touch
+          margin-right: 25px
+
+  .calendar
+    &__button
+      font-size: 1.2em
+
+    &__item
+      &--bottom
+        &:before
+          +fullhd
+            margin: 4px auto -1px
+
+  .paginate
+    &__button
+      i
+        &:before
+          +desktop
+            top: 7px
+          +fullhd
+            top: 8px
+
+  .is-first
+    +touch
+      padding-top: 120px
+
+
+[data-fontsize="medium"], [data-fontsize="big"]
+  .header__fontsize
+    &--blockicon
+      left: -10px
+      top: 2px
+
+      +desktop
+        +scale(0.6)
+
+      +fullhd
+        +scale(1.0)
+
+
+    &--icon
+      background: $primary
+      color: $white
+      font-size: 12px
+      width: 14px
+      height: 14px
+      position: relative
+      @extend .bp-icon-check
+      &:before
+        position: absolute
+        top: 0
+        left: 0
+        margin: 1px

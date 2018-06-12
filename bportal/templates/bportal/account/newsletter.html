@@ -1,0 +1,140 @@
+{% extends "bportal/account/account.html" %}
+
+
+{% block account-tabs %}
+<div class="account__tabs">
+	<ul class="account__tabs--list">
+		<li class="account__tabs--item"><a href="{% url 'userprofile' %}" class="account__tabs--anchor"> Mój profil </a></li>
+		<li class="account__tabs--item active"><a href="{% url 'newsletter' %}" class="account__tabs--anchor">Newsletter</a></li>
+	</ul>
+</div>
+{% endblock%}
+{% block account-profile %}
+
+<form action="" method="post" autocomplete="off">{% csrf_token %}
+{% with newsletter_form as f %}
+{{ f.media.css }}
+{{ f.media.js }}
+
+<div class="account__newsletter columns">
+	<div class="account__newsletter--column column">
+		<div class="account__newsletter--box">
+			<h5 class="account__text--title">Artykuły i wywiady</h5>
+			<div class="account__form">
+				<div class="account__form--row">
+					{{ f.article }}
+					<label>{{ f.article.label }}{% if f.article.field.required %}<span>*</span>{%endif %}</label>
+					{{ f.article.errors }}
+				</div>
+			</div>
+		</div>
+
+		<div class="account__newsletter--box">
+			<h5 class="account__text--title">Projekty naukowe</h5>
+			<div class="account__form">
+				<div class="account__form--row">
+					{{ f.project }}
+					<label>{{ f.project.label }}{% if f.project.field.required %}<span>*</span>{%endif %}</label>
+					{{ f.project.errors }}
+				</div>
+
+				<div class="account__form--row">
+					{{ f.dissertation }}
+					<label>{{ f.dissertation.label }}{% if f.dissertation.field.required %}<span>*</span>{%endif %}</label>
+					{{ f.dissertation.errors }}
+				</div>
+
+				<div class="account__form--row">
+					{{ f.competition }}
+					<label>{{ f.competition.label }}{% if f.competition.field.required %}<span>*</span>{%endif %}</label>
+					{{ f.competition.errors }}
+				</div>
+			</div>
+		</div>
+
+		<div class="account__newsletter--box">
+			<h5 class="account__text--title">Publikacje</h5>
+			<div class="account__form">
+				<div class="account__form--row">
+					{{ f.journal }}
+					<label>{{ f.journal.label }}{% if f.journal.field.required %}<span>*</span>{%endif %}</label>
+					{{ f.journal.errors }}
+				</div>
+
+				<div class="account__form--row">
+					{{ f.book }}
+					<label>{{ f.book.label }}{% if f.book.field.required %}<span>*</span>{%endif %}</label>
+					{{ f.book.errors }}
+				</div>
+			</div>
+		</div>
+		<div class="account__newsletter--box">
+			<h5 class="account__text--title">Praca i edukacja</h5>
+			<div class="account__form">
+				<div class="account__form--row">
+					{{ f.joboffer }}
+					<label>{{ f.joboffer.label }}{% if f.joboffer.field.required %}<span>*</span>{%endif %}</label>
+					{{ f.joboffer.errors }}
+				</div>
+
+				<div class="account__form--row">
+					{{ f.eduoffer }}
+					<label>{{ f.eduoffer.label }}{% if f.eduoffer.field.required %}<span>*</span>{%endif %}</label>
+					{{ f.eduoffer.errors }}
+				</div>
+
+				<div class="account__form--row">
+					{{ f.scholarship }}
+					<label>{{ f.scholarship.label }}{% if f.scholarship.field.required %}<span>*</span>{%endif %}</label>
+					{{ f.scholarship.errors }}
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="account__newsletter--column column">
+		<div class="account__newsletter--fullbox">
+			<h5 class="account__text--title">Wydarzenia</h5>
+			<div class="account__form">
+				<div class="account__form--row">
+					{{ f.event_categories }}
+					{{ f.event_categories.errors }}
+				</div>
+			</div>
+		</div>
+		<div class="account__newsletter--fullbox">
+			<h5 class="account__text--title">Aktualności</h5>
+			<div class="account__form">
+				<div class="account__form--row">
+					{{ f.new_categories }}
+					{{ f.new_categories.errors }}
+				</div>
+			</div>
+		</div>
+		<div class="account__newsletter--fullbox">
+			<h5 class="account__text--title">{{ f.period.label }}</h5>
+			<div class="account__form">
+				<div class="account__form--row">
+					{{ f.period }}
+					{{ f.period.errors }}
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+	<div class="account__form--buttons">
+		<a href="#" class="account__button--cancel">Anuluj</a>
+		<button class="account__button--submit" type="submit" name="edit_profile">Aktualizuj</button>
+	</div>
+
+	{% endwith %}
+</form>
+
+
+{% endblock%}
+
+{% block footer %}
+
+{% endblock %}

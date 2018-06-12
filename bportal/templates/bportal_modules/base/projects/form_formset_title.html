@@ -1,0 +1,15 @@
+{% if formset.prefix = 'project_institution_participations' %}
+    <h4 class="page__text--subtitle">Instytucje zaangażowane w projekt</h4>
+{% endif %}
+{% if formset.prefix = 'project_person_participations' %}
+    <h4 class="page__text--subtitle">Osoby biorące udział w projekcie</h4>
+{% endif %}
+{% if formset.prefix = 'project_files' %}
+    <h4 class="page__text--subtitle">Pliki</h4>
+{% endif %}
+{% if formset.prefix = 'project_links' %}
+    <h4 class="page__text--subtitle">Linki</h4>
+{% endif %}
+{% if formset.prefix = 'project_content_contributors' %}
+    <h4 class="page__text--subtitle">Role osób we wkład treści</h4>
+{% endif %}

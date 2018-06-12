@@ -1,0 +1,357 @@
+{% load static %}
+{% load i18n %}
+{% load admin_urls %}
+{% load meta %}
+{% load activeurl %}
+
+{% url 'home' as home_url %}
+
+{% url 'about' as about_url %}
+{% url 'partners' as partners_url %}
+{% url 'editors' as editors_url %}
+{% url 'faq' as faq_url %}
+
+{% url 'event_list' as events_url %}
+
+{% url 'new_list' as news_url %}
+
+{% url 'research_list' as researches_url %}
+{% url 'project_list' as projects_url %}
+{% url 'dissertation_list' as dissertations_url %}
+{% url 'competition_list' as competitions_url %}
+
+{% url 'offers_list' as offers_url %}
+{% url 'eduoffer_list' as eduoffers_url %}
+{% url 'scholarship_list' as scholarships_url %}
+{% url 'joboffer_list' as joboffers_url %}
+
+{% url 'publications_list' as publications_url %}
+{% url 'book_list' as books_url %}
+{% url 'journalissue_list' as journals_url %}
+
+{% url 'article_list' as articles_url %}
+
+
+<!doctype html>
+<html>
+    <head{% meta_namespaces %}>
+    
+        {% include "meta/meta.html" %}
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109676312-1"></script>
+        <script type="text/javascript">
+            if (document.location.hostname == "biuletynpolonistyczny.pl") {
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'UA-109676312-1');
+            }
+        </script>
+        <!-- End of Google Analytics -->
+                
+        <!-- Facebook Pixel Code -->
+        <script type="text/javascript">
+        	if (document.location.hostname == "biuletynpolonistyczny.pl") {
+        		!function(f,b,e,v,n,t,s) {
+        			if(f.fbq) return;
+        			n=f.fbq=function() {
+        				n.callMethod? n.callMethod.apply(n,arguments) : n.queue.push(arguments)
+        			};
+	        		if(!f._fbq) f._fbq=n;
+    	    		n.push=n;
+        			n.loaded=!0;
+        			n.version='2.0';
+	        		n.queue=[];
+    	    		t=b.createElement(e);
+        			t.async=!0;
+        			t.src=v;
+        			s=b.getElementsByTagName(e)[0];
+        			s.parentNode.insertBefore(t,s)        			
+        		}
+        		(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        		fbq('init', '1529982970434092');
+        		fbq('track', 'PageView');
+        	}
+        </script>
+        <noscript>
+        	<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1529982970434092&ev=PageView&noscript=1" />
+        </noscript>
+        <!-- End of Facebook Pixel Code -->
+    
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>{% blocktrans %}Polonist Bulletin{% endblocktrans %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="{% static "bportal/images/favicon.ico" %}">
+        <link rel="stylesheet" href="{% static "bportal/css/main.css" %}">
+        
+        {{ form.media.css }}
+        {{ filter.form.media.css }}
+
+        <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+                
+        {{ form.media.js }}
+        {{ filter.form.media.js }}
+        
+    </head>
+    <body>
+
+        <ul class="skip-links list-unstyled">
+            <li><a href="#mainmenu" class="inner">Przejdź do menu głównego</a></li>
+            <li><a href="#search" class="inner">Przejdź do wyszukiwarki</a></li>
+
+            {% if request.get_full_path == home_url %}
+            <li><a href="#events" class="inner">Przejdź do wydarzeń</a></li>
+            <li><a href="#news" class="inner">Przejdź do aktualności</a></li>
+            <li><a href="#calendar" class="inner">Przejdź do kalendarza wydarzeń</a></li>
+            <li><a href="#projects" class="inner">Przejdź do projektów naukowych</a></li>
+            <li><a href="#eduwork" class="inner">Przejdź do edukacji i pracy</a></li>
+            <li><a href="#contact" class="inner">Przejdź do kontaktu</a></li>
+            <li><a href="#cooperation" class="inner">Przejdź do instytucji współpracujących</a></li>
+            {% else %}
+
+            <li><a href="#content" class="inner">Przejdź do zawartości</a></li>
+
+            {% endif %}
+
+            <li><a href="#sitemap" class="inner">Przejdź do mapy strony</a></li>
+            <li><a href="#footer">Przejdź do stopki</a></li>
+        </ul>
+
+        <header class="header">
+            <div class="header__container container">
+                <div class="header__inner columns is-mobile">
+                    <div class="header__logo column is-3 is-narrow">
+                        <a href="{% url "home" %}" class="header__logo--anchor">
+                            <i class="header__logo--icontext"></i>
+                            <i class="header__logo--icon"></i>
+                        </a>
+                    </div>
+                    <div class="header__blocks column">
+                        <div class="header__blocks--upper columns is-marginless is-mobile">
+                            <div class="header__fontsize column is-paddingless is-narrow">
+                                <button type="button" class="header__fontsize--button js-fontsize" title="Zmień wielkość tekstu">
+                                    <i class="bp-icon-font_size"></i>
+                                    <span class="header__fontsize--blockicon">
+                                        <i class="header__fontsize--icon"></i>
+                                    </span>
+                                </button>
+                                <div class="header__fontsize--dropdown" role="presentation" >
+                                    <ul class="header__fontsize--dropdown-list">
+                                        <li class="header__fontsize--item header__fontsize--size-normal">
+                                            <label for="fontsize-normal"><input type="radio" name="fontsize" value="normal" id="fontsize-normal"> Czcionka domyślna</label>
+                                        </li>
+                                        <li class="header__fontsize--item header__fontsize--size-medium">
+                                            <label for="fontsize-medium"><input type="radio" name="fontsize" value="medium" id="fontsize-medium"> Czcionka średnia</label>
+                                        </li>
+                                        <li class="header__fontsize--item header__fontsize--size-big">
+                                            <label for="fontsize-big"><input type="radio" name="fontsize" value="big" id="fontsize-big">Czcionka duża</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="header__search column is-paddingless is-narrow">
+                                <div class="header__search--box-form">
+                                    <form method="GET" action="{% url "search_view" %}" class="header__search--form" id="search">
+                                        <input type="text" name="q" class="header__search--input" >
+                                        <button type="submit" class="header__search--submit"><i class="bp-icon-search"></i></button>
+                                        <button type="button" class="header__search--close"><i class="bp-icon-close js-search"></i></button>
+                                    </form>
+                                </div>
+                                <div class="header__search--box-button">
+                                    <button type="button" class="header__search--button js-search"><i class="bp-icon-search"></i></button>
+                                </div>
+                            </div>
+                            <div class="header__auth">
+                                {% if not request.user.is_authenticated %}
+                                <div class="header__auth--item header__auth--login header__login">
+                                    <button type="button" class="header__login--button js-login">
+                                        <span class="header__login--text">Zaloguj</span>
+                                        <span class="header__login--icon">
+                                            <i class="bp-icon-chevron_short_right"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                                {% else %}
+                                <div class="header__auth--item header__auth--myaccount header__myaccount">
+                                    <a href="{% url "userprofile" %}" class="header__myaccount--button">
+                                        <span class="header__myaccount--text">Moje konto</span>
+                                        {% if user.userprofile.user_photo %}
+                                            <span class="header__myaccount--photo" style="background-image: url('{% if request.is_secure %}https{% else %}http{% endif %}://{{ request.get_host }}{{MEDIA_URL}}{{user.userprofile.user_photo }}')"></span>
+                                        {% else %}
+                                            <span class="header__myaccount--icon">
+                                                <i class="bp-icon-photo_person"></i>
+                                            </span>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                                <div class="header__auth--item header__auth--logout header__logout">
+                                    <a href="{% url "logout" %}" class="header__logout--button">
+                                        <span class="header__logout--text">Wyloguj</span>
+                                        <span class="header__logout--icon">
+                                            <i class="bp-icon-chevron_short_left"></i>
+                                        </span>
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="header__menu">
+                                <button type="button" class="header__menu--button js-menu">
+                                    <span class="header__menu--text">Menu</span>
+                                    <span class="header__menu--icon">
+                                        <i></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="header__blocks--bottom">
+                            <nav class="header__nav" role="navigation" aria-label="dropdown navigation" id="mainmenu">
+                                <div class="header__nav--auth">
+                                    {% if not request.user.is_authenticated %}
+                                    <div class="header__auth--item header__auth--login header__login">
+                                        <button type="button" class="header__login--button js-login">
+                                            <span class="header__login--text">Zaloguj</span>
+                                            <span class="header__login--icon">
+                                                <i class="bp-icon-chevron_short_right"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    {% else %}
+                                    <div class="header__auth--item header__auth--myaccount header__myaccount">
+                                        <a href="{% url "userprofile" %}" class="header__myaccount--button">
+                                            <span class="header__myaccount--text">Moje konto</span>
+                                            {% if user.userprofile.user_photo %}
+                                            <span class="header__myaccount--photo" style="background-image: url('{% if request.is_secure %}https{% else %}http{% endif %}://{{ request.get_host }}{{MEDIA_URL}}{{user.userprofile.user_photo }}')"></span>
+                                            {% else %}
+                                            <span class="header__myaccount--icon">
+                                                <i class="bp-icon-photo_person"></i>
+                                            </span>
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                    <div class="header__auth--item header__auth--logout header__logout">
+                                        <a href="{% url "logout" %}" class="header__logout--button">
+                                            <span class="header__logout--text">Wyloguj</span>
+                                            <span class="header__logout--icon">
+                                                <i class="bp-icon-chevron_short_left"></i>
+                                            </span>
+                                        </a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <a href="{% url "home" %}" class="header__nav--item {% if request.get_full_path == home_url %} is-page {% endif %}">
+                                    <i class="bp-icon-home header__nav--home-icon"></i>
+                                    <span class="header__nav--home-text">Strona główna</span>
+                                </a>
+                                <a href="{% url "event_list" %}" class="header__nav--item {% if request.get_full_path|is_active_url:events_url %} is-page {% endif %}">
+                                    Wydarzenia
+                                </a>
+                                <a href="{% url "new_list" %}" class="header__nav--item {% if request.get_full_path|is_active_url:news_url %} is-page {% endif %}">
+                                    Aktualności
+                                </a>
+                                <a href="{% url "article_list" %}" class="header__nav--item {% if request.get_full_path|is_active_url:articles_url %} is-page {% endif %}">
+                                    Artykuły i wywiady
+                                </a>
+                                <div class="header__nav--item header__nav--item-dropdown {% if request.get_full_path|is_active_url:researches_url or request.get_full_path|is_active_url:projects_url or request.get_full_path|is_active_url:dissertations_url or request.get_full_path|is_active_url:competitions_url %} is-page {% endif %}">
+                                    <a class="header__nav--expand js-menu-dropdown" tabindex="0">
+                                        Projekty naukowe
+                                    </a>
+
+                                    <div class="header__nav--dropdown">
+                                        <a class="header__nav--subitem" href="{% url "research_list" %}">
+                                            <span>Wszystkie</span>
+                                        </a>
+                                        <a class="header__nav--subitem" href="{% url "project_list" %}">
+                                            <span>Projekty badawcze</span>
+                                        </a>
+                                        <a class="header__nav--subitem" href="{% url "dissertation_list" %}">
+                                            <span>Prace doktorskie i habilitacyjne</span>
+                                        </a>
+                                        <a class="header__nav--subitem" href="{% url "competition_list" %}">
+                                            <span>Konkursy</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="header__nav--item header__nav--item-dropdown {% if request.get_full_path|is_active_url:publications_url or request.get_full_path|is_active_url:books_url or request.get_full_path|is_active_url:journals_url %} is-page {% endif %}">
+                                    <a class="header__nav--expand js-menu-dropdown" tabindex="0">
+                                        Publikacje
+                                    </a>
+
+                                    <div class="header__nav--dropdown">
+                                        <a class="header__nav--subitem" href="{% url "publications_list" %}">
+                                            <span>Wszystkie</span>
+                                        </a>
+                                        <a class="header__nav--subitem" href="{% url "journalissue_list" %}">
+                                            <span>Czasopisma</span>
+                                        </a>
+                                        <a class="header__nav--subitem" href="{% url "book_list" %}">
+                                            <span>Nowości wydawnicze</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="header__nav--item header__nav--item-dropdown {% if request.get_full_path|is_active_url:offers_url or request.get_full_path|is_active_url:eduoffers_url or request.get_full_path|is_active_url:scholarships_url or request.get_full_path|is_active_url:joboffers_url %} is-page {% endif %}">
+                                    <a class="header__nav--expand js-menu-dropdown" tabindex="0">
+                                        Edukacja i praca
+                                    </a>
+
+                                    <div class="header__nav--dropdown">
+                                        <a class="header__nav--subitem" href="{% url "offers_list" %}">
+                                            <span>Wszystkie</span>
+                                        </a>
+                                        <a class="header__nav--subitem" href="{% url "eduoffer_list" %}">
+                                            <span>Oferty edukacyjne</span>
+                                        </a>
+                                        <a class="header__nav--subitem" href="{% url "scholarship_list" %}">
+                                            <span>Stypendia</span>
+                                        </a>
+                                        <a class="header__nav--subitem" href="{% url "joboffer_list" %}">
+                                            <span>Oferty pracy</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="header__nav--item header__nav--item-dropdown {% if request.get_full_path == about_url or request.get_full_path == partners_url or request.get_full_path == editors_url or request.get_full_path == faq_url %} is-page {% endif %}">
+                                    <a class="header__nav--expand js-menu-dropdown" tabindex="0">
+                                        Biuletyn
+                                    </a>
+
+                                    <div class="header__nav--dropdown">
+                                        <a class="header__nav--subitem" href="{% url "about" %}">
+                                        <span>O Biuletynie</span>
+                                        </a>
+                                        <a class="header__nav--subitem" href="{% url "editors" %}">
+                                        <span>Redakcja portalu</span>
+                                        </a>
+                                        <a class="header__nav--subitem" href="{% url "partners" %}">
+                                        <span>Instytucje współpracujące</span>
+                                        </a>
+                                        <a class="header__nav--subitem" href="{% url "faq" %}">
+                                        <span>FAQ</span>
+                                        </a>
+                                        <a class="header__nav--subitem" href="{% url "home" %}#contact">
+                                        <span>Kontakt</span>
+                                        </a>
+                                        <a class="header__nav--subitem" href="{% static "bportal/files/Regulamin_Biuletynu_Polonistycznego.pdf" %}" target="_blank">
+                                        <span>Regulamin</span>
+                                        </a>
+                                        <a class="header__nav--subitem" href="http://wiki.biuletynpolonistyczny.pl" target="_blank">
+                                            <span>Instrukcja</span>
+                                        </a>
+                                        <a class="header__nav--subitem" href="https://docs.google.com/forms/d/1SUkPEqHftZ1HrUTC41E3y_h-JRtBX6l9uATplvV_nBc/viewform" target="_blank">
+                                            <span>Ankieta</span>
+                                        </a>
+                                        {% if request.user.is_superuser %}
+                                        <a class="header__nav--subitem" href="{% url 'admin:index' %}">
+                                            <span>Administracja</span>
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+

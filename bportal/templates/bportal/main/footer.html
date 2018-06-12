@@ -1,0 +1,189 @@
+{% load static %}
+{% load i18n %}
+{% load admin_urls %}
+        <div class="cookies js-cookies">
+            <div class="cookies__border">
+                <div class="cookies__container container">
+                    <div class="cookies__content">
+                        <span class="cookies__text--main">Używamy plików cookies, by ułatwić korzystanie z naszych serwisów. Jeśli nie chcesz, by pliki cookies były zapisywanena Twoim dysku, zmień ustawienia swojej przeglądarki. </span>
+                        <a href="{% url "cookie_policy" %}" class="cookies__text--anchor cookies__link">Sprawdź informacje o plikach cookies i polityce prywatności.</a>
+                    </div>
+                    <div class="cookies__buttons">
+                        <button class="cookies__button js-cookies-accept">Rozumiem</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer__sitemap" role="navigation" id="sitemap">
+                <div class="footer__inner container">
+                    <div class="footer__sitemap--title footer__title">
+                        <h3 class="footer__title--head">Mapa strony</h3>
+                    </div>
+                    <div class="footer__sitemap--list footer__menu columns">
+                        <ul class="footer__menu--column column is-narrow footer__menu--list">
+                            <li class="footer__menu--item footer__menu--item-first">
+                                <a href="{% url "home" %}" class="footer__menu--anchor">
+                                    <i class="footer__menu--icon-home bp-icon-home"></i>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="footer__menu--column column is-narrow footer__menu--list">
+                            <li class="footer__menu--item">
+                                <a href="{% url "event_list" %}" class="footer__menu--anchor footer__menu--bold">
+                                Wydarzenia
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="footer__menu--column column is-narrow footer__menu--list">
+                            <li class="footer__menu--item">
+                                <a href="{% url "new_list" %}" class="footer__menu--anchor footer__menu--bold">
+                                Aktualności
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="footer__menu--column column is-narrow footer__menu--list">
+                            <li class="footer__menu--item">
+                                <a href="{% url "article_list" %}" class="footer__menu--anchor footer__menu--bold">
+                                Artykuły i wywiady
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="footer__menu--column column is-narrow footer__menu--list">
+                            <li class="footer__menu--item">
+                                <a class="footer__menu--anchor footer__menu--bold">
+                                    Projekty naukowe
+                                </a>
+                                <i class="footer__menu--icon-chevron bp-icon-chevron_long_right"></i>
+                                <ul class="footer__menu--sublist">
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% url "research_list" %}">Wszystkie</a></li>
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% url "project_list" %}">Projekty badawcze</a></li>
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% url "dissertation_list" %}">Prace doktorskie i habilitacyjne</a></li>
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% url "competition_list" %}">Konkursy</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="footer__menu--column column is-narrow footer__menu--list">
+                            <li class="footer__menu--item">
+                                <a class="footer__menu--anchor footer__menu--bold">
+                                    Publikacje
+                                </a>
+                                <i class="footer__menu--icon-chevron bp-icon-chevron_long_right"></i>
+                                <ul class="footer__menu--sublist">
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% url "publications_list" %}">Wszystkie</a></li>
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% url 'journalissue_list' %}">Czasopisma</a></li>
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% url "book_list" %}">Nowości wydawnicze</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="footer__menu--column column is-narrow footer__menu--list">
+                            <li class="footer__menu--item">
+                                <a class="footer__menu--anchor footer__menu--bold">
+                                    Edukacja i praca
+                                </a>
+                                <i class="footer__menu--icon-chevron bp-icon-chevron_long_right"></i>
+                                <ul class="footer__menu--sublist">
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% url "offers_list" %}">Wszystkie</a></li>
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% url "eduoffer_list" %}">Oferty edukacyjne</a></li>
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% url "scholarship_list" %}">Stypendia</a></li>
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% url "joboffer_list" %}">Oferty pracy</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="footer__menu--column column is-narrow footer__menu--list">
+                            <li class="footer__menu--item">
+                                <a class="footer__menu--anchor footer__menu--bold">
+                                    {% blocktrans %}Bulletin{% endblocktrans %}
+                                </a>
+                                <i class="footer__menu--icon-chevron bp-icon-chevron_long_right"></i>
+                                <ul class="footer__menu--sublist">
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% url "about" %}">{% blocktrans %}About Bulletin{% endblocktrans %}</a></li>
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% url "editors" %}">Redakcja portalu</a></li>
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% url "partners" %}">Instytucje współpracujące</a></li>
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% url "faq" %}">FAQ</a></li>
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% url "home" %}#contact">Kontakt</a></li>
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% static "bportal/files/Regulamin_Biuletynu_Polonistycznego.pdf" %}" target="_blank">Regulamin</a></li>
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="http://wiki.biuletynpolonistyczny.pl" target="_blank">Instrukcja</a></li>
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="https://docs.google.com/forms/d/1SUkPEqHftZ1HrUTC41E3y_h-JRtBX6l9uATplvV_nBc/viewform" target="_blank">Ankieta</a></li>
+                                    {% if request.user.is_superuser %}
+                                    <li class="footer__menu--subitem"><a class="footer__menu--anchor" href="{% url 'admin:index' %}">Administracja</a></li>
+                                    {% endif %}
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__copyright" role="navigation" id="footer">
+                <div class="footer__inner">
+                    <span class="footer__copyright--text">Projekt <a href="http://ibl.waw.pl/" target="_blank" class="footer__copyright--anchor">Instytutu Badań Literackich PAN</a> i <a href="http://pcss.pl" target="_blank" class="footer__copyright--anchor">Poznańskiego Centrum Superkomputerowo-Sieciowego</a>,</span><span class="footer__copyright--text"> realizowany we współpracy z <a href="http://knol.pan.pl/" target="_blank" class="footer__copyright--anchor">Komitetem Nauk o Literaturze PAN</a> i Konferencją Polonistyk Uniwersyteckich.</span>
+                </div>
+            </div>
+        </footer>
+
+		{% if not request.user.is_authenticated %}
+            {% with request.login_form as f %}
+                <div class="login{% if f.message.help_text or request.GET.next %} is-active{% endif %}">
+                    <div class="login__background"></div>
+                    <div class="login__content">
+                        <button type="button" class="login__close js-modal-close"><i class="bp-icon-close_bold"></i></button>
+                        <div class="login__title">
+                            <h3 class="login__title--head">Logowanie</h3>
+                        </div>
+                        <div class="login__box">
+                            <form action="" method="post" class="login__form">{% csrf_token %}
+                                <div class="login__form--row login__form--error">
+                                    {{ f.message.help_text }}
+                                </div>
+                                <div class="login__form--row">
+                                    <label class="login__form--label">
+                                        {{ f.username.label }}: *
+                                    </label>
+                                    {{ f.username }}
+                                </div>
+                                <div class="login__form--row">
+                                    <label class="login__form--label">
+                                        {{ f.password.label }}: *
+                                    </label>
+                                    {{ f.password }}
+                                </div>
+                                <div class="login__form--row login__form--row-last">
+                                    <div class="login__form--info">
+                                        <div class="login__form--info-required">
+                                            <span>Pola oznaczone gwiazdką</span><span> są obowiązkowe do wypełnienia</span>
+                                        </div>
+                                    </div>
+                                    <div class="login__form--buttons">
+                                        <a href="{% url "registration" %}" class="login__form--button login__form--button-createaccount">Utwórz konto</a>
+                                        <span class="login__form--divider">lub</span>
+                                        <button type="submit" class="login__form--button login__form--button-submit" name="base-account" value="Login">Zaloguj</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="login__socialauth">
+                            <h5 class="login__socialauth--title">Zaloguj się przez:</h5>
+                            <a href="{% url 'social:begin' 'facebook' %}">
+                                <button class="login__socialauth--button">
+                                    <i class="bp-icon-socialmedia_facebook"></i> Facebook
+                                </button>
+                            </a>
+                            <a href="{% url 'social:begin' 'google-oauth2' %}">
+                            	<button class="login__socialauth--button">
+                                	<i class="bp-icon-socialmedia_googleplus"></i> Google+
+                            	</button>
+                            </a>
+                        </div>
+                        <div class="login__lostpass">
+                            <a href="{% url 'password_reset' %}" class="login__lostpass--anchor">Nie mogę się zalogować</a>
+                        </div>
+                    </div>
+                </div>
+            {% endwith %}
+        {% endif %}
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script type="text/javascript" src="{% static 'bportal/js/main-libs.js' %}"></script>
+		<script type="text/javascript" src="{% static 'bportal/js/main-scripts.js' %}"></script>
+    </body>
+</html>

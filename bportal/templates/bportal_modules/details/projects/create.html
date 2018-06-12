@@ -1,0 +1,16 @@
+{% extends "bportal_modules/layout/create.html" %}
+{% load staticfiles %}
+
+{% block pageFormFields %}
+    {% if field.id_for_label != 'id_project_is_accepted' and field.id_for_label != 'id_force'  %}
+        {% include 'bportal_modules/layout/forms/fields.html' %}
+    {% endif %}
+{% endblock %}
+
+{% block pageFormsetTitle %}
+    {% include 'bportal_modules/base/projects/form_formset_title.html' %}
+{% endblock %}
+
+{% block pageSubmitCol %}
+    {% include 'bportal_modules/base/projects/form_submit_col.html' %}
+{% endblock %}

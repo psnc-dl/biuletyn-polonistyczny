@@ -1,0 +1,76 @@
+{% extends "bportal/main/page_popup.html" %}
+{% load staticfiles %}
+
+
+{% block pageTitle %}
+Dodaj nową osobę
+{% endblock %}
+
+{% block pageContent %}
+<div class="page__content">
+    <form enctype="multipart/form-data" action="" method="post" class="page__form">{% csrf_token %}
+       {% with form as f %}
+           {% if f.force %}
+                <div class="alert alert__same-name">
+                    <h5 class="alert__text--title">Uwaga!</h5>
+                    <p class="alert__text--info">Osoba o takim imieniu i nazwisku już istnieje. Proszę potwierdź, że chcesz dodać tę osobę.</p>
+                    <div class="alert__confirm">
+                        {{ f.force }}
+                        <label for="{{ f.force.id_for_label }}">
+                            {{ f.force.label }}
+                        </label>
+                        <div class="alert__confirm--error">
+                            {{ f.force.errors }}
+                        </div>
+                    </div>
+                </div>
+           {% endif %}
+       {% endwith %}
+       {% if form.errors %}
+            <div class="alert alert__error" role="alert">
+                <h5 class="alert__text--title">Wystąpiły błędy!</h5>
+                <p class="alert__text--info">Proszę popraw formularz.
+            </div>
+   		{% endif %}
+        {% for field in form %}
+        <div class="page__form--row">
+            {% include 'bportal_modules/layout/forms/fields.html' %}
+        </div>
+        {% endfor %}
+
+        {% for formset in inlines %}
+        <div class="page__form--row page__form--row-inline">
+            {{ formset.management_form }}
+            <div class="page__title--subhead page__title--inline">
+                {% if formset.prefix = 'person_affiliations' %}
+                <h4 class="page__text--subtitle">Instytucje (miejsca pracy)</h4>
+                {% endif %}
+            </div>
+            <div class="page__form--inlines" data-prefix="{{ formset.prefix }}">
+                {% for f in formset %}
+                <ul class='page__form--inline table_{{ formset.prefix }}'>
+                    {{ f.as_ul }}
+                </ul>
+                {% endfor %}
+                <ul class='page__form--inline table_{{ formset.prefix }}_empty'>
+                    {{ formset.empty_form.as_ul }}
+                </ul>
+                <div class="page__buttons page__buttons--inlines">
+                    <button type="button" class="page__button--remove js-remove-inline">Usuń</button>
+                    <button type="button" class="page__button--add js-add-inline">Dodaj kolejny</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="page__form--row-publish">
+            <div class="page__publish"></div>
+            <div class="page__buttons">
+                {% block pageSubmitButtons %}
+                <button type="submit" class="page__button--submit">Utwórz</button>
+                {% endblock %}
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

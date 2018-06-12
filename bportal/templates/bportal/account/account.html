@@ -1,0 +1,86 @@
+{% include "bportal/main/header.html" %}
+{% include "bportal/main/messages.html" %}
+{% load static %}
+
+        <div class="account {% if not messages %}is-first{% endif %}">
+            <div class="account__container container" id="content">
+                <div class="account__title">
+                    <h3 class="account__title--head">Moje konto</h3>
+                </div>
+
+    			<form action="" method="post" autocomplete="off" enctype="multipart/form-data">{% csrf_token %}		
+                
+	                <div class="account__columns columns">
+                
+                    	<div class="account__columns--left column is-4">
+
+                        	<div class="account__photo">
+								<div class="account__photo--picture">
+									{% if user.userprofile.user_photo %}
+										<img src="{% if request.is_secure %}https{% else %}http{% endif %}://{{ request.get_host }}{{MEDIA_URL}}{{user.userprofile.user_photo }}" class="account__photo--image">
+									{% else %}
+										<i class="bp-icon-photo_person"></i>
+									{% endif %}
+								</div>
+                            	<div class="account__photo--changeuserpic">
+                                	<button type="button" class="account__photo--button js-change-user-photo"><i class="bp-icon-photo_image"></i></button>
+                                	{% with photo_form as f %}
+                                	<div class="account__changeuserpic">
+                                    	<div class="account__title">
+                                        	<h3 class="account__title--subhead account__title--subhead-photo">Zdjęcie profilowe</h3>
+                                    	</div>
+                                    	<div class="account__changeuserpic--form">
+                                        	<div class="account__changeuserpic--inputrow">
+                                            	<h4>{{ f.photo.label }}</h4>
+                                            	{{ f.photo }}
+                                            	{{ f.photo.errors }}
+                                        	</div>
+                                        	<div class="account__changeuserpic--submitrow">
+                                            	<div class="acccount__changeuserpic--submitrow-left">
+                                                	{{ f.remove }}
+                                                	<span>{{ f.remove.label }}</span>
+                                            	</div>
+                                            	<div class="acccount__changeuserpic--submitrow-right">
+                                                	<button class="account__button--submit" type="submit" name="edit_profile">Zmień</button>
+                                            	</div>
+                                        	</div>
+                                    	</div>
+                                	</div>
+                                	{% endwith %}
+                            	</div>
+                        	</div>
+
+                        	<div class="account__userinfo">
+                            	{% if user.userprofile.user_nick %}<h2 class="account__text--user">{{user.userprofile.user_nick}}</h2>{%  endif %}
+                            	{% if not user.is_superuser and user.userprofile.user_is_editor %}<h3 class="account__text--userrole">Redaktor</h3>{%  endif %}
+                            	{% if user.is_superuser %}<h3 class="account__text--userrole">Administrator</h3>{%  endif %}
+                            	<h4 class="account__text--institution">
+                                	{% for institution in request.user.userprofile.user_institution.all %}
+                                    	{{ institution.institution_fullname }}
+                                    	{% if not forloop.last %}, {% endif %}
+                                	{% empty %}
+                                    	Brak afiliacji
+                                	{% endfor %}
+                            	</h4>
+                        	</div>
+
+                        	<div class="account__questionnaire">
+                            	<p class="account__text--paragraph">Pragnąc sprostać oczekiwaniom Użytkowników "Biuletynu Polonistycznego" zwracamy się do Państwa z prośbą o wyrażenie opinii na temat obecnych i
+                                	planowanych funkcjonalności. Zapraszamy do wypełnienia
+                                	<a href="https://docs.google.com/forms/d/1SUkPEqHftZ1HrUTC41E3y_h-JRtBX6l9uATplvV_nBc/viewform" target="_blank" class="contact__info--anchor">ankiety</a></p>
+                        	</div>
+
+                    	</div>
+                    	<div class="account__columns--right column">
+                        	{% block account-tabs %}{% endblock %}
+                        	{% block account-profile %}{% endblock %}
+                    	</div>
+                                        
+                	</div>
+    			</form>
+            </div>
+        </div>
+        
+    
+
+{% include "bportal/main/footer.html" %}

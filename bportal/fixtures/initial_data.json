@@ -1,0 +1,546 @@
+[{
+"model": "bportal.targetgroup",
+"pk": 1,
+"fields": {
+"target_name": "Samodzielni Pracownicy Naukowi",
+"position": null
+}
+}, {
+"model": "bportal.targetgroup",
+"pk": 2,
+"fields": {
+"target_name": "Studenci",
+"position": null
+}
+}, {
+"model": "bportal.targetgroup",
+"pk": 3,
+"fields": {
+"target_name": "Doktoranci",
+"position": null
+}
+}, {
+"model": "bportal.targetgroup",
+"pk": 4,
+"fields": {
+"target_name": "Inni",
+"position": null
+}
+}, {
+"model": "bportal.researchdiscipline",
+"pk": 1,
+"fields": {
+"discipline_fullname": "Historia literatury (w tym: staro\u017cytnej, nowo\u017cytnej, wsp\u00f3\u0142czesnej; narodowej, \u015bwiatowej) oraz krytyka i interpretacja literacka"
+}
+}, {
+"model": "bportal.researchdiscipline",
+"pk": 2,
+"fields": {
+"discipline_fullname": "Teoria literatury, historia my\u015bli literaturoznawczej, metody i orientacje bada\u0144 literacko-kulturowych, antropologia literatury, komparatystyka i translatologia literacko-kulturowa"
+}
+}, {
+"model": "bportal.researchdiscipline",
+"pk": 3,
+"fields": {
+"discipline_fullname": "Studia edytorsko-filologiczne, s\u0142ownikowo-encyklopedyczne, dokumentacyjno-bibliograficzne"
+}
+}, {
+"model": "bportal.researchdiscipline",
+"pk": 4,
+"fields": {
+"discipline_fullname": "Bibliologia i informatologia"
+}
+}, {
+"model": "bportal.researchdiscipline",
+"pk": 5,
+"fields": {
+"discipline_fullname": "Historia j\u0119zyka i dialektologia, badania wsp\u00f3\u0142czesnego j\u0119zyka i analiza dyskursu, tekstologia i translatologia lingwistyczna"
+}
+}, {
+"model": "bportal.researchdiscipline",
+"pk": 6,
+"fields": {
+"discipline_fullname": "J\u0119zykoznawstwo og\u00f3lne i por\u00f3wnawcze, teoria j\u0119zyka i teoria komunikacji, metody bada\u0144 lingwistycznych (w tym: socjo-, etno-, psycho- i pragmalingwistyka), lingwistyka komputerowa"
+}
+}, {
+"model": "bportal.researchdiscipline",
+"pk": 7,
+"fields": {
+"discipline_fullname": "Metodyka i dydaktyka nauczania literatury i j\u0119zyka (w tym: j\u0119zyka obcego i j\u0119zyka polskiego jako obcego), glottodydaktyka, kultura j\u0119zyka"
+}
+}, {
+"model": "bportal.researchdiscipline",
+"pk": 8,
+"fields": {
+"discipline_fullname": "Historia i teoria sztuki, sztuki plastyczne, kultura wizualna"
+}
+}, {
+"model": "bportal.researchdiscipline",
+"pk": 9,
+"fields": {
+"discipline_fullname": "Konserwatorstwo"
+}
+}, {
+"model": "bportal.researchdiscipline",
+"pk": 10,
+"fields": {
+"discipline_fullname": "Muzealnictwo"
+}
+}, {
+"model": "bportal.researchdiscipline",
+"pk": 11,
+"fields": {
+"discipline_fullname": "Muzyka (tw\u00f3rczo\u015b\u0107, wykonawstwo, teoria muzyki), muzykologia"
+}
+}, {
+"model": "bportal.researchdiscipline",
+"pk": 12,
+"fields": {
+"discipline_fullname": "Teatrologia i sztuki performatywne (aktorstwo, taniec i in.)"
+}
+}, {
+"model": "bportal.researchdiscipline",
+"pk": 13,
+"fields": {
+"discipline_fullname": "Filmoznawstwo i media audiowizualne"
+}
+}, {
+"model": "bportal.researchdiscipline",
+"pk": 14,
+"fields": {
+"discipline_fullname": "Kulturoznawstwo (w tym: wsp\u00f3\u0142czesne studia kulturowe i antropologiczno-kulturowe)"
+}
+}, {
+"model": "bportal.institutionrole",
+"pk": 1,
+"fields": {
+"institution_role_role": "Instytucja kieruj\u0105ca"
+}
+}, {
+"model": "bportal.institutionrole",
+"pk": 2,
+"fields": {
+"institution_role_role": "Instytucja wsp\u00f3\u0142pracuj\u0105ca"
+}
+}, {
+"model": "bportal.institutionrole",
+"pk": 3,
+"fields": {
+"institution_role_role": "Instytucja powi\u0105zana"
+}
+}, {
+"model": "bportal.personcontributionrole",
+"pk": 1,
+"fields": {
+"contribution_role_role": "Autor"
+}
+}, {
+"model": "bportal.personcontributionrole",
+"pk": 2,
+"fields": {
+"contribution_role_role": "Rozmówca"
+}
+}, {
+"model": "bportal.personcontributionrole",
+"pk": 3,
+"fields": {
+"contribution_role_role": "Opublikował"
+}
+}, {
+"model": "bportal.scientifictitle",
+"pk": 1,
+"fields": {
+"scientific_title_abbreviation": "mgr",
+"scientific_title_name": "magister"
+}
+}, {
+"model": "bportal.scientifictitle",
+"pk": 2,
+"fields": {
+"scientific_title_abbreviation": "dr",
+"scientific_title_name": "doktor"
+}
+}, {
+"model": "bportal.scientifictitle",
+"pk": 3,
+"fields": {
+"scientific_title_abbreviation": "dr hab.",
+"scientific_title_name": "doktor habilitowany"
+}
+}, {
+"model": "bportal.scientifictitle",
+"pk": 4,
+"fields": {
+"scientific_title_abbreviation": "prof.",
+"scientific_title_name": "profesor"
+}
+}, {
+"model": "bportal.eventcategory",
+"pk": 1,
+"fields": {
+"event_category_name": "Warsztaty"
+}
+}, {
+"model": "bportal.eventcategory",
+"pk": 2,
+"fields": {
+"event_category_name": "Wyk\u0142ad"
+}
+}, {
+"model": "bportal.eventcategory",
+"pk": 3,
+"fields": {
+"event_category_name": "Obrona rozprawy doktorskiej"
+}
+}, {
+"model": "bportal.eventcategory",
+"pk": 4,
+"fields": {
+"event_category_name": "Kolokwium hablitacyjne"
+}
+}, {
+"model": "bportal.eventcategory",
+"pk": 5,
+"fields": {
+"event_category_name": "Konkurs"
+}
+}, {
+"model": "bportal.eventcategory",
+"pk": 6,
+"fields": {
+"event_category_name": "Wr\u0119czenie nagrody"
+}
+}, {
+"model": "bportal.eventcategory",
+"pk": 7,
+"fields": {
+"event_category_name": "Przyznanie wyr\u00f3\u017cnienia"
+}
+}, {
+"model": "bportal.eventcategory",
+"pk": 8,
+"fields": {
+"event_category_name": "Dni otwarte"
+}
+}, {
+"model": "bportal.eventcategory",
+"pk": 9,
+"fields": {
+"event_category_name": "Spotkanie autorskie"
+}
+}, {
+"model": "bportal.eventcategory",
+"pk": 10,
+"fields": {
+"event_category_name": "Spotkanie promocyjne"
+}
+}, {
+"model": "bportal.eventcategory",
+"pk": 11,
+"fields": {
+"event_category_name": "Festiwal"
+}
+}, {
+"model": "bportal.eventcategory",
+"pk": 12,
+"fields": {
+"event_category_name": "Targi"
+}
+}, {
+"model": "bportal.educationaloffertype",
+"pk": 1,
+"fields": {
+"type_name": "Szkolenie poetyckie"
+}
+}, {
+"model": "bportal.educationaloffertype",
+"pk": 2,
+"fields": {
+"type_name": "Wymiana studencka"
+}
+}, {
+"model": "bportal.educationaloffermode",
+"pk": 1,
+"fields": {
+"mode_name": "Tryb dzienny"
+}
+}, {
+"model": "bportal.educationaloffermode",
+"pk": 2,
+"fields": {
+"mode_name": "Tryb zaoczny"
+}
+}, {
+"model": "bportal.scholarshiptype",
+"pk": 1,
+"fields": {
+"type_name": "Stypendium naukowe"
+}
+}, {
+"model": "bportal.scholarshiptype",
+"pk": 2,
+"fields": {
+"type_name": "Nagroda instytutu"
+}
+}, {
+"model": "bportal.joboffertype",
+"pk": 1,
+"fields": {
+"type_name": "Sta\u017c"
+}
+}, {
+"model": "bportal.joboffertype",
+"pk": 2,
+"fields": {
+"type_name": "Praktyka"
+}
+}, {
+"model": "bportal.institutiontype",
+"pk": 1,
+"fields": {
+"type_name": "Instytut PAN"
+}
+}, {
+"model": "bportal.institutiontype",
+"pk": 2,
+"fields": {
+"type_name": "Uczelnia Wy\u017csza"
+}
+}, {
+"model": "bportal.institutiontype",
+"pk": 3,
+"fields": {
+"type_name": "Szko\u0142a"
+}
+}, {
+"model": "bportal.institutiontype",
+"pk": 4,
+"fields": {
+"type_name": "Biblioteka"
+}
+}, {
+"model": "bportal.institutiontype",
+"pk": 5,
+"fields": {
+"type_name": "Wydawnictwo"
+}
+}, {
+"model": "bportal.institutiontype",
+"pk": 6,
+"fields": {
+"type_name": "Muzeum"
+}
+}, {
+"model": "bportal.institutiontype",
+"pk": 7,
+"fields": {
+"type_name": "Teatr"
+}
+}, {
+"model": "bportal.newcategory",
+"pk": 1,
+"fields": {
+"new_category_name": "Wydarzenia",
+"new_category_item_name": "Wydarzenie"
+}
+}, {
+"model": "bportal.newcategory",
+"pk": 2,
+"fields": {
+"new_category_name": "Projekty",
+"new_category_item_name": "Projekt"
+}
+}, {
+"model": "bportal.newcategory",
+"pk": 3,
+"fields": {
+"new_category_name": "Prace doktorskie i habilitacyjne",
+"new_category_item_name": "Praca doktorska lub habilitacyjna"
+}
+}, {
+"model": "bportal.newcategory",
+"pk": 4,
+"fields": {
+"new_category_name": "Konkursy",
+"new_category_item_name": "Konkurs"
+}
+}, {
+"model": "bportal.newcategory",
+"pk": 5,
+"fields": {
+"new_category_name": "Oferty edukacyjne",
+"new_category_item_name": "Oferta edukacyjna"
+}
+}, {
+"model": "bportal.newcategory",
+"pk": 6,
+"fields": {
+"new_category_name": "Stypendia",
+"new_category_item_name": "Stypendium"
+}
+}, {
+"model": "bportal.newcategory",
+"pk": 7,
+"fields": {
+"new_category_name": "Oferty pracy",
+"new_category_item_name": "Oferta pracy"
+}
+}, {
+"model": "bportal.newcategory",
+"pk": 8,
+"fields": {
+"new_category_name": "Artyku\u0142y i wywiady",
+"new_category_item_name": "Artyku\u0142 lub wywiad"
+}
+}, {
+"model": "bportal.newcategory",
+"pk": 9,
+"fields": {
+"new_category_name": "Czasopisma",
+"new_category_item_name": "Czasopismo"
+}
+}, {
+"model": "bportal.newcategory",
+"pk": 10,
+"fields": {
+"new_category_name": "Nowo\u015bci wydawnicze",
+"new_category_item_name": "Nowo\u015b\u0107 wydawnicza"
+}
+}, {
+"model": "bportal.newcategory",
+"pk": 101,
+"fields": {
+"new_category_name": "Z \u017cycia polonistyk",
+"new_category_item_name": "Z \u017cycia polonistyk"
+}
+}, {
+"model": "bportal.newcategory",
+"pk": 102,
+"fields": {
+"new_category_name": "Nagrody",
+"new_category_item_name": "Nagroda"
+}
+}, {
+"model": "bportal.newcategory",
+"pk": 103,
+"fields": {
+"new_category_name": "Odeszli",
+"new_category_item_name": "Odeszli"
+}
+}, {
+"model": "bportal.newcategory",
+"pk": 104,
+"fields": {
+"new_category_name": "Og\u0142oszenia",
+"new_category_item_name": "Og\u0142oszenie"
+}
+}, {
+"model": "bportal.newcategory",
+"pk": 105,
+"fields": {
+"new_category_name": "Miscellanea",
+"new_category_item_name": "Miscellanea"
+}
+}, {
+"model": "bportal.publicationcategory",
+"pk": 1,
+"fields": {
+"publication_category_name": "J\u0119zykoznawstwo"
+}
+}, {
+"model": "bportal.publicationcategory",
+"pk": 2,
+"fields": {
+"publication_category_name": "Literaturoznawstwo"
+}
+}, {
+"model": "bportal.publicationcategory",
+"pk": 3,
+"fields": {
+"publication_category_name": "Filozofia"
+}
+}, {
+"model": "bportal.publicationcategory",
+"pk": 4,
+"fields": {
+"publication_category_name": "Antropologia kultury"
+}
+}, {
+"model": "bportal.publicationcategory",
+"pk": 5,
+"fields": {
+"publication_category_name": "Pedagogika"
+}
+}, {
+"model": "bportal.publicationcategory",
+"pk": 6,
+"fields": {
+"publication_category_name": "Biografie"
+}
+}, {
+"model": "bportal.publicationcategory",
+"pk": 7,
+"fields": {
+"publication_category_name": "Literatura"
+}
+}, {
+"model": "bportal.publicationcategory",
+"pk": 8,
+"fields": {
+"publication_category_name": "Dydaktyka"
+}
+}, {
+"model": "bportal.publicationcategory",
+"pk": 9,
+"fields": {
+"publication_category_name": "Pdr\u0119czniki akademickie"
+}
+}, {
+"model": "bportal.publicationcategory",
+"pk": 10,
+"fields": {
+"publication_category_name": "S\u0142owniki"
+}
+}, {
+"model": "bportal.publicationcategory",
+"pk": 11,
+"fields": {
+"publication_category_name": "J\u0119zyk polski jako j\u0119zyk obcy"
+}
+}, {
+"model": "bportal.publicationcategory",
+"pk": 12,
+"fields": {
+"publication_category_name": "Teoria literatury"
+}
+}, {
+"model": "bportal.publicationcategory",
+"pk": 13,
+"fields": {
+"publication_category_name": "Historia literatury"
+}
+}, {
+"model": "bportal.publicationcategory",
+"pk": 14,
+"fields": {
+"publication_category_name": "Teatrologia"
+}
+}, {
+"model": "bportal.publicationcategory",
+"pk": 15,
+"fields": {
+"publication_category_name": "Dziennikarstwo"
+}
+}, {
+"model": "bportal.publicationcategory",
+"pk": 16,
+"fields": {
+"publication_category_name": "Medioznawstwo"
+}
+}, {
+"model": "bportal.publicationcategory",
+"pk": 17,
+"fields": {
+"publication_category_name": "Inne"
+}
+}]

@@ -1,0 +1,33 @@
+{% extends "bportal_modules/layout/list_pdf.html" %}
+
+{% load staticfiles %}
+
+{% load l10n %}
+{% load i18n %}
+
+
+{% block content %}
+
+    {% for e in events %}
+        {{ e.event_date_add|date:"d.m.Y" }}<br/>
+        <b><a href="{{ host }}/events/{{e.event_name_slug}},{{e.event_id}}/details">{{ e.event_name|safe }}</a></b><br/>
+        Data rozpoczęcia: {{ e.event_date_from }}<br/>
+        {% if e.event_city %}            
+            {{ e.event_city.name }}
+            <br/>
+        {% endif %}
+        {% if e.event_category %}            
+            {{ e.event_category }}
+            <br/>
+        {% endif %}
+        {% if e.event_institutions.all %}        
+            {% for i in e.event_institutions.all %}
+                {{ i }}{% if not forloop.last %}, {%endif%}
+            {% endfor %}
+            <br/>
+        {% endif %}         
+        {{ e.event_lead|safe }}
+        <hr/>
+    {% endfor %}
+        
+{% endblock %}

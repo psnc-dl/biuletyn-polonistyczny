@@ -1,0 +1,15 @@
+{% extends "bportal_modules/layout/edit.html" %}
+{% load staticfiles %}
+
+{% block pageTitle %}
+Edytowanie sprawozdania dla wydarzenia
+{% endblock %}
+
+{% block pageFormFields %}
+    {% include 'bportal_modules/layout/forms/fields.html' %}
+{% endblock %}
+
+{% block pageFormsetTitle %}
+    {% include 'bportal_modules/base/events/summary/form_formset_title.html' %}
+{% endblock %}
+

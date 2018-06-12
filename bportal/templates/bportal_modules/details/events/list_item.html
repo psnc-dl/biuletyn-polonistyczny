@@ -1,0 +1,49 @@
+				{% if e.is_closest %}
+	            <div class="list__divider">
+				    <div class="list__divider--actualdate">
+				        <span>Dzisiejsza data: <strong>{% now "j.m.Y" %}</strong> | {% now "l" %}</span>
+				    </div>
+				</div>
+	            {% endif %}
+	            <a href="{% url 'event_detail' e.event_name_slug e.event_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item list__item--cols list__cols{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+					{% if request.user.userprofile.user_is_editor or user.is_superuser %}
+					<button class="list__item--edit" data-link="{% url 'event_edit' e.event_id %}"><i class="bp-icon-file_edit"></i></button>
+					{% endif %}
+					<div class="list__cols--photo">
+						{% if e.event_poster %}
+							<div class="list__cols--image" style="background-image: url('{{ MEDIA_URL }}{{ e.event_poster }}')"></div>
+						{% else %}
+							<div class="list__cols--noimage"><i class="bp-icon-logo_icon"></i></div>
+						{% endif %}
+				    </div>
+				    <div class="list__cols--content">
+				        <div class="list__event">
+				            <div class="list__event--dates">
+				                <span class="list__event--date list__text--date">Data dodania: {{ e.event_date_add | date:"d.m.Y" }}</span>
+				                <span class="list__event--date list__text--date">Data rozpoczęcia: <strong>{{ e.event_date_from }}</strong></span>
+				            </div>
+				            <div class="list__event--icons">
+								<button class="list__event--addtocal js-addToCal"
+										title="Dodaj do kalendarza Google"
+										data-title="{{ e.event_name|safe }}"
+										data-date-from="{{ e.event_date_from | date:"Y-m-d"}}"
+										data-date-to="{{ e.event_date_to | date:"Y-m-d"}}"
+										data-time-from="{{ e.event_time_from | time:"H:i" }}"
+										data-time-to="{{ e.event_time_to | time:"H:i" }}"
+										data-location="{{ e.event_city }}"
+										data-url="{{ request.get_host }}{% url 'event_detail' e.event_name_slug e.event_id %}">
+									<i class="bp-icon-calendar"></i>
+								</button>
+				            </div>
+				        </div>
+						{% if not e.event_is_accepted %}
+
+						<span class="list__text--notpub list__text--notpub-box">NIE OPUBLIKOWANY!</span>
+
+						{% endif %}
+				        <h4 class="list__item--title list__text--title js-truncate-two">{{ e.event_name|safe|striptags }}</h4>
+
+				        {% if e.event_city or e.event_category %}<span class="list__item--details list__text--details">{{ e.event_city.name }}{% if e.event_city and e.event_category %} | {% endif %} {{ e.event_category }}</span> {% endif %}
+				        {% if e.event_institutions %}<span class="list__item--details list__text--details js-truncate">{% for i in e.event_institutions.all %}{{ i }} {% if not forloop.last %} |  {%endif%}{% endfor %}</span>{% endif %}</span>
+				    </div>
+				</a>

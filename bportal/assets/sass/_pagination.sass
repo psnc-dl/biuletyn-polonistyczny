@@ -1,0 +1,104 @@
+.paginate
+
+  &--lower
+    border-top: 1px solid $grey
+    padding: 25px 0 15px
+
+  &--upper
+    margin-top: 15px
+    +tablet
+      margin-top: 5px
+      margin-bottom: -25px
+
+  &__layout
+    &--box
+      border: 1px solid $primary
+      display: inline-block
+      text-align: center
+      min-width: 30px
+      padding: 0 5px
+
+    &--full
+      background: $primary
+      color: $white
+
+  &__item
+    display: inline-block
+
+    &--button
+      &-back
+        +mobile
+          display: block
+          padding-bottom: 15px
+
+  &__button
+    @extend .paginate__layout--box
+    width: 70px
+    i
+      font-size: 2em
+      line-height: 0
+
+      &:before
+        line-height: 0
+        margin: 0
+        left: -5px
+        top: 5px
+        position: relative
+
+    &--back
+      width: auto
+      padding: 0 15px
+      +widescreen
+        margin-right: 25px
+
+    &:hover, &:focus
+      @extend .paginate__layout--full
+
+  &__page
+    @extend .paginate__layout--box
+    &:hover, &:focus
+      @extend .paginate__layout--full
+
+  &__pages
+    @extend .paginate__layout--box
+    border-color: transparent
+    padding-left: 0
+
+  &__input
+    @extend .paginate__layout--box
+    border-bottom-color: $grey-lighty
+    border-right-color: $grey-lighty
+    line-height: 1.5em
+    font-size: 1em
+    width: 50px
+
+    -moz-appearance: textfield
+    &::-webkit-outer-spin-button,&::-webkit-inner-spin-button
+      -webkit-appearance: none
+
+
+  &__active
+    @extend .paginate__layout--box
+    @extend .paginate__layout--full
+
+  &__disabled
+    @extend .paginate__layout--box
+    pointer-events: none
+    border-color: transparent
+
+  &__dash
+    @extend .paginate__layout--box
+    pointer-events: none
+    border-top-color: transparent
+    border-right-color: transparent
+    border-left-color: transparent
+
+  &__from
+    @extend .paginate__disabled
+    min-width: 10px
+    padding-right: 0
+
+
+
+
+

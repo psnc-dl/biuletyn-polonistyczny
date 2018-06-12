@@ -1,0 +1,40 @@
+.select2-container {
+    min-width: auto !important;
+    width: 100% !important;
+    display: block !important;
+    border-radius: 0 !important;
+}
+
+.select2-selection {
+    border-radius: 0 !important;
+    border-color: #000 !important;
+}
+
+.select2-selection__choice {
+    background-color: #fff !important;
+    border-color: #000 !important;
+    color: #000 !important;
+    border-radius: 0 !important;
+
+}
+
+.select2-search__field {
+    border-color: transparent !important;
+}
+
+.select2-selection__choice__remove {
+    color: #000 !important;
+    margin-right: 5px !important;
+}
+
+.table_person_affiliations .select2 {
+    padding: 0 !important;
+}
+
+.table_project_person_participations .select2 {
+    padding: 0 !important;
+} 
+
+.table_project_institution_participations .select2 {
+    padding: 0 !important;
+} 

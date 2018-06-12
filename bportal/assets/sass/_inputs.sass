@@ -1,0 +1,34 @@
+.bp-input
+  @extend .bp-form-tpl
+  padding: 0 5px
+
+.bp-input-line
+  font-size: 1em
+  height: 1.5em
+  display: block
+  width: 100%
+  border: 0
+  padding: 0 5px
+  border-bottom: 1px solid $primary
+
+  &:focus, &:hover
+    border-bottom-width: 2px
+
+.bp-textarea
+  @extend .bp-input-line
+  border-left: 1px solid $primary
+  height: 165px
+  resize: none
+
+  &:focus, &:hover
+    border-bottom-width: 2px
+
+.bp-label
+  display: block
+  margin: 10px 0 5px 0
+  +widescreen
+    margin: 11px 0 8px 0
+  +fullhd
+    margin: 12px 0 8px 0
+  +from(1700px)
+    margin: 13px 0 9px 0

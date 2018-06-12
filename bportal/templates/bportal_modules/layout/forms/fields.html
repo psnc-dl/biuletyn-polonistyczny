@@ -1,0 +1,14 @@
+{% if field.id_for_label != 'id_event_summary_event' %}
+<label for="{{ field.id_for_label }}" class="page__form--label">
+    {{ field.label }}
+    {% if field.field.required %}
+        <span title="Pole obowiązkowe"> *</span>
+    {% endif %}:
+</label>
+{% endif %}
+<div class="page__form--input">
+    {{ field }}
+</div>
+<div class="page__form--error">
+    {{ field.errors }}
+</div>

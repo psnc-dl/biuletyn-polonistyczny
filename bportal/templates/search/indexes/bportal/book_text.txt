@@ -1,0 +1,5 @@
+{{ object.book_title_text }}
+{{ object.book_lead|striptags }}
+{{ object.book_description|striptags }}
+{{ object.book_table_of_contents|striptags }}
+{% for tag in object.book_keywords.all %} {{ tag.name }} {% endfor %}

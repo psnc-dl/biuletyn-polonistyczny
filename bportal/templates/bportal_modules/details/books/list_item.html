@@ -1,0 +1,31 @@
+
+	            <a href="{% url 'book_detail' b.book_title_slug b.book_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item list__item--cols list__cols{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+					{% if request.user.userprofile.user_is_editor or user.is_superuser %}
+					<button class="list__item--edit" data-link="{% url 'book_edit' b.book_id %}"><i class="bp-icon-file_edit"></i></button>
+					{% endif %}
+					<div class="list__cols--photo">
+						{% if b.book_image %}
+							<div class="list__cols--image list__cols--image-publications" style="background-image: url('{{ MEDIA_URL }}{{ b.book_image }}')"></div>
+						{% else %}
+							<div class="list__cols--noimage list__cols--noimage-publications"><i class="bp-icon-logo_icon"></i></div>
+						{% endif %}
+				    </div>
+				    <div class="list__cols--content">
+				        <div class="list__publication">
+				            <div class="list__publication--dates">
+				                <span class="list__publication--date list__text--date">{{ b.book_date_add | date:"d.m.Y" }}</span>
+				                <span class="list__publication--date list__text--date">{{ b.book_category }}</span>
+				            </div>
+				        </div>
+						{% if not b.book_is_accepted %}
+							<span class="list__text--notpub list__text--notpub-box">NIE OPUBLIKOWANY!</span>
+						{% endif %}
+				        <h4 class="list__item--title list__text--title js-truncate-two">{{ b.book_title|safe }}</h4>
+				        {% if b.book_authors.all %}
+				            <p class="list__item--details list__text--details js-truncate">
+								Autor/Redaktor: {% for p in b.book_authors.all %} <strong>{{ p.person_first_name }} {{ p.person_last_name }}</strong>{% if not forloop.last %}, {%endif%}{% endfor %}
+							</p>
+				        {% endif %}
+						<p class="list__item--excerpt list__text--paragraph js-truncate-two">{% if b.book_lead %}{{ b.book_lead|safe|striptags }}{% endif %}</p>
+				    </div>
+				</a>

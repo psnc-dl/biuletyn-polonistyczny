@@ -1,0 +1,5 @@
+#!/bin/bash
+
+/usr/local/bin/python3.4 /home/bpp/www/manage.py prepare_newsletters
+/usr/local/bin/python3.4 /home/bpp/www/manage.py send_newsletters
+/usr/local/bin/python3.4 /home/bpp/www/manage.py clean_newsletters

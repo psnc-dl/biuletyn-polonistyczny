@@ -1,0 +1,69 @@
+{% extends "bportal_modules/layout/details_pdf.html" %}
+
+{% load staticfiles %}
+{% load static %}
+{% load l10n %}
+{% load i18n %}
+
+{% block title %}
+
+    {{ article.article_date_add|date:"d.m.Y" }}<br/>
+
+    <b><a href="{{ host }}/articles/{{article.article_title_slug}},{{article.article_id}}/details">{{ article.article_title|safe }}</a></b><br/>
+
+{% endblock %}
+            
+
+{% block title-attrs %}            
+
+{% endblock %}
+
+
+{% block content %}
+
+    {{ article.article_lead|safe }}<br/>
+    {{ article.article_description|safe }}<br/>
+        
+{% endblock %}
+
+
+{% block content-attrs %}
+            
+    {% if article.article_files.all %}
+        Do pobrania:
+        <ul>
+            {% for o in article.article_files.all %}
+                <li><a href="{% get_media_prefix %}{{ o.file }}"> {{ o }} </a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if article.article_links.all %}
+        Linki:
+        <ul>
+            {% for o in article.article_links.all %}
+                <li><a href="{{ o }}" target="_blank">{{ o }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if article.article_keywords.all %}
+        Słowa kluczowe:
+        {% for o in article.article_keywords.all %}
+            <a href="{% url 'search_view' %}?q={{ o }}">{{ o }}</a>{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+    
+    {% if article.article_content_contributors.all %}
+        <ul>
+        {% for contribution in article.article_content_contributors.all %}
+    	    <li style="list-style-type: none">
+    	        {{ contribution.role }}:
+    	        <a href="{{ host }} {% url 'person_detail' contribution.person.person_slug contribution.person.person_id %}">{{ contribution.person.person_first_name }} {{ contribution.person.person_last_name }}</a>
+            </li>
+        {% endfor %}          
+        <br/>
+    {% endif %}
+        
+{% endblock %}

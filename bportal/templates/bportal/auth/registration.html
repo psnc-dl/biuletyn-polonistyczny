@@ -1,0 +1,92 @@
+{% extends "bportal/main/page.html" %}
+{% load staticfiles %}
+     
+{% if user.is_anonymous %}
+
+    {% block pageBoxClass %}
+        page__box--registration
+    {% endblock %}
+
+    {% block pageTitle %}
+        Utwórz konto w Biuletynie
+    {% endblock %}
+
+    {% block pageContent %}
+        <div class="registration">
+            <form action="" method="post" class="registration__form">{% csrf_token %}
+                {% with form as f %}
+                <div class="registration__row columns">
+                    <div class="registration__block column is-4">
+                        <label class="registration__form--label">{{ f.first_name.label }}{% if f.first_name.field.required %} *{%endif %}</label>
+                        {{ f.first_name }}
+                        {{ f.first_name.errors }}
+                        <label class="registration__form--label">{{ f.last_name.label }}{% if f.last_name.field.required %} *{%endif %}</label>
+                        {{ f.last_name }}
+                        {{ f.last_name.errors }}
+                        <label class="registration__form--label">{{ f.born_date.label }}{% if f.born_date.field.required %} *{%endif %}</label>
+                        {{ f.born_date }}
+                        {{ f.born_date.errors }}
+                    </div>
+                    <div class="registration__block column is-4">
+                        <label class="registration__form--label">{{ f.username.label }}{% if f.username.field.required %} *{%endif %}</label>
+                        {{ f.username }}
+                        {{ f.username.errors }}
+                        <label class="registration__form--label">{{ f.password.label }}{% if f.password.field.required %} *{%endif %}</label>
+                        {{ f.password }}
+                        {{ f.password.errors }}
+                        <label class="registration__form--label">{{ f.password_repeated.label }}{% if f.password_repeated.field.required %} *{%endif %}</label>
+                        {{ f.password_repeated }}
+                        {{ f.password_repeated.errors }}
+                        <p class="registration__form--help">{{ f.password_repeated.help_text }}</p>
+
+                    </div>
+                    <div class="registration__block column is-4">
+                        <label class="registration__form--label">{{ f.email.label }}{% if f.email.field.required %} *{%endif %}</label>
+                        {{ f.email }}
+                        {{ f.email.errors }}
+                        <label class="registration__form--label">{{ f.phone.label }}{% if f.phone.field.required %} *{%endif %}</label>
+                        {{ f.phone }}
+                        {{ f.phone.errors }}
+                        <label class="registration__form--label">{{ f.institution.label }}{% if f.institution.field.required %} *{%endif %}</label>
+                        {{ f.institution }}
+                        {{ f.institution.errors }}
+                    </div>
+                </div>
+                <div class="registration__row columns registration__row--end">
+                    <div class="registration__block column is-4">
+                        {{ f.captcha }}
+                        {{ f.captcha.errors }}
+                    </div>
+                    <div class="registration__block column is-4">
+                        <div class="registration__block--accepted">
+                            {{ f.rules_accepted }}
+                            {{ f.rules_accepted.label }} <a href="{% static "bportal/files/Regulamin_Biuletynu_Polonistycznego.pdf" %}" target="_blank">(czytaj)</a> {% if f.rules_accepted.field.required %} *{%endif %}
+                            {{ f.rules_accepted.errors }}
+                        </div>
+                        <div class="registration__block--info">
+                            <div class="registration__block--info-required">
+                                <span>Pola oznaczone gwiazdką</span><span> są obowiązkowe do wypełnienia</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="registration__block column is-4">
+                        <div class="registration__form--button">
+                            <button type="submit" name="register" class="registration__form--button-submit">Zapisz</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                {% endwith %}
+            </form>
+        </div>
+
+
+
+
+
+    {% endblock %}
+
+
+{% endif %}

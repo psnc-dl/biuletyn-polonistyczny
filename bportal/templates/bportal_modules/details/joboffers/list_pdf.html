@@ -1,0 +1,26 @@
+{% extends "bportal_modules/layout/list_pdf.html" %}
+
+{% load staticfiles %}
+
+{% load l10n %}
+{% load i18n %}
+
+
+{% block content %}
+
+    {% for j in joboffers %}
+        {{ j.joboffer_date_add|date:"d.m.Y" }}<br/>
+        <b><a href="{{ host }}/joboffers/{{j.joboffer_position_slug}},{{j.joboffer_id}}/details">{{ j.joboffer_position|safe }}</a></b><br/>
+        {% if j.joboffer_type %}            
+            {{ j.joboffer_type }}
+            <br/>
+        {% endif %}
+        {% if j.joboffer_institution %}        
+            {{ j.joboffer_institution }}
+            <br/>
+        {% endif %}        
+        {{j.joboffer_lead|safe }}
+        <hr/>
+    {% endfor %}
+        
+{% endblock %}

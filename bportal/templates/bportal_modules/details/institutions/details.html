@@ -1,0 +1,370 @@
+{% extends "bportal/main/page.html" %}
+{% load staticfiles %}
+{% load userprofile %}
+
+{% block pageTitle %}
+    {% if object.institution_type %}
+        {{ object.institution_type }}
+    {% else %}
+        Instytucja
+    {% endif %}
+{% endblock %}
+
+{% block pageClose %}
+    <a class="page__close js-goback"><i class="bp-icon-close_bold"></i></a>
+{% endblock %}
+
+
+{% block pageContent %}
+    <div class="page__content page__columns columns">
+        <div class="page__columns--picture column is-3">
+            {% if object.institution_photo %}
+            <div class="page__content--image page__content--image-institution" style="background-image: url('{{ MEDIA_URL }}{{object.institution_photo }}')"></div>
+            {% else %}
+            <div class="page__content--noimage"><i class="bp-icon-logo_icon"></i></div>
+            {% endif %}
+        </div>
+        <div class="page__columns--content column">
+            <div class="page__content--title">
+                <h1 class="page__text--title">{{ object }}</h1>
+            </div>
+            <div class="page__content--subtitle">
+                {% if object.institution_children.all %}
+                    <p class="page__text--paragraph">
+                        Instytucje podrzędne:
+                        {% for o in object.institution_children.all %}
+                            <a href="{% url 'institution_detail' o.institution_slug o.institution_id %}" class="page__text--value page__text--anchor page__text--bold">{{ o.institution_fullname }}</a>{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    </p>
+                {% endif %}
+            </div>
+            <div class="page__content--about">
+               	{% if object.institution_www %}
+                    <div class="page__content--about-row">
+                        <span class="page__text--label">Witryna:</span>
+                        <a href="{{object.institution_www}}" class="page__text--value page__text--anchor page__text--bold" target="_blank">{{object.institution_www}}</a>
+                    </div>
+                {% endif %}
+                {% for editor in object.institution_editors.all %}
+                	{% if editor.user_is_editor %}
+                		<div class="page__content--about-row">
+                    		<span class="page__text--label">Redaktor:</span>
+                    		{% if editor.user_person %}
+                    			<a href="{% url 'person_detail' editor.user_person.person_slug editor.user_person.person_id %}" class="page__text--value page__text--anchor page__text--bold">{{ editor.user.first_name }} {{ editor.user.last_name }}</a>
+                    		{% else %}
+                    			<span class="page__text--value page__text--bold">{{ editor.user.first_name }} {{ editor.user.last_name }}</span>
+                    		{% endif %}
+                    		{% if editor.user.email %}
+                    			<span class="page__text--label page__text--label-margin">E-mail:</span>
+                    			<a href="mailto:{{editor.user.email}}" class="page__text--value page__text--anchor page__text--bold">{{ editor.user.email }}</a>
+                    		{% endif %}                    		
+		                </div>
+                	{% endif %}
+                {% endfor %}
+            </div>
+            <div class="page__content--info">
+                {% if object.institution_description %}
+                    <div class="page__text--paragraph">
+                        {{ object.institution_description|safe }}
+                    </div>
+                {% endif %}
+            </div>
+
+
+        </div>
+    </div>
+    
+    {% if object.institution_people.all %}
+    <h6 class="page__text--content">Powiązane osoby:
+        {% for p in object.institution_people.all %}
+            {% if forloop.counter0 < 100 %}
+                <a href="{% url 'person_detail' p.person_slug p.person_id %}" class="details__text--anchor details__text--value details__text--bold"> {{ p }}</a>{% if forloop.last %}{% else %}, {% endif %}
+            {% endif %}
+        {% endfor %}
+    </h6>
+    
+    {% endif %}
+    
+    
+    {% if object.institution_events.all or object.institution_projects.all or object.institution_dissertations.all or object.institution_competitions.all or object.institution_joboffers.all or object.institution_scholarships.all or object.institution_eduoffers.all or object.institution_journals.all or object.institution_books.all %}
+    <h6 class="page__text--content">Powiązane treści:</h6>
+    {% endif %}
+
+    {% if object.institution_events.all %}
+        <div class="page__title">
+            <h3 class="page__title--head">Wydarzenia</h3>
+        </div>
+
+        <div class="page__items">
+            {% for e in object.institution_events.all %}
+                {% if forloop.counter0 < 3 %}
+                    {% if request.user|check_event_read_permission:e %}
+                        <a href="{% url 'event_detail' e.event_name_slug e.event_id %}" class="page__item">
+                            <div class="page__item--date">
+                                <span class="page__text--date">
+                                    {{ e.event_date_add|date:"d.m.Y" }}
+                                </span>
+                            </div>
+                            <div class="page__item--title">
+                                <span class="page__text--subtitle">
+                                    {{ e.event_name|safe }}
+                                </span>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="page__viewall">
+            <a href="{% url 'event_list' %}?event_institutions={{ object.institution_id }}" class="page__viewall--anchor">Przeglądaj listę powiązanych wydarzeń</a>
+        </div>
+    {% endif %}
+
+    {% if object.institution_projects.all %}
+        <div class="page__title">
+            <h3 class="page__title--head">Projekty badawcze</h3>
+        </div>
+
+        <div class="page__items">
+            {% for p in object.institution_projects.all %}
+                {% if forloop.counter0 < 3 %}
+                    {% if request.user|check_project_read_permission:p %}
+                        <a href="{% url 'project_detail' p.project_title_slug p.project_id %}" class="page__item">
+                            <div class="page__item--date">
+                                <span class="page__text--date">
+                                    {{ p.project_date_add|date:"d.m.Y" }}
+                                </span>
+                            </div>
+                            <div class="page__item--title">
+                                <span class="page__text--subtitle">
+                                    {{ p.project_title|safe }}
+                                </span>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="page__viewall">
+            <a href="{% url 'project_list' %}?project_institutions={{ object.institution_id }}" class="page__viewall--anchor">Przeglądaj listę powiązanych projektów</a>
+        </div>
+    {% endif %}
+
+    {% if object.institution_dissertations.all %}
+        <div class="page__title">
+            <h3 class="page__title--head">Prace doktorskie i habilitacyjne</h3>
+        </div>
+
+        <div class="page__items">
+            {% for d in object.institution_dissertations.all %}
+                {% if forloop.counter0 < 3 %}
+                    {% if request.user|check_dissertation_read_permission:d %}
+                        <a href="{% url 'dissertation_detail' d.dissertation_title_slug d.dissertation_id %}" class="page__item">
+                            <div class="page__item--date">
+                                <span class="page__text--date">
+                                    {{ d.dissertation_date_add|date:"d.m.Y" }}
+                                </span>
+                            </div>
+                            <div class="page__item--title">
+                                <span class="page__text--subtitle">
+                                    {{ d.dissertation_title|safe }}
+                                </span>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="page__viewall">
+            <a href="{% url 'dissertation_list' %}?dissertation_institution={{ object.institution_id }}" class="page__viewall--anchor">Przeglądaj listę powiązanych prac</a>
+        </div>
+    {% endif %}
+
+    {% if object.institution_competitions.all %}
+        <div class="page__title">
+            <h3 class="page__title--head">Konkursy</h3>
+        </div>
+
+        <div class="page__items">
+            {% for c in object.institution_competitions.all %}
+                {% if forloop.counter0 < 3 %}
+                    {% if request.user|check_competition_read_permission:c %}
+                        <a href="{% url 'competition_detail' c.competition_title_slug c.competition_id %}" class="page__item">
+                            <div class="page__item--date">
+                                <span class="page__text--date">
+                                    {{ c.competition_date_add|date:"d.m.Y" }}
+                                </span>
+                            </div>
+                            <div class="page__item--title">
+                                <span class="page__text--subtitle">
+                                    {{ c.competition_title|safe }}
+                                </span>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="page__viewall">
+            <a href="{% url 'competition_list' %}?competition_institutions={{ object.institution_id }}" class="page__viewall--anchor">Przeglądaj listę powiązanych konkursów</a>
+        </div>
+    {% endif %}
+
+    {% if object.institution_eduoffers.all %}
+        <div class="page__title">
+            <h3 class="page__title--head">Oferty edukacyjne</h3>
+        </div>
+
+        <div class="page__items">
+            {% for o in object.institution_eduoffers.all %}
+                {% if forloop.counter0 < 3 %}
+                    {% if request.user|check_eduoffer_read_permission:o %}
+                        <a href="{% url 'eduoffer_detail' o.eduoffer_position_slug o.eduoffer_id %}" class="page__item">
+                            <div class="page__item--date">
+                                <span class="page__text--date">
+                                    {{ o.eduoffer_date_add|date:"d.m.Y" }}
+                                </span>
+                            </div>
+                            <div class="page__item--title">
+                                <span class="page__text--subtitle">
+                                    {{ o.eduoffer_position|safe }}
+                                </span>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="page__viewall">
+            <a href="{% url 'eduoffer_list' %}?eduoffer_institution={{ object.institution_id }}" class="page__viewall--anchor">Przeglądaj listę powiązanych ofert</a>
+        </div>
+    {% endif %}
+
+    {% if object.institution_scholarships.all %}
+        <div class="page__title">
+            <h3 class="page__title--head">Stypendia</h3>
+        </div>
+
+        <div class="page__items">
+            {% for o in object.institution_scholarships.all %}
+                {% if forloop.counter0 < 3 %}
+                    {% if request.user|check_scholarship_read_permission:o %}
+                        <a href="{% url 'scholarship_detail' o.scholarship_name_slug o.scholarship_id %}" class="page__item">
+                            <div class="page__item--date">
+                                <span class="page__text--date">
+                                    {{ o.scholarship_date_add|date:"d.m.Y" }}
+                                </span>
+                            </div>
+                            <div class="page__item--title">
+                                <span class="page__text--subtitle">
+                                    {{ o.scholarship_name|safe }}
+                                </span>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="page__viewall">
+            <a href="{% url 'scholarship_list' %}?scholarship_founder={{ object.institution_id }}" class="page__viewall--anchor">Przeglądaj listę powiązanych stypendiów</a>
+        </div>
+    {% endif %}
+
+    {% if object.institution_joboffers.all %}
+        <div class="page__title">
+            <h3 class="page__title--head">Oferty pracy</h3>
+        </div>
+
+        <div class="page__items">
+            {% for o in object.institution_joboffers.all %}
+                {% if forloop.counter0 < 3 %}
+                    {% if request.user|check_joboffer_read_permission:o %}
+                        <a href="{% url 'joboffer_detail' o.joboffer_position_slug o.joboffer_id %}" class="page__item">
+                            <div class="page__item--date">
+                                <span class="page__text--date">
+                                    {{ o.joboffer_date_add|date:"d.m.Y" }}
+                                </span>
+                            </div>
+                            <div class="page__item--title">
+                                <span class="page__text--subtitle">
+                                    {{ o.joboffer_position|safe }}
+                                </span>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="page__viewall">
+            <a href="{% url 'joboffer_list' %}?joboffer_institution={{ object.institution_id }}" class="page__viewall--anchor">Przeglądaj listę powiązanych ofert</a>
+        </div>
+    {% endif %}
+    
+    {% if object.institution_journals.all %}
+        <div class="page__title">
+            <h3 class="page__title--head">Czasopisma</h3>
+        </div>
+
+        <div class="page__items">
+            {% for o in object.institution_journals.all %}
+                {% if forloop.counter0 < 3 %}
+                        <a href="{% url 'journal_detail' o.journal_title_slug o.journal_id %}" class="page__item">
+                            <div class="page__item--date">
+                                <span class="page__text--date">
+                                    {{ o.journal_date_add|date:"d.m.Y" }}
+                                </span>
+                            </div>
+                            <div class="page__item--title">
+                                <span class="page__text--subtitle">
+                                    {{ o.journal_title_text|safe }}
+                                </span>
+                            </div>
+                        </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="page__viewall">
+            <a href="{% url 'journalissue_list' %}?journalissue_publisher={{ object.institution_id }}" class="page__viewall--anchor">Przeglądaj listę powiązanych numerów czasopism</a>
+        </div>
+    {% endif %}
+    
+	{% if object.institution_books.all %}
+        <div class="page__title">
+            <h3 class="page__title--head">Nowości wydawnicze</h3>
+        </div>
+
+        <div class="page__items">
+            {% for o in object.institution_books.all %}
+                {% if forloop.counter0 < 3 %}
+                    {% if request.user|check_book_read_permission:o %}
+                        <a href="{% url 'book_detail' o.book_title_slug o.book_id %}" class="page__item">
+                            <div class="page__item--date">
+                                <span class="page__text--date">
+                                    {{ o.book_date_add|date:"d.m.Y" }}
+                                </span>
+                            </div>
+                            <div class="page__item--title">
+                                <span class="page__text--subtitle">
+                                    {{ o.book_title_text|safe }}
+                                </span>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="page__viewall">
+            <a href="{% url 'book_list' %}?book_publisher={{ object.institution_id }}" class="page__viewall--anchor">Przeglądaj listę powiązanych nowości wydawniczych</a>
+        </div>
+    {% endif %}
+    
+{% endblock %}

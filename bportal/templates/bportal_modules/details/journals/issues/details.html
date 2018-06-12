@@ -1,0 +1,330 @@
+{% extends "bportal_modules/base/publications/details.html" %}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+{% breadcrumb "Czasopisma" "journalissue_list" %}
+{% breadcrumb  object.journalissue_title_text "" %}
+{% endblock %}
+
+{% block details-title %}
+<div class="details__title">
+    <h3 class="details__title--head">Numer czasopisma</h3>
+</div>
+{% endblock %}
+
+{% block details-publication %}
+<div class="details__pub">
+    <div class="details__pub--photo">
+        {% if object.journalissue_image %}
+        <a href="{{ MEDIA_URL }}{{ object.journalissue_image }}" data-lightbox="gallery" class="details__pub--anchor">
+            <img src="{{ MEDIA_URL }}{{ object.journalissue_image }}" class="details__pub--image">
+        </a>
+        {% else %}
+        <div class="details__pub--noimage"><i class="bp-icon-logo_icon"></i></div>
+        {% endif %}
+    </div>
+    <div class="details__pub--content">
+        <div class="details__head--content">
+            <div class="details__head--cols">
+                <div class="details__head--dates">
+                    <div class="details__head--date">
+                        <span class="details__text--date">Data dodania: {{ object.journalissue_date_add|date:"d.m.Y" }}</span>
+                    </div>
+                    <div class="details__head--date details__head--date-right">
+                        <span class="details__text--date">{{ object.journalissue_category }}</span>
+                    </div>
+                </div>
+                <div class="details__head--icons">
+                    <ul class="details__icons">
+                        <li class="details__icons--item">
+                            <a href="{% url 'journalissue_pdf' %}?journalissue_id={{ object.journalissue_id }}" target="_blank"  class="details__icons--anchor" title="Pobierz w formie .pdf"><i class="bp-icon-pdf list__icons--icon"></i></a>
+                        </li>
+                        {% if request.user.userprofile.user_is_editor or user.is_superuser %}
+                        <li class="details__icons--item">
+                            <a href="{% url 'journalissue_edit' object.journalissue_id %}" class="details__icons--anchor" title="Edytuj pozycję"><i class="bp-icon-file_edit list__icons--icon"></i></a>
+                        </li>
+                        <li class="details__icons--item">
+                            <a href="{% url 'journalissue_delete' object.journalissue_id %}" class="details__icons--anchor" title="Usuń pozycję"><i class="bp-icon-file_minus list__icons--icon"></i></a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="details__head--title">
+                <h1 class="details__text--title">{{ object.journalissue_title|safe }}</h1>
+            </div>
+        </div>
+        <div class="details__meta">
+           {% if object.journalissue_journal %}
+            <div class="details__meta--row">
+                <div class="details__meta--label">
+                    <span class="details__text--label">Czasopismo:</span>
+                </div>
+                <div class="details__meta--value">
+                    <a href="{% url 'journal_detail' object.journalissue_journal.journal_title_slug object.journalissue_journal.journal_id %}" class="details__text--anchor details__text--value details__text--bold">{{ object.journalissue_journal.journal_title }}</a><span class="details__text--value details__text--bold"> | {% if object.journalissue_volume %} {{ object.journalissue_volume }}{% endif %}{% if object.journalissue_number %}({{ object.journalissue_number }}){% endif %} | {% if object.journalissue_year %} {{ object.journalissue_year }} {% endif %}</span>
+                </div>
+            </div>
+            {% endif %}
+            {% if object.journalissue_publisher %}
+            <div class="details__meta--row">
+                <div class="details__meta--label">
+                    <span class="details__text--label">Wydawnictwo:</span>
+                </div>
+                <div class="details__meta--value">
+                    <a href="{% url 'institution_detail' object.journalissue_publisher.institution_slug object.journalissue_publisher.institution_id %}" class="details__text--anchor details__text--value details__text--bold">{{ object.journalissue_publisher.institution_fullname }}</a>
+                </div>
+            </div>
+            {% endif %}
+            {% if object.journalissue_issn %}
+            <div class="details__meta--row">
+                <div class="details__meta--label">
+                    <span class="details__text--label">ISSN:</span>
+                </div>
+                <div class="details__meta--value">
+                    <span class="details__text--value">{{ object.journalissue_issn }}</span>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="details__explication">
+            {% if object.journalissue_lead %}
+            <div class="details__explication--lead">
+                {{ object.journalissue_lead|safe }}
+            </div>
+            {% endif %}
+            {% if object.journalissue_description %}
+            {{ object.journalissue_description|safe }}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block details-tableofcontents %}
+    {% if object.journalissue_table_of_contents %}
+        <div class="details__tableofcontents">
+            <div class="details__tableofcontents--head details__title">
+                <h3 class="details__title--subhead">Spis treści</h3>
+            </div>
+            <div class="details__tableofcontents--content">
+                {{ object.journalissue_table_of_contents|safe }}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block details-head %}{% endblock %}
+{% block details-about %}{% endblock %}
+{% block details-content %}{% endblock %}
+
+{% block details-information %}
+<div class="details__information--content">
+
+    {% if object.journalissue_publication_date %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+                    <span class="details__text--label">
+                        Data publikacji:
+                    </span>
+        </div>
+        <div class="details__information--value">
+            <span class="details__text--value details__text--bold">{{ object.journalissue_publication_date|date:"d.m.Y" }}</span>
+        </div>
+    </div>
+    {% endif %}
+    {% if object.journalissue_pages %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+                    <span class="details__text--label">
+                        Stron:
+                    </span>
+        </div>
+        <div class="details__information--value">
+            <span class="details__text--value details__text--bold">{{ object.journalissue_pages }}</span>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if object.journalissue_files.all %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+                <span class="details__text--label">
+                    Do pobrania:
+                </span>
+        </div>
+        <div class="details__information--value">
+            <ul class="details__information--list">
+                {% for o in object.journalissue_files.all %}
+                <li class="details__information--list-item">
+                    <div class="details__information--list-text">
+                        <span class="details__text--value details__text--lowercase"><strong>{{forloop.counter}}</strong>.  <a href="{{ MEDIA_URL }}{{ o.file }}" class="details__text--anchor">{{ o }}</a></span>
+                    </div>
+                    <div class="details__information--list-download">
+                        <a href="{% url 'download' %}?location={{ o.file }}" class="details__text--anchor-download">Pobierz</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+    {% if object.journalissue_links.all %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+                <span class="details__text--label">
+                    Linki:
+                </span>
+        </div>
+        <div class="details__information--value">
+            <ul class="details__information--list">
+                {% for o in object.journalissue_links.all %}
+                <li class="details__information--list-link">
+                    <div class="details__information--list-text">
+                        <span class="details__text--value details__text--lowercase"><strong>{{ forloop.counter }}</strong>.</span> <a href="{{ o }}" class="details__text--anchor" target="_blank">{{ o }}</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+    {% if object.journalissue_keywords.all %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+                <span class="details__text--label">
+                    Słowa kluczowe:
+                </span>
+        </div>
+        <div class="details__information--value">
+            {% for o in object.journalissue_keywords.all %}
+            <a href="{% url 'search_view' %}?q={{ o }}" class="details__text--anchor-border details__text--value">{{ o }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+	{% for contribution in object.journalissue_content_contributors.all %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+            <span class="details__text--label">
+                {{ contribution.role }}:
+            </span>
+        </div>
+        <div class="details__information--value">
+            <a href="{% url 'person_detail' contribution.person.person_slug contribution.person.person_id %}" class="details__text--value details__text--anchor details__text--bold">{{ contribution.person.person_first_name }} {{ contribution.person.person_last_name }}</a>
+            {% if contribution.person.person_biogram %}
+             	<div class="details__text--value details__text--paragraph details__text--margin-top">{{ contribution.person.person_biogram|safe }}</div>
+            {% endif %}
+        </div>
+    </div>
+	{% endfor %}
+
+    {% if request.user.userprofile.user_is_editor or user.is_superuser %}
+        {% if object.journalissue_date_add %}
+        <div class="details__information--row">
+            <div class="details__information--label">
+                <span class="details__text--label">
+                    Data dodania:
+                </span>
+            </div>
+            <div class="details__information--value">
+                <span class="details__text--value">{{ object.journalissue_date_add | date:"j E Y"  }}; {{ object.journalissue_date_add |time:"H:i" }} {% if object.journalissue_added_by %}({{ object.journalissue_added_by.first_name }} {{ object.journalissue_added_by.last_name }}) {% endif %}</span>
+            </div>
+        </div>
+        {% endif %}
+    
+        {% if object.journalissue_date_edit %}
+        <div class="details__information--row">
+            <div class="details__information--label">
+                            <span class="details__text--label">
+                                Data edycji:
+                            </span>
+            </div>
+            <div class="details__information--value">
+                <span class="details__text--value">{{ object.journalissue_date_edit | date:"j E Y"  }}; {{ object.journalissue_date_edit |time:"H:i" }} {% if object.journalissue_modified_by %}({{ object.journalissue_modified_by.first_name }} {{ object.journalissue_modified_by.last_name }}){% endif %}</span>
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
+
+</div>
+{% endblock %}
+
+
+{% block details-rightcol%}
+
+{% if last_added_journalissues %}
+    <div class="details__title">
+        <h3 class="details__title--head">Ostatnio dodane numery</h3>
+    </div>
+
+    <div class="details__items">
+    {% for ji in last_added_journalissues %}
+        <a href="{% url 'journalissue_detail' ji.journalissue_title_slug ji.journalissue_id %}" class="details__item">
+            <div class="details__item--upper">
+                <div class="details__item--upper-date details__text--date details__text--value">{{ ji.journalissue_date_add|date:"d.m.Y" }}</div>
+                <div class="details__item--upper-type details__text--type details__text--value"></div>
+            </div>
+            <div class="details__item--title">
+                <h4 class="details__text--title-small js-truncate-two">{{ji.journalissue_journal }} | {% if ji.journalissue_volume %}{{ ji.journalissue_volume }}{% endif %}{% if ji.journalissue_number %}({{ ji.journalissue_number }}){% endif %} | {{ ji.journalissue_year }}</h4>
+            </div>
+        </a>
+    {% endfor %}
+    </div> 
+    
+    <div class="details__viewall">
+        <a href="{% url 'journalissue_list' %}?journalissue_journal={{ object.journalissue_journal.journal_id }}" class="details__viewall--anchor">Więcej numerów</a>
+    </div>
+{% endif %}
+
+{% if last_added_journalissues and object.journalissue_similar_journalissues %}
+    </br>
+{% endif %}
+
+{% if object.journalissue_similar_journalissues %}
+    <div class="details__title">
+        <h3 class="details__title--head">Zobacz także</h3>
+    </div>
+
+    <div class="details__items">
+    {% for sj in object.journalissue_similar_journalissues %}
+        <a href="{{sj.url}}" class="details__item">
+            <div class="details__item--photo">
+                {% if sj.photo %}
+                    <div class="details__item--image details__item--image-publications" style="background-image: url('{{ MEDIA_URL }}{{ sj.photo }}')"></div>
+                {% else %}
+                    <div class="details__item--noimage details__item--noimage-publications"><i class="bp-icon-logo_icon"></i></div>
+                {% endif %}
+            </div>
+            <div class="details__item--upper">
+                <div class="details__item--upper-date details__text--date details__text--value">{{ sj.date_add|date:"d.m.Y" }}</div>
+                <div class="details__item--upper-type details__text--type details__text--value">{{ sj.category }}</div>
+            </div>
+            <div class="details__item--title">
+                <h4 class="details__text--title-small js-truncate-two">{{ sj.title|safe|striptags }}</h4>
+            </div>
+            <div class="details__item--subtitle">
+                <p class="details__text--paragraph js-truncate-note-two">
+                    Tytuł numeru: {% if sj.prelead %}<strong>{{ sj.prelead|safe|striptags }}</strong>{% endif %}
+                </p>
+            </div>
+
+            <div class="details__item--excerpt">
+                <p class="details__text--paragraph js-truncate-three">
+                    {% if sj.lead %}{{ sj.lead|safe|striptags }}{% endif %}
+                </p>
+            </div>
+        </a>
+    {% endfor %}
+    </div> 
+    
+    <div class="details__viewall">
+        <a href="{% url 'journalissue_list' %}" class="details__viewall--anchor">Przeglądaj numery czasopism</a>
+    </div>
+{% endif %}
+
+{% endblock %}

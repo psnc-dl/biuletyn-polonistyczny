@@ -1,0 +1,180 @@
+{% extends "bportal_modules/layout/beforelist.html" %}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+{% breadcrumb "Edukacja i praca" "offers_list" %}
+{% endblock %}
+
+{% block list-header %}
+<div class="list__title">
+    <h3 class="list__title--head">Edukacja i praca</h3>
+</div>
+{% endblock %}
+
+{% block list-column-one %}
+<div class="list__content--column list__content--column-3box column">
+    <div class="list__viewall list__viewall--grouped">
+        <div class="list__viewall--row">
+            <a href="{% url 'eduoffer_list' %}" class="list__viewall--anchor">Przeglądaj oferty edukacyjne</a>
+        </div>
+        <div class="list__viewall--row">
+            <a href="{% url 'scholarship_list' %}" class="list__viewall--anchor">Przeglądaj stypendia</a>
+        </div>
+        <div class="list__viewall--row">
+            <a href="{% url 'joboffer_list' %}" class="list__viewall--anchor">Przeglądaj oferty pracy</a>
+        </div>
+    </div>
+
+    <div class="list__title">
+        <h3 class="list__title--subhead">Oferty edukacyjne</h3>
+    </div>
+
+    <div class="list__viewall list__viewall--3box list__viewall--hide">
+        <a href="{% url 'eduoffer_list' %}" class="list__viewall--anchor">Przeglądaj oferty edukacyjne</a>
+    </div>
+
+    <div class="list__articles">
+        <div class="list__articles--column">
+
+            <div class="list__upperitem">
+                <h3 class="list__text--upperitem">Promowane</h3>
+            </div>
+            {% for o in promoted_eduoffers|slice:"3" %}
+            <a href="{% url 'eduoffer_detail' o.eduoffer_position_slug o.eduoffer_id %}" class="list__item list__item--3box">
+                <span class="list__item--date list__text--date">{{ o.eduoffer_date_add | date:"d.m.Y" }}</span>
+                <h4 class="list__item--title list__text--title js-truncate-two">
+                    {{ o.eduoffer_position|safe|striptags }}
+                </h4>
+                <p class="list__item--excerpt list__text--paragraph js-truncate-two">{% if o.eduoffer_lead %}{{ o.eduoffer_lead|safe|striptags }}{% endif %}</p>
+            </a>
+
+            {% endfor %}
+
+        </div>
+        <div class="list__articles--column">
+
+            <div class="list__upperitem">
+                <h3 class="list__text--upperitem">Ostatnio dodane</h3>
+            </div>
+
+            {% for o in newest_eduoffers|slice:"5" %}
+            <a href="{% url 'eduoffer_detail' o.eduoffer_position_slug o.eduoffer_id %}" class="list__item list__item--3box">
+                <span class="list__item--date list__text--date">{{ o.eduoffer_date_add | date:"d.m.Y" }}</span>
+                <h4 class="list__item--title list__text--title js-truncate-two">
+                    {{ o.eduoffer_position|safe|striptags }}
+                </h4>
+                <p class="list__item--excerpt list__text--paragraph js-truncate-two">{% if o.eduoffer_lead %}{{ o.eduoffer_lead|safe|striptags }}{% endif %}</p>
+            </a>
+            {% endfor %}
+
+        </div>
+    </div>
+    <div class="list__viewall">
+        <a href="{% url 'eduoffer_list' %}" class="list__viewall--anchor">Przeglądaj oferty edukacyjne</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block list-column-two %}
+<div class="list__content--column list__content--column-3box column">
+    <div class="list__title">
+        <h3 class="list__title--subhead">Stypendia</h3>
+    </div>
+
+    <div class="list__viewall list__viewall--3box list__viewall--hide">
+        <a href="{% url 'scholarship_list' %}" class="list__viewall--anchor">Przeglądaj stypendia</a>
+    </div>
+
+    <div class="list__articles">
+        <div class="list__articles--column">
+
+            <div class="list__upperitem">
+                <h3 class="list__text--upperitem">Promowane</h3>
+            </div>
+            {% for s in promoted_scholarships|slice:"3" %}
+
+            <a href="{% url 'scholarship_detail' s.scholarship_name_slug s.scholarship_id %}" class="list__item list__item--3box">
+                <span class="list__item--date list__text--date">{{ s.scholarship_date_add | date:"d.m.Y" }}</span>
+                <h4 class="list__item--title list__text--title js-truncate-two">
+                    {{ s.scholarship_name|safe|striptags }}
+                </h4>
+                <p class="list__item--excerpt list__text--paragraph js-truncate-two">{% if s.scholarship_lead %}{{ s.scholarship_lead|safe|striptags }}{% endif %}</p>
+            </a>
+            {% endfor %}
+        </div>
+        <div class="list__articles--column">
+
+            <div class="list__upperitem">
+                <h3 class="list__text--upperitem">Ostatnio dodane</h3>
+            </div>
+
+            {% for s in newest_scholarships|slice:"5" %}
+            <a href="{% url 'scholarship_detail' s.scholarship_name_slug s.scholarship_id %}" class="list__item list__item--3box">
+                <span class="list__item--date list__text--date">{{ s.scholarship_date_add | date:"d.m.Y" }}</span>
+                <h4 class="list__item--title list__text--title js-truncate-two">
+                    {{ s.scholarship_name|safe|striptags }}
+                </h4>
+                <p class="list__item--excerpt list__text--paragraph js-truncate-two">{% if s.scholarship_lead %}{{ s.scholarship_lead|safe|striptags }}{% endif %}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="list__viewall">
+        <a href="{% url 'scholarship_list' %}" class="list__viewall--anchor">Przeglądaj stypendia</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block list-column-three %}
+<div class="list__content--column list__content--column-3box column">
+    <div class="list__title">
+        <h3 class="list__title--subhead">Oferty pracy</h3>
+    </div>
+
+    <div class="list__viewall list__viewall--3box list__viewall--hide">
+        <a href="{% url 'joboffer_list' %}" class="list__viewall--anchor">Przeglądaj oferty pracy</a>
+    </div>
+
+    <div class="list__articles">
+        <div class="list__articles--column">
+
+            <div class="list__upperitem">
+                <h3 class="list__text--upperitem">Promowane</h3>
+            </div>
+            {% for o in promoted_joboffers|slice:"3" %}
+
+            <a href="{% url 'joboffer_detail' o.joboffer_position_slug o.joboffer_id %}" class="list__item list__item--3box">
+                <span class="list__item--date list__text--date">{{ o.joboffer_date_add | date:"d.m.Y" }}</span>
+                <h4 class="list__item--title list__text--title js-truncate-two">
+                    {{ o.joboffer_position|safe|striptags }}
+                </h4>
+                <p class="list__item--excerpt list__text--paragraph js-truncate-two">{% if o.joboffer_lead %}{{ o.joboffer_lead|safe|striptags }}{% endif %}</p>
+            </a>
+            {% endfor %}
+
+        </div>
+        <div class="list__articles--column">
+
+            <div class="list__upperitem">
+                <h3 class="list__text--upperitem">Ostatnio dodane</h3>
+            </div>
+
+            {% for o in newest_joboffers|slice:"5" %}
+            <a href="{% url 'joboffer_detail' o.joboffer_position_slug o.joboffer_id %}" class="list__item list__item--3box">
+                <span class="list__item--date list__text--date">{{ o.joboffer_date_add | date:"d.m.Y" }}</span>
+                <h4 class="list__item--title list__text--title js-truncate-two">
+                    {{ o.joboffer_position|safe|striptags }}
+                </h4>
+                <p class="list__item--excerpt list__text--paragraph js-truncate-two">{% if o.joboffer_lead %}{{ o.joboffer_lead|safe|striptags }}{% endif %}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="list__viewall">
+        <a href="{% url 'joboffer_list' %}" class="list__viewall--anchor">Przeglądaj oferty pracy</a>
+    </div>
+</div>
+{% endblock %}

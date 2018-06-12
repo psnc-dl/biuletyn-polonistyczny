@@ -1,0 +1,14 @@
+/bportal/__pycache__/
+.idea/
+/.project
+/.pydevproject
+/.settings
+*.pyc
+/newsletter.sh
+/logs
+*.mo
+node_modules/
+/bportal/settings.py
+/bportal/media/
+/bportal/migrations/
+

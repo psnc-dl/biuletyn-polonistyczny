@@ -1,0 +1,97 @@
+{% extends "bportal_modules/layout/details_pdf.html" %}
+
+{% load staticfiles %}
+{% load static %}
+{% load l10n %}
+{% load i18n %}
+
+{% block title %}
+
+    {{ competition.competition_date_add|date:"d.m.Y" }}<br/>
+    
+    {% if competition.competition_deadline_date %}
+        Termin zgłoszeń:
+        {{ competition.competition_deadline_date|date:"d.m.Y" }}
+        <br/>
+    {% endif %}
+    
+    <b><a href="{{ host }}/competitions/{{competition.competition_title_slug}},{{competition.competition_id}}/details">{{ competition.competition_title|safe }}</a></b><br/>
+
+{% endblock %}
+            
+
+{% block title-attrs %}
+
+    {% if competition.competition_institutions.all %}
+        Instytucje:
+        {% for i in competition.competition_institutions.all %}
+            <a href="{{ host }}{% url 'institution_detail' i.institution_slug i.institution_id %}">{{ i }}</a>{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+    
+    {% if competition.competition_city %}
+        Miejscowość:
+        {{ competition.competition_city.name }}
+        <br/>
+    {% endif %}
+    	            
+    {% if competition.competition_targets.all %}
+        Grupy docelowe:
+        {% for target in competition.competition_targets.all %}
+		    {{ target }}{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+
+    {{ competition.competition_lead|safe }}<br/>
+    {{ competition.competition_description|safe }}<br/>
+    
+{% endblock %}
+
+
+{% block content-attrs %}
+
+    {% if competition.competition_files.all %}
+        Do pobrania:
+        <ul>
+            {% for o in competition.competition_files.all %}
+                <li><a href="{% get_media_prefix %}{{ o.file }}"> {{ o }} </a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if competition.competition_links.all %}
+        Linki:
+        <ul>
+            {% for o in competition.competition_links.all %}
+                <li><a href="{{ o }}" target="_blank">{{ o }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if competition.competition_keywords.all %}
+        Słowa kluczowe:
+        {% for o in competition.competition_keywords.all %}
+            <a href="{% url 'search_view' %}?q={{ o }}">{{ o }}</a>{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+    
+    {% if competition.competition_content_contributors.all %}
+        <ul>
+        {% for contribution in competition.competition_content_contributors.all %}
+    	    <li style="list-style-type: none">
+    	        {{ contribution.role }}:
+    	        <a href="{{ host }} {% url 'person_detail' contribution.person.person_slug contribution.person.person_id %}" class="details__text--value details__text--anchor details__text--bold">{{ contribution.person.person_first_name }} {{ contribution.person.person_last_name }}</a>
+            </li>
+        {% endfor %}          
+        <br/>
+    {% endif %}
+        
+{% endblock %}

@@ -1,0 +1,2 @@
+{{ object.journal_title_text }}
+{{ object.journal_lead|striptags }}

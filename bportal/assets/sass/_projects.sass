@@ -1,0 +1,123 @@
+.projects
+  margin-top: 30px
+
+  &__block
+    margin-top: 30px
+    +desktop
+      margin-top: 50px
+    +mobile
+      &:not(:first-child)
+        margin-top: -15px
+
+    +flex
+    +flex-direction(column)
+
+  &__title
+    &--head
+      @extend .heading-main
+      @extend .bp-titleline-main
+
+    &--sub
+      @extend .heading-sub
+      @extend .bp-titleline-secondary
+
+    &--link
+      &:hover, &:focus
+        & > [class^="projects__title"]
+          &:before
+            width: 100%
+
+
+  &__text
+    &--title
+      font-size: 1.15em
+      +from(1700px)
+        font-size: 1.2em
+      line-height: 1.25em
+      font-weight: bold
+      position: relative
+    &--date, &--place
+      color: $grey
+      font-size: 0.9em
+    &--info
+      font-size: 0.9em
+      display: block
+
+  &__bottom
+    @extend .bp-bottom-anchor
+    @extend .bp-rwd-fontsize
+    &--anchor
+      @extend .bp-btn-main
+      @extend .bp-btn-main-witharrow
+
+  &__box
+    +flex-value(1 1 auto)
+    margin: 25px 0 0
+    +desktop
+      margin: 10px 0 0
+    +widescreen
+      margin: 20px 0 0
+    +fullhd
+      margin: 25px 0 0
+    @extend .bp-rwd-fontsize
+
+    +flex
+    +flex-direction(column)
+
+  &__item
+    display: block
+    +mobile
+      min-height: 82px
+
+    &:not(:last-child)
+      border-bottom: 1px solid $grey-light
+
+    &:first-child
+      +flex-value(1 1 auto)
+
+    &:not(:first-child)
+      .projects__item--title
+        min-height: 3em
+
+    &--image, &--noimage
+      height: 148px
+      +tablet
+        height: 80px
+      +desktop
+        height: 100px
+      +widescreen
+        height: 125px
+      +fullhd
+        height: 150px
+      +from(1700px)
+        height: 190px
+
+    &--image
+      background-size: cover
+      background-position: center center
+      background-repeat: no-repeat
+
+    &--noimage
+      @extend .bp-noimg
+
+    &--upper
+      +flex
+      margin-top: 5px
+      +mobile
+        margin-top: 8px
+
+      &-place
+        +flex-value(1 1 auto)
+        text-align: right
+
+    &--title
+      margin: 10px 0
+      +mobile
+        margin: 3px 0 10px
+
+    &--excerpt
+      margin: 10px 0
+
+    &:hover, &:focus
+      .projects__text--title
+        @extend .bp-global-arrow

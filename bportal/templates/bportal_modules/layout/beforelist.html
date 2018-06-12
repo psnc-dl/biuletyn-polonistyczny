@@ -1,0 +1,35 @@
+{% load staticfiles %}
+{% include "bportal/main/header.html" %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {% clear_breadcrumbs %}
+    {% breadcrumb "Strona główna" "home" %}
+{% endblock %}
+
+<div class="breadcrumbs is-first">
+    <div class="breadcrumbs__container container">
+        <ul class="breadcrumbs__list">
+            {% render_breadcrumbs %}
+        </ul>
+    </div>
+</div>
+
+<div class="list" id="content">
+    <div class="list__container container">
+
+        {% block list-header %}{% endblock %}
+
+        <div class="list__content columns is-desktop">
+
+            {% block list-column-one %}{% endblock %}
+            {% block list-column-two %}{% endblock %}
+            {% block list-column-three %}{% endblock %}
+
+        </div>
+
+    </div>
+</div>
+
+
+{% include "bportal/main/footer.html" %}

@@ -1,0 +1,72 @@
+{% if object.event_related_objects %}
+    <div class="details__title">
+        <h3 class="details__title--head">Powiązane z wydarzeniem</h3>
+    </div>
+
+    <div class="details__items">
+    {% for ro in object.event_related_objects %}
+        <a href="{{ro.url}}" class="details__item">
+            {% comment %}
+            <div class="details__item--photo">
+                {% if ro.photo %}
+                    <div class="details__item--image" style="background-image: url('{{ MEDIA_URL }}{{ ro.photo }}')"></div>
+                {% else %}
+                    <div class="details__item--noimage"><i class="bp-icon-logo_icon"></i></div>
+                {% endif %}
+            </div>
+            {% endcomment %}        
+            <div class="details__item--upper">
+                <div class="details__item--upper-date details__text--date details__text--value">{{ ro.date_add|date:"d.m.Y" }}</div>
+                <div class="details__item--upper-type details__text--type details__text--value">{{ ro.category }}</div>
+            </div>
+            <div class="details__item--title">
+                <h4 class="details__text--title-small js-truncate-two">{{ ro.title|safe|striptags }}</h4>
+            </div>
+            <div class="details__item--excerpt">
+                <p class="details__text--paragraph js-truncate-three">
+                    {% if ro.lead %}{{ ro.lead|safe|striptags }}{% endif %}
+                </p>
+            </div>
+        </a>
+    {% endfor %}
+    </div>
+{% endif %}
+
+{% if object.event_related_objects and object.event_similar_events %}
+    </br>
+{% endif %}
+
+{% if object.event_similar_events %}
+    <div class="details__title">
+        <h3 class="details__title--head">Zobacz także</h3>
+    </div>
+
+    <div class="details__items">
+    {% for se in object.event_similar_events %}    
+        <a href="{{se.url}}" class="details__item">
+            <div class="details__item--upper">
+                <div class="details__item--upper-date details__text--date details__text--value">{{ se.date_add|date:"d.m.Y" }}</div>
+                <div class="details__item--upper-type details__text--type details__text--value"></div>
+            </div>
+            <div class="details__item--title">
+                <h4 class="details__text--title-small js-truncate-two">{{ se.title|safe|striptags }}</h4>
+            </div>
+            {% comment %}
+            <div class="details__item--details">
+                <span class="details__item--subtitle details__text--subtitle">Miejscowość | Kategoria</span>
+                <span class="details__item--subtitle details__text--subtitle">Instytucje.. </span>
+            </div>
+            {% endcomment %}
+            <div class="details__item--excerpt">
+                <p class="details__text--paragraph js-truncate-three">
+                    {% if se.lead %}{{ se.lead|safe|striptags }}{% endif %}
+                </p>
+            </div>
+        </a>
+    {% endfor %}
+    </div>         
+
+    <div class="details__viewall">
+        <a href="{% url 'event_list' %}" class="details__viewall--anchor">Przeglądaj wydarzenia</a>
+    </div>
+{% endif %}

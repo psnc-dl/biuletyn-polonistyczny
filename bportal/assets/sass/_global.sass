@@ -1,0 +1,55 @@
+body
+  -webkit-font-smoothing: antialiased
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.004)
+
+.container
+  +from(1700px)
+    width: 1740px
+    max-width: 1740px
+
+  +touch
+    margin: 0 20px
+
+.is-first
+  padding-top: 87px
+  +tablet
+    padding-top: 90px
+  +desktop
+    padding-top: 140px
+  +widescreen
+    padding-top: 160px
+  +fullhd
+    padding-top: 195px
+
+.columns
+  &:last-child
+    margin-bottom: -15px
+
+  margin-left: -15px
+  margin-right: -15px
+  margin-top: -15px
+
+  +fullhd
+    &:last-child
+      margin-bottom: -22.5px
+
+    margin-left: -22.5px
+    margin-right: -22.5px
+    margin-top: -22.5px
+
+.column
+  padding: 15px
+  +fullhd
+    padding: 22.5px
+
+.errorlist
+  border-top: 1px solid $error
+  position: relative
+  top: -1px
+  text-align: right
+  color: $error
+
+  li
+    padding-top: 5px
+
+

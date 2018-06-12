@@ -1,0 +1,4 @@
+{{ object.scholarship_name_text }}
+{{ object.scholarship_lead|striptags }}
+{{ object.scholarship_description|striptags }}
+{% for tag in object.scholarship_keywords.all %} {{ tag.name }} {% endfor %}

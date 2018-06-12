@@ -1,0 +1,18 @@
+{% extends "bportal_modules/layout/list_pdf.html" %}
+
+{% load staticfiles %}
+
+{% load l10n %}
+{% load i18n %}
+
+
+{% block content %}
+
+    {% for a in articles %}
+        {{ a.article_date_add|date:"d.m.Y" }}<br/>
+        <b><a href="{{ host }}/articles/{{a.article_title_slug}},{{a.article_id}}/details">{{ a.article_title|safe }}</a></b><br/>    
+        {{ a.article_lead|safe }}
+        <hr/>
+    {% endfor %}
+        
+{% endblock %}

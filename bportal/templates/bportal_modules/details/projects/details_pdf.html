@@ -1,0 +1,133 @@
+{% extends "bportal_modules/layout/details_pdf.html" %}
+
+{% load staticfiles %}
+{% load static %}
+{% load l10n %}
+{% load i18n %}
+
+{% block title %}
+
+    {{ project.project_date_add|date:"d.m.Y" }}<br/>
+    
+    <b><a href="{{ host }}/projects/{{project.project_title_slug}},{{project.project_id}}/details">{{ project.project_title|safe }}</a></b><br/>
+
+{% endblock %}
+            
+
+{% block title-attrs %}
+
+    {% if project.project_institution_participations.all %}
+        Instytucje:
+        {% for p in project.project_institution_participations.all %}
+            <a href="{{ host }}{% url 'institution_detail' p.institution.institution_slug p.institution.institution_id %}">{{ p.institution }}</a> ({{ p.role }}) {% if forloop.last %}{% else %}, {% endif %}        
+        {% endfor %}
+        <br/>
+    {% endif %}
+
+    {% if project.project_cities.all %}
+        Miejscowości:
+        {% for o in project.project_cities.all %}
+             {{ o.name }}{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}        
+        <br/>
+    {% endif %}
+
+    {% if project.project_person_participations.all %}
+        Uczestnicy:
+        {% for p in project.project_person_participations.all %}
+            <a href="{{ host }}{% url 'person_detail' p.person.person_slug p.person.person_id %}">{{ p.person.person_first_name }} {{ p.person.person_last_name }}</a> {% if person_participation.is_principal %}(Kierownik){% endif %} {% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+
+    {% if project.project_disciplines.all %}
+        Dziedziny:
+        {% for discipline in project.project_disciplines.all %}
+		    {{ discipline }}{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+
+    {% if project.project_targets.all %}
+        Grupy docelowe:
+        {% for target in project.project_targets.all %}
+		    {{ target }}{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+    
+    {% if project.project_date_start and project.project_date_end %}
+        Termin:
+        {{ project.project_date_start | date:"j.m.Y"  }}-{{ project.project_date_end | date:"j.m.Y"  }}
+        <br/>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+
+    {{ project.project_lead|safe }}<br/>
+    {{ project.project_description|safe }}<br/>
+    
+{% endblock %}
+
+
+{% block content-attrs %}
+
+    {% if project.project_financing %}
+        Dofinansowanie:
+        {{ project.project_financing }}
+        <br/>
+    {% endif %}
+      
+    {% if project.project_support %}
+        Możliwość współpracy:
+        {{ project.project_support }}</span>
+        <br/>
+    {% endif %}
+
+    {% if project.project_contact %}
+        Kontakt:
+        {{ project.project_contact }}
+        <br/>
+    {% endif %}
+
+    {% if project.project_files.all %}
+        Do pobrania:
+        <ul>
+            {% for o in project.project_files.all %}
+                <li><a href="{% get_media_prefix %}{{ o.file }}"> {{ o }} </a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if project.project_links.all %}
+        Linki:
+        <ul>
+            {% for o in project.project_links.all %}
+                <li><a href="{{ o }}" target="_blank">{{ o }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if project.project_keywords.all %}
+        Słowa kluczowe:
+        {% for o in project.project_keywords.all %}
+            <a href="{% url 'search_view' %}?q={{ o }}">{{ o }}</a>{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+    
+    {% if project.project_content_contributors.all %}
+        <ul>
+        {% for contribution in project.project_content_contributors.all %}
+    	    <li style="list-style-type: none">
+    	        {{ contribution.role }}:
+    	        <a href="{{ host }} {% url 'person_detail' contribution.person.person_slug contribution.person.person_id %}" class="details__text--value details__text--anchor details__text--bold">{{ contribution.person.person_first_name }} {{ contribution.person.person_last_name }}</a>
+            </li>
+        {% endfor %}          
+        <br/>
+    {% endif %}
+        
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "bportal_modules/layout/list_pdf.html" %}
+
+{% load staticfiles %}
+
+{% load l10n %}
+{% load i18n %}
+
+
+{% block content %}
+
+    {% for b in books %}
+        {{ b.book_date_add|date:"d.m.Y" }}<br/>
+        <b><a href="{{ host }}/books/{{b.book_title_slug}},{{b.book_id}}/details">{{ b.book_title|safe }}</a></b><br/>
+        {% if b.book_authors.all %}     
+            {% for p in b.book_authors.all %}
+                {{ p.person_first_name }} {{ p.person_last_name }}{% if not forloop.last %}, {%endif%}
+            {% endfor %}
+            <br/>
+        {% endif %}
+        {{ b.book_lead|safe }}
+        <hr/>
+    {% endfor %}
+        
+{% endblock %}

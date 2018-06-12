@@ -1,0 +1,65 @@
+{% extends "bportal/main/page.html" %}
+{% load staticfiles %}
+
+{% block pageTitle %}
+    Edytowanie pozycji
+{% endblock %}
+
+{% block pageClose %}
+    <a class="page__close js-goback"><i class="bp-icon-close_bold"></i></a>
+{% endblock %}
+
+{% block pageContent %}
+<div class="page__content" id="content">
+    <form enctype="multipart/form-data" action="" method="post" class="page__form">{% csrf_token %}
+        {% if form.errors %}
+            <div class="alert alert__error" role="alert">
+                <h5 class="alert__text--title">Wystąpiły błędy!</h5>
+                <p class="alert__text--info">Proszę popraw formularz.</p>
+                <div style="display: none;">{{ form.errors }}</div>    
+            </div>
+        {% endif %}
+
+        {% block pageAlertSameName %}{% endblock %}
+
+        {% for field in form %}
+            <div class="page__form--row">
+                {% block pageFormFields %}{% endblock %}
+            </div>
+        {% endfor %}
+
+        {% for formset in inlines %}
+            <div class="page__form--row page__form--row-inline">
+                {{ formset.management_form }}
+                <div class="page__title--subhead page__title--inline">
+                    {% block pageFormsetTitle %}{% endblock %}
+                </div>
+                <div class="page__form--inlines" data-prefix="{{ formset.prefix }}">
+                    {% for f in formset %}
+                    <ul class='page__form--inline table_{{ formset.prefix }}'>
+                        {{ f.as_ul }}
+                    </ul>
+                    {% endfor %}
+                    <ul class='page__form--inline table_{{ formset.prefix }}_empty'>
+                        {{ formset.empty_form.as_ul }}
+                    </ul>
+                    <div class="page__buttons page__buttons--inlines">
+                        <button type="button" class="page__button--remove js-remove-inline">Usuń</button>
+                        <button type="button" class="page__button--add js-add-inline">Dodaj kolejny</button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="page__form--row-publish">
+            <div class="page__publish">{% block pageSubmitCol %}{% endblock %}</div>
+            <div class="page__buttons">
+                {% block pageSubmitButtons %}
+                    <button type="submit" class="page__button--submit">Aktualizuj</button>
+                {% endblock %}
+            </div>
+        </div>
+
+    </form>
+</div>
+{% endblock %}

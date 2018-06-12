@@ -1,0 +1,4 @@
+{{ object.eduoffer_position_text }}
+{{ object.eduoffer_lead|striptags }}
+{{ object.eduoffer_description|striptags }}
+{% for tag in object.eduoffer_keywords.all %} {{ tag.name }} {% endfor %}

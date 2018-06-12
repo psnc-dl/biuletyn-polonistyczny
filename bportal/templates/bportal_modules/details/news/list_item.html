@@ -1,0 +1,47 @@
+
+            {% if n.new_related_event %}
+                <a href="{% url 'event_detail' n.new_related_event.event_name_slug n.new_related_event.event_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+            {% elif n.new_related_project %}
+                <a href="{% url 'project_detail' n.new_related_project.project_title_slug n.new_related_project.project_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+            {% elif n.new_related_dissertation %}
+                <a href="{% url 'dissertation_detail' n.new_related_dissertation.dissertation_title_slug n.new_related_dissertation.dissertation_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+            {% elif n.new_related_competition %}
+                <a href="{% url 'competition_detail' n.new_related_competition.competition_title_slug n.new_related_competition.competition_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+            {% elif n.new_related_joboffer %}
+                <a href="{% url 'joboffer_detail' n.new_related_joboffer.joboffer_position_slug n.new_related_joboffer.joboffer_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+            {% elif n.new_related_eduoffer %}
+                <a href="{% url 'eduoffer_detail' n.new_related_eduoffer.eduoffer_position_slug n.new_related_eduoffer.eduoffer_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+            {% elif n.new_related_scholarship %}
+                <a href="{% url 'scholarship_detail' n.new_related_scholarship.scholarship_name_slug n.new_related_scholarship.scholarship_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+            {% elif n.new_related_book %}
+                <a href="{% url 'book_detail' n.new_related_book.book_title_slug n.new_related_book.book_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+			{% elif n.new_related_article %}
+                <a href="{% url 'article_detail' n.new_related_article.article_title_slug n.new_related_article.article_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+			{% elif n.new_related_journalissue %}
+                <a href="{% url 'journalissue_detail' n.new_related_journalissue.journalissue_title_slug n.new_related_journalissue.journalissue_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+			{% else %}
+		        <a href="{% url 'new_detail' n.new_title_slug n.new_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+		    {% endif %}
+					{% if request.user.userprofile.user_is_editor or user.is_superuser %}
+					<button class="list__item--edit" data-link="{% url 'new_edit' n.new_id %}"><i class="bp-icon-file_edit"></i></button>
+					{% endif %}
+					<div class="list__item--upper">
+						<div class="list__item--upper-date">
+							<div class="list__item--date">
+								<span class="list__text--date">{{ n.new_date_add|date:"d.m.Y" }}</span>
+								{% if not n.new_is_accepted %}
+								<span class="list__text--notpub">NIE OPUBLIKOWANY!</span>
+								{% endif %}
+							</div>
+						</div>
+						<div class="list__item--upper-place">
+							<span class="list__text--upperitem js-truncate">
+								{{ n.new_category.new_category_item_name }}
+							</span>
+						</div>
+					</div>
+		            <h4 class="list__item--title list__text--title js-truncate-two">
+		                {{ n.new_title|safe|striptags }}
+		            </h4>
+		            <p class="list__item--excerpt list__text--paragraph js-truncate-three">{% if n.new_lead %}{{ n.new_lead|safe|striptags }}{% endif %}</p>
+		        </a>

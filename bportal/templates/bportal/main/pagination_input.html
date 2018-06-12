@@ -1,0 +1,38 @@
+{% load activeurl %}
+{% url 'event_list' as events_url %}
+
+{% if curr_page.paginator.num_pages >= 2 %}
+<ul class="paginate paginate--upper">
+    {% if request.get_full_path|is_active_url:events_url %}
+        <li class="paginate__item paginate__item--button paginate__item--button-back">
+            <a href="{% url "event_list" %}" class="paginate__button paginate__button--back">Najbliższe wydarzenia</a>
+        </li>
+    {% endif %}
+
+	{% if curr_page.has_previous %}
+	    <li class="paginate__item paginate__item--prev">
+	        <a href="{{ pagination_prefix }}&page={{ curr_page.previous_page_number }}&per_page={{ curr_page.paginator.per_page }}" aria-label="Previous" class="paginate__button" title="Poprzednia strona">
+                <i class="bp-icon-chevron_long_left"></i>
+	        </a>
+	    </li>
+    {% endif %}
+
+        <li class="paginate__item paginate__item--input">
+            <input type="number" name="page" class="paginate__input" value="{{ curr_page.number }}" min="1" max="{{ curr_page.paginator.num_pages }}">
+        </li>
+        <li class="paginate__item paginate__item--from">
+            <span class="paginate__from">z</span>
+        </li>
+        <li class="paginate__item paginate__item--pages">
+            <a href="{{ pagination_prefix }}&page={{ curr_page.paginator.num_pages }}&per_page={{ curr_page.paginator.per_page }}" class="paginate__pages">{{ curr_page.paginator.num_pages }}</a>
+        </li>
+
+    {% if curr_page.has_next %}
+    <li class="paginate__item paginate__item--next">
+        <a href="{{ pagination_prefix }}&page={{ curr_page.next_page_number }}&per_page={{ curr_page.paginator.per_page }}" aria-label="Next" class="paginate__button" title="Następna strona">
+            <i class="bp-icon-chevron_long_right"></i>
+        </a>
+    </li>
+    {% endif %}
+</ul>
+{% endif %}

@@ -1,0 +1,117 @@
+{% extends "bportal_modules/layout/details_pdf.html" %}
+
+{% load staticfiles %}
+{% load static %}
+{% load l10n %}
+{% load i18n %}
+
+{% block title %}
+
+    {{ eduoffer.eduoffer_date_add|date:"d.m.Y" }}<br/>
+    
+    {% if eduoffer.eduoffer_date_end %}
+        Termin nadsyłania zgłoszeń:
+        {{ eduoffer.eduoffer_date_end|date:"d.m.Y" }}
+        <br/>
+    {% endif %}
+    
+    <b><a href="{{ host }}/eduoffers/{{eduoffer.eduoffer_position_slug}},{{eduoffer.eduoffer_id}}/details">{{ eduoffer.eduoffer_position|safe }}</a></b><br/>
+
+{% endblock %}
+            
+
+{% block title-attrs %}
+
+    {% if eduoffer.eduoffer_institution %}
+        Instytucja:
+        <a href="{{ host }}{% url 'institution_detail' eduoffer.eduoffer_institution.institution_slug eduoffer.eduoffer_institution.institution_id %}">{{ eduoffer.eduoffer_institution }}</a>
+        <br/>
+    {% endif %}
+    
+    {% if eduoffer.eduoffer_city %}
+        Miejscowość:
+        {{ eduoffer.eduoffer_city.name }}
+        <br/>
+    {% endif %}
+
+    {% if eduoffer.eduoffer_mode %}
+        Tryb:
+        {{ eduoffer.eduoffer_mode }}
+        <br/>
+    {% endif %}
+
+    {% if eduoffer.eduoffer_type %}
+        Rodzaj oferty:
+        {{ eduoffer.eduoffer_type }}
+        <br/>
+    {% endif %}
+
+    {% if eduoffer.eduoffer_date_start %}
+        Data ogłoszenia:
+        {{ eduoffer.eduoffer_date_start|date:"d.m.Y" }}
+        <br/>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+
+    {{ eduoffer.eduoffer_lead|safe }}<br/>
+    {{ eduoffer.eduoffer_description|safe }}<br/>
+    
+{% endblock %}
+
+
+{% block content-attrs %}
+
+    {% if eduoffer.eduoffer_tuition %}
+        Wysokość czesnego:
+        {{ eduoffer.eduoffer_tuition }}
+        <br/>
+    {% endif %}   
+     
+    {% if eduoffer.eduoffer_period %}
+        Długość trwania kursu:
+        {{ eduoffer.eduoffer_period }}
+        <br/>
+    {% endif %}
+
+    {% if eduoffer.eduoffer_files.all %}
+        Do pobrania:
+        <ul>
+            {% for o in eduoffer.eduoffer_files.all %}
+                <li><a href="{% get_media_prefix %}{{ o.file }}"> {{ o }} </a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if eduoffer.eduoffer_links.all %}
+        Linki:
+        <ul>
+            {% for o in eduoffer.eduoffer_links.all %}
+                <li><a href="{{ o }}" target="_blank">{{ o }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if eduoffer.eduoffer_keywords.all %}
+        Słowa kluczowe:
+        {% for o in eduoffer.eduoffer_keywords.all %}
+            <a href="{% url 'search_view' %}?q={{ o }}">{{ o }}</a>{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+    
+    {% if eduoffer.eduoffer_content_contributors.all %}
+        <ul>
+        {% for contribution in eduoffer.eduoffer_content_contributors.all %}
+    	    <li style="list-style-type: none">
+    	        {{ contribution.role }}:
+    	        <a href="{{ host }} {% url 'person_detail' contribution.person.person_slug contribution.person.person_id %}" class="details__text--value details__text--anchor details__text--bold">{{ contribution.person.person_first_name }} {{ contribution.person.person_last_name }}</a>
+            </li>
+        {% endfor %}          
+        <br/>
+    {% endif %}
+        
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends "bportal_modules/layout/details_pdf.html" %}
+
+{% load staticfiles %}
+{% load static %}
+{% load l10n %}
+{% load i18n %}
+
+{% block title %}
+
+    {{ joboffer.joboffer_date_add|date:"d.m.Y" }}<br/>
+    
+    {% if joboffer.joboffer_date_end %}
+        Termin nadsyłania zgłoszeń:
+        {{ joboffer.joboffer_date_end|date:"d.m.Y" }}
+        <br/>
+    {% endif %}
+    
+    <b><a href="{{ host }}/joboffers/{{joboffer.joboffer_position_slug}},{{joboffer.joboffer_id}}/details">{{ joboffer.joboffer_position|safe }}</a></b><br/>
+
+{% endblock %}
+            
+
+{% block title-attrs %}
+
+    {% if joboffer.joboffer_institution %}
+        Instytucja:
+        <a href="{{ host }}{% url 'institution_detail' joboffer.joboffer_institution.institution_slug joboffer.joboffer_institution.institution_id %}">{{ joboffer.joboffer_institution }}</a>
+        <br/>
+    {% endif %}
+    
+    {% if joboffer.joboffer_cities.all %}
+        Miejscowości:
+        {% for o in joboffer.joboffer_cities.all %}
+             {{ o.name }}{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}        
+        <br/>
+    {% endif %}
+
+    {% if joboffer.joboffer_type %}
+        Typ oferty:
+        {{ joboffer.joboffer_type }}
+        <br/>
+    {% endif %}
+
+    {% if joboffer.joboffer_disciplines.all %}
+        Dziedziny:
+        {% for discipline in joboffer.joboffer_disciplines.all %}
+		    {{ discipline }}{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+
+    {% if joboffer.joboffer_date_start %}
+        Data ogłoszenia:
+        {{ joboffer.joboffer_date_start|date:"d.m.Y" }}
+        <br/>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+
+    {{ joboffer.joboffer_lead|safe }}<br/>
+    {{ joboffer.joboffer_description|safe }}<br/>
+    
+{% endblock %}
+
+
+{% block content-attrs %}
+
+    {% if joboffer.joboffer_files.all %}
+        Do pobrania:
+        <ul>
+            {% for o in joboffer.joboffer_files.all %}
+                <li><a href="{% get_media_prefix %}{{ o.file }}"> {{ o }} </a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if joboffer.joboffer_links.all %}
+        Linki:
+        <ul>
+            {% for o in joboffer.joboffer_links.all %}
+                <li><a href="{{ o }}" target="_blank">{{ o }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if joboffer.joboffer_keywords.all %}
+        Słowa kluczowe:
+        {% for o in joboffer.joboffer_keywords.all %}
+            <a href="{% url 'search_view' %}?q={{ o }}">{{ o }}</a>{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+    
+    {% if joboffer.joboffer_content_contributors.all %}
+        <ul>
+        {% for contribution in joboffer.joboffer_content_contributors.all %}
+    	    <li style="list-style-type: none">
+    	        {{ contribution.role }}:
+    	        <a href="{{ host }} {% url 'person_detail' contribution.person.person_slug contribution.person.person_id %}" class="details__text--value details__text--anchor details__text--bold">{{ contribution.person.person_first_name }} {{ contribution.person.person_last_name }}</a>
+            </li>
+        {% endfor %}          
+        <br/>
+    {% endif %}
+        
+{% endblock %}

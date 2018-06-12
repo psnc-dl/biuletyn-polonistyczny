@@ -1,0 +1,25 @@
+{% extends "bportal/main/page.html" %}
+{% load staticfiles %}
+
+{% block pageTitle %}
+    Usuwanie pozycji
+{% endblock %}
+
+{% block pageClose %}
+    <a class="page__close js-goback"><i class="bp-icon-close_bold"></i></a>
+{% endblock %}
+
+{% block pageContent %}
+<div class="page__content">
+    <form action="" method="post" class="page__form">{% csrf_token %}
+        <div class="page__form--row">
+            <p class="page__text--info">Czy napewno chcesz skasować "{{ object }}"?</p>
+        </div>
+        <div class="page__form--row">
+            <div class="page__buttons">
+                <button type="submit" class="page__button--submit" >Tak, potwierdzam</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

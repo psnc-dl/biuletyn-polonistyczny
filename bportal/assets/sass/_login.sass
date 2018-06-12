@@ -1,0 +1,126 @@
+.login
+  @extend .modal
+  &__background
+    @extend .modal__background
+
+  &__content
+    @extend .modal__content
+
+  &__close
+    @extend .modal__close
+
+  &__title
+    &--head
+      @extend .heading-main
+      @extend .bp-titleline-main
+
+  &__box
+    margin-top: 10px
+    font-size: 0.8em
+    +widescreen
+      font-size: 0.9em
+      margin-top: 30px
+    +fullhd
+      font-size: 1em
+      margin-top: 50px
+
+  &__form
+    &--row
+      &-last
+        +desktop
+          +flex
+          +flex-justify-content(space-between)
+
+    &--error
+      text-align: right
+      color: $error
+
+    &--buttons
+      margin-top: 15px
+      text-align: right
+
+    &--label
+      @extend .bp-label
+
+    &--input
+      @extend .bp-input-line
+
+      &-error
+        border-bottom-color: $error
+
+    &--button
+      &-submit
+        @extend .bp-btn-main
+
+      &-createaccount
+        @extend .bp-btn-main-noborder
+        @extend .bp-underline
+        padding: 0
+        margin: 0 15px
+
+    &--info
+      font-size: 0.8em
+      +flex-align-self(flex-end)
+
+      &-required
+        position: relative
+        padding-left: 10px
+
+        &:after
+          content: "*"
+          display: inline-block
+          position: absolute
+          left: 0
+          top: 0
+
+        span
+          +desktop
+            display: block
+
+
+  &__socialauth
+    border-bottom: 1px solid #d8d8d8
+    margin-top: 20px
+    margin-bottom: 10px
+    padding-bottom: 10px
+    font-size: 0.8em
+    +widescreen
+      font-size: 0.9em
+      margin-top: 30px
+      margin-bottom: 15px
+      padding-bottom: 15px
+    +fullhd
+      font-size: 1em
+      margin-top: 50px
+      margin-bottom: 30px
+      padding-bottom: 30px
+    +from(1700px)
+      font-size: 1em
+      margin-top: 80px
+      margin-bottom: 40px
+      padding-bottom: 40px
+
+    &--title
+      margin-bottom: 10px
+
+    &--button
+      @extend .bp-btn-social
+      &:not(:last-child)
+        margin-right: 10px
+        +widescreen
+          margin-right: 15px
+        +fullhd
+          margin-right: 20px
+
+  &__lostpass
+    font-size: 0.8em
+
+    +widescreen
+      font-size: 0.9em
+    +fullhd
+      font-size: 1em
+
+    &--anchor
+      @extend .bp-underline
+
+

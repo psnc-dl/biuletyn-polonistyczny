@@ -1,0 +1,127 @@
+{% extends "bportal_modules/layout/details_pdf.html" %}
+
+{% load staticfiles %}
+{% load static %}
+{% load l10n %}
+{% load i18n %}
+
+{% block title %}
+
+    {{ dissertation.dissertation_date_add|date:"d.m.Y" }}<br/>
+   
+    <b><a href="{{ host }}/dissertations/{{dissertation.dissertation_title_slug}},{{dissertation.dissertation_id}}/details">{{ dissertation.dissertation_title|safe }}</a></b><br/>
+
+{% endblock %}
+            
+
+{% block title-attrs %}
+
+    {% if dissertation.dissertation_author %}
+        Autor:
+        <a href="{{host}}{% url 'person_detail' dissertation.dissertation_author.person_slug dissertation.dissertation_author.person_id %}">{{ dissertation.dissertation_author.person_first_name }} {{  dissertation.dissertation_author.person_last_name }}</a>
+        <br/>        
+    {% endif %}
+        
+    {% if dissertation.dissertation_disciplines.all %}
+        Grupy docelowe:
+        {% for discipline in dissertation.dissertation_disciplines.all %}
+		    {{ discipline }}{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+
+    {% if dissertation.dissertation_institution %}
+        Instytucja:
+        <a href="{{ host }}{% url 'institution_detail' dissertation.dissertation_institution.institution_slug dissertation.dissertation_institution.institution_id %}">{{ dissertation.dissertation_institution }}</a>
+        <br/>
+    {% endif %}
+
+    {% if dissertation.dissertation_city %}
+        Miejscowość:
+        {{ dissertation.dissertation_city.name }}
+        <br/>
+    {% endif %}         
+
+
+    {% if dissertation.dissertation_supervisors.all %}
+        Promotorzy:
+        {% for supervisior in dissertation.dissertation_supervisors.all %}
+            <a href="{{ host }}{% url 'person_detail' supervisior.person_slug supervisior.person_id %}">{{ supervisior.person_first_name }} {{ supervisior.person_last_name }}</a>{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+	           
+    {% if dissertation.dissertation_reviewers.all %}
+        Recenzenci:
+        {% for reviewer in dissertation.dissertation_reviewers.all %}
+            <a href="{{ host }}{% url 'person_detail' reviewer.person_slug reviewer.person_id %}">{{ reviewer.person_first_name }} {{ reviewer.person_last_name }}</a>{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+
+    {{ dissertation.dissertation_lead|safe }}<br/>
+    {{ dissertation.dissertation_description|safe }}<br/>
+    
+{% endblock %}
+
+
+{% block content-attrs %}
+
+    {% if dissertation.dissertation_date_start %}
+        Data otwarcia przewodu:
+        {{ dissertation.dissertation_date_start|date:"d.m.Y" }}
+        <br/>
+    {% endif %}
+
+    {% if dissertation.dissertation_date_end %}
+        Termin zakończenia pracy:
+        {{ dissertation.dissertation_date_end|date:"d.m.Y" }}
+        <br/>
+    {% endif %}
+
+    {% if dissertation.dissertation_file or dissertation.dissertation_files.all %}
+        Do pobrania:
+        <ul>
+            {% if dissertation.dissertation_file %}
+                <li><a href="{% get_media_prefix %}{{ dissertation.dissertation_file.file }}"> {{ dissertation.dissertation_file }} </a></li>
+            {% endif %}
+            {% for o in dissertation.dissertation_files.all %}
+                <li><a href="{% get_media_prefix %}{{ o.file }}"> {{ o }} </a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if dissertation.dissertation_links.all %}
+        Linki:
+        <ul>
+            {% for o in dissertation.dissertation_links.all %}
+                <li><a href="{{ o }}" target="_blank">{{ o }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if dissertation.dissertation_keywords.all %}
+        Słowa kluczowe:
+        {% for o in dissertation.dissertation_keywords.all %}
+            <a href="{% url 'search_view' %}?q={{ o }}">{{ o }}</a>{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+    
+    {% if dissertation.dissertation_content_contributors.all %}
+        <ul>
+        {% for contribution in dissertation.dissertation_content_contributors.all %}
+    	    <li style="list-style-type: none">
+    	        {{ contribution.role }}:
+    	        <a href="{{ host }} {% url 'person_detail' contribution.person.person_slug contribution.person.person_id %}" class="details__text--value details__text--anchor details__text--bold">{{ contribution.person.person_first_name }} {{ contribution.person.person_last_name }}</a>
+            </li>
+        {% endfor %}          
+        <br/>
+    {% endif %}
+        
+{% endblock %}

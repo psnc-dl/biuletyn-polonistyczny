@@ -1,0 +1,42 @@
+{% load staticfiles %}
+{% include "bportal/main/header.html" %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {% clear_breadcrumbs %}
+    {% breadcrumb "Strona główna" "home" %}
+{% endblock %}
+
+<div class="breadcrumbs is-first">
+    <div class="breadcrumbs__container container">
+        <ul class="breadcrumbs__list">
+            {% render_breadcrumbs %}
+        </ul>
+    </div>
+</div>
+
+<div class="details {% block details-class %}{% endblock %}" id="content">
+    <div class="details__container container">
+
+        <div class="details__content columns {% if object.event_summary %}details__content--summary{% endif %}">
+            <div class="details__content--left column is-8">
+                <div class="details__box--head">
+                    <div class="details__back">
+                        <button class="details__back--button js-goback">Powrót</button>
+                    </div>
+                    {% block details-title %}{% endblock %}
+                </div>
+                <div class="details__box--content">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+            <div class="details__content--right column is-4">
+                {% block details-rightcol %}{% endblock %}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% include "bportal/main/footer.html" %}

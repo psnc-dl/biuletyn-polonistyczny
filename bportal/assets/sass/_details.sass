@@ -1,0 +1,762 @@
+.details
+  &__content
+    margin-top: 0 !important
+
+    &--summary
+      .details__back
+        margin-bottom: 10px
+
+      .details__content--right
+        +tablet
+          margin-top: 25px
+
+    &--left
+      +tablet
+        border-right: 1px solid $primary
+        padding-right: 25px
+        padding-top: 0
+
+    &--right
+      +tablet
+        padding: 23px 10px 40px 20px
+      +desktop
+        padding: 25px 10px 40px 20px
+      +widescreen
+        padding: 28px 10px 40px 20px
+      +fullhd
+        padding: 32px 10px 40px 20px
+      +touch
+        width: 100%
+
+    &--lead
+      font-weight: 800
+      margin-bottom: 15px
+
+    &--youtube
+      height: 0
+      overflow: hidden
+      padding-bottom: 56.25%
+      padding-top: 30px
+      position: relative
+      margin-bottom: 15px
+
+      +widescreen
+        margin-top: 40px
+        margin-bottom: 55px
+        padding-bottom: 40%
+
+      iframe
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+
+        +widescreen
+          max-width: 590px
+          left: 0
+          right: 0
+          margin-left: auto
+          margin-right: auto
+
+  &__back
+    text-align: right
+
+    @extend .bp-rwd-fontsize
+    &--button
+      @extend .bp-btn-main
+      @extend .bp-btn-main-witharrow-left
+
+    +mobile
+      margin-bottom: 10px
+
+
+  &__head
+    margin: 25px 0
+    @extend .bp-rwd-fontsize
+    +flex
+
+    +touch
+      +flex-direction(column)
+    &--photo
+      +flex-value(0 1 auto)
+      padding: 0 0 10px 0
+      +desktop
+        padding: 5px 15px 5px 0
+
+    &--content
+      +flex-value(1 1 auto)
+
+    &--cols
+      +flex
+      +mobile
+        +flex-direction(column-reverse)
+
+    &--date, &--dates
+      +flex-value(1 1 auto)
+
+    &--date
+      &-right
+        +desktop
+          text-align: right
+
+    &--dates
+      +desktop
+        +flex
+        +flex-justify-content(space-between)
+
+    &--noimage, &--image
+      height: 155px
+      display: block
+      +desktop
+        width: 300px
+        height: 125px
+
+    &--noimage
+      @extend .bp-noimg
+
+    &--image
+      background-size: cover
+      background-position: center center
+      background-repeat: no-repeat
+
+      @extend .bp-lightbox
+
+    &--photo
+      +mobile
+        margin-bottom: 20px
+
+    &--title
+      margin-top: 5px
+
+    &--icons
+      margin-left: 5px
+      +mobile
+        text-align: right
+        margin-top: -20px
+
+  &__tabs
+    &--list
+      border-bottom: 2px solid $primary
+      +flex
+      @extend .bp-rwd-fontsize
+
+    &--item
+      border: 1px solid $secondary
+      margin-bottom: -2px
+      border-bottom: 0px solid $white
+      margin-right: 2px
+      overflow: hidden
+
+      +mobile
+        +flex-value(0 1 33%)
+
+      &:first-child
+        &:not(.active)
+          border-right: 0
+
+      &.active
+        border: 2px solid $primary
+        border-bottom: 0 solid $white
+        background: #fff
+        pointer-events: none
+        overflow: visible
+
+        & + li
+          border-left: 0
+
+    &--anchor
+      padding: 6px
+      display: block
+      font-weight: bold
+      text-align: center
+      +text-elipsis
+
+
+      +tablet
+        padding: 6px 30px
+
+      +desktop
+        padding: 6px 70px
+      +widescreen
+        min-width: 315px
+
+      &:hover, &:focus
+        background: $primary
+        border-color: $primary
+        color: $white
+
+  &__about
+    margin: 10px 0
+    @extend .bp-rwd-fontsize
+    &--row
+      +flex
+      +mobile-small
+        +flex-direction(column)
+
+    &--label
+      +flex-value(0 0 130px)
+      +mobile-small
+        +flex-value(0 0 auto)
+
+      line-height: 1.25em
+      padding-right: 10px
+
+    &--value
+      +flex-value(1 1 auto)
+      line-height: 1.25em
+      +mobile-small
+        padding-bottom: 10px
+  &__icons
+    &--item
+      display: inline-block
+    &--anchor
+    &--icon
+      font-size:  1.8em
+      &:before
+        margin: 0
+
+  &__explication
+    margin: 25px 0 40px
+    @extend .bp-rwd-fontsize
+
+    p:not(:last-child)
+      margin-bottom: 15px
+
+    &--lead
+      font-weight: bold
+
+      & + p
+        margin-top: 15px
+
+    ol, ul
+      padding: 15px
+
+      ol, ul
+        padding: 5px 35px
+
+    ul
+      list-style-type: disc
+
+      ul
+        list-style-type: circle
+
+        ul
+          list-style-type: square
+
+
+  &__social
+    @extend .bp-rwd-fontsize
+    border-top: 1px solid $grey-light
+    padding: 15px 0
+    margin-bottom: 30px
+    &--anchor
+      @extend .bp-btn-icon-social
+
+    &--row
+      @extend .details__about--row
+
+    &--label
+      @extend .details__about--label
+      +flex
+
+    &--value
+      @extend .details__about--value
+
+    &--text
+      +flex-align-self(center)
+
+  &__publications
+
+    margin-top: 15px
+    padding-bottom: 50px
+  &__publication
+    @extend .bp-rwd-fontsize
+    margin-top: 15px
+    &:not(:last-child)
+      padding-bottom: 15px
+      border-bottom: 1px solid $grey-light
+    +tablet
+      +flex
+    &--picture
+      +tablet
+        +flex-value(0 0 100px)
+      +mobile
+        margin-bottom: 15px
+
+    &--content
+      +tablet
+        +flex-value(1 0 calc(100% - 100px))
+        padding-left: 15px
+
+    &--box
+      +tablet
+        +flex
+      &-left
+        +flex-value(1 0 auto)
+      &-right
+        padding-top: 10px
+        +flex-value(0 0 150px)
+
+
+
+    &--image, &--noimage
+      width: 100%
+      height: 125px
+      +tablet
+        width: 100px
+        height: 125px
+
+    &--noimage
+      @extend .bp-noimg
+
+    &--image
+      background-size: cover
+      background-position: center center
+      background-repeat: no-repeat
+
+  &__pub
+    margin: 25px 0 0
+    &--photo
+      margin-bottom: 10px
+      +tablet
+        float: left
+        margin-right: 15px
+
+
+
+    &--noimage
+      @extend .bp-noimg
+      width: 100px
+      height: 125px
+      +desktop
+        width: 120px
+        height: 150px
+      +widescreen
+        width: 180px
+        height: 215px
+      +fullhd
+        width: 215px
+        height: 280px
+
+    &--image
+      display: block
+      background-size: cover
+      background-position: center center
+      background-repeat: no-repeat
+
+      max-width: 100px
+      max-height: 125px
+      +desktop
+        max-width: 120px
+        max-height: 150px
+      +widescreen
+        max-width: 180px
+        max-height: 215px
+      +tablet
+        max-width: 215px
+        max-height: 280px
+    &--anchor
+      display: inline-block
+      @extend .bp-lightbox
+
+
+  &__meta
+    @extend .bp-rwd-fontsize
+    margin-top: 15px
+    &--row
+      &-margin-bottom
+        & + .details__meta--row
+          margin-top: 15px
+    &--label, &--value
+      display: inline
+  &__information
+    &--content
+      margin-top: 15px
+      +desktop
+        padding-bottom: 30px
+    &--row
+      @extend .details__about--row
+      padding: 10px 0
+      @extend .bp-rwd-fontsize
+
+    &--label
+      @extend .details__about--label
+      line-height: 1em
+      +mobile
+        padding-bottom: 3px
+
+    &--value
+      @extend .details__about--value
+      line-height: 1em
+
+    &--list
+      &-item
+        border-bottom: 1px solid $grey-light
+        padding: 5px 0
+        +flex
+
+        &:first-child
+          +tablet
+            padding-top: 2px
+            margin-top: -0.75em
+
+      &-link
+        &:not(:last-child)
+          margin-bottom: 10px
+
+
+
+      &-text
+        +flex-value(1 1 auto)
+        +flex-align-self(center)
+        +mobile
+          padding: 5px 0
+      &-download
+        +flex-value(0 1 auto)
+  &__items
+    margin-top: 15px
+    margin-bottom: 45px
+    border-bottom: 1px solid $grey-light
+    @extend .bp-rwd-fontsize
+
+  &__item
+    display: block
+    padding: 10px 0
+    &:not(:last-child)
+      border-bottom: 1px solid $grey-light
+
+    +tablet-only
+      +flex-value(0 1 calc(50% - 15px))
+      &:nth-child(even)
+        margin-left: 15px
+      &:nth-child(odd)
+        margin-right: 15px
+      &:nth-child(2)
+        padding-top: 0
+      &:nth-last-child(2)
+        border-bottom: 0
+
+    &:hover, &:focus
+      .details__text--title-small
+        @extend .bp-global-arrow
+
+    &--upper
+      +flex
+
+      &-date, &-type
+
+      &-type
+        +flex-value(1 1 auto)
+        text-align: right
+
+    &--title
+      margin: 5px 0 10px
+
+    &--subtitle
+      margin: 0 0 10px
+
+    &--excerpt
+      margin: 0 0 10px
+
+    &--photo
+      margin-bottom: 5px
+
+    &--noimage
+
+      height: 190px
+      @extend .bp-noimg
+
+    &--image
+
+      height: 190px
+      background-size: cover
+      background-position: center center
+      background-repeat: no-repeat
+
+    &--noimage, &--image
+      &-publications
+        background-size: contain
+        background-position: left center
+        width: 90px
+        height: 120px
+
+    &--details
+      margin-bottom: 7px
+
+    &--subtitle
+      display: block
+
+      &:first-child
+        margin-top: 7px
+
+  &__gallery, &__picture
+    max-width: 600px
+
+    +desktop
+      max-width: 350px
+
+    +widescreen
+      max-width: 500px
+
+    +fullhd
+      max-width: 600px
+
+    margin: 30px auto
+
+    &--slides
+      position: absolute
+      bottom: 10px
+      left: 10px
+      background: #1d1d1d
+      border: 1px solid #636363
+      color: white
+      padding: 5px 10px
+      font-size: 0.8em
+
+    &--item
+
+      +flex
+      +flex-direction(column)
+
+    &--picture
+      text-align: center
+      border: 1px solid $secondary
+      height: 450px
+      position: relative
+      +mobile
+        height: 350px
+      +flex
+      +flex-justify-content(center)
+      +flex-direction(column)
+
+      @extend .bp-lightbox
+      @extend .bp-lightbox-border
+
+
+    &--image
+      max-height: 450px
+      margin: 0 auto
+      padding: 1px 0
+
+      +mobile
+        max-height: 350px
+
+
+    &--description
+      margin-top: 10px
+      line-height: 1.20em
+
+      &-nomargin
+        margin-top: 0
+
+      span
+        &:not(:last-child)
+          &:after
+            content: " | "
+            font-style: normal
+            margin-left: 3px
+
+
+
+    .owl-nav
+      font-size: 1.9em
+      +touch
+        display: none
+
+    .owl-prev, .owl-next
+      display: inline-block
+      line-height: 30px
+      width: 90px
+      height: 30px
+      position: absolute
+      top: 220px
+      text-align: center
+
+      i
+        &:before
+          line-height: 26px
+
+      border: 1px solid $secondary
+      background: transparent
+      cursor: pointer
+
+      &:hover
+        border-color: $primary
+        +box-shadow(inset 0px 0px 0px 1px $primary)
+
+      &:focus
+        background: $primary
+        border-color: $primary
+        color: $white
+        +box-shadow(none)
+
+
+    .owl-prev
+      left: -100px
+
+    .owl-next
+      right: -100px
+
+      i:before
+        margin-left: 0
+
+
+
+    .owl-dots
+      width: 100%
+      position: absolute
+      top: 450px
+      +mobile
+        top: 350px
+      left: -5px
+
+    .owl-dot
+      @extend .bp-owl-dot
+
+  &__gallery
+    .owl-dots
+      display: none
+
+  &__viewall
+    padding: 25px 0
+    text-align: right
+    &--anchor
+      @extend .bp-btn-main
+      @extend .bp-btn-main-witharrow
+      @extend .bp-rwd-fontsize
+
+  &__title
+    &--head
+      @extend .heading-main
+      @extend .bp-titleline-main
+
+    &--subhead
+      @extend .heading-sub
+      @extend .bp-titleline-secondary
+
+  &__text
+    &--title
+      font-size: 1.7em
+      line-height: 1.15em
+      font-weight: bold
+      +mobile
+        font-size: 1.5em
+
+    &--title-small
+      font-size: 1.2em
+      line-height: 1.25em
+      font-weight: bold
+      position: relative
+      +mobile
+        font-size: 1.1em
+
+    &--subtitle
+      font-size: 0.85em
+
+    &--paragraph
+      font-size: 1em
+      line-height: 1.4em
+
+    &--lowercase
+      text-transform: lowercase
+
+    &--margin
+      &-top
+        margin-top: 5px
+
+    &--label
+      font-size: 0.85em
+      +mobile
+        font-size: 1em
+
+    &--value
+      font-size: 0.95em
+      +mobile
+        font-size: 1em
+
+    &--bold
+      font-weight: bold
+
+    &--grey
+      color: $grey
+
+    &--italic
+      font-style: italic
+
+    &--description
+      color: $primary
+      font-size: 0.80em
+
+    &--anchor
+      @extend .bp-underline
+      text-decoration: none
+      display: inline
+
+      &-border
+        border: 1px solid $grey-light
+        padding: 0.325em 0.6125em
+        display: inline-block
+        margin: 0 5px 5px 0
+
+        &:hover, &:focus
+          border-color: $primary
+
+        +mobile
+          padding: 7px
+
+      &-download
+        border: 1px solid $primary
+        padding: 5px 20px
+        margin: 5px 0
+        display: block
+        text-align: center
+        &:hover, &:focus
+          background: $primary
+          color: $white
+
+
+
+    &--details
+      font-size: 1em
+      line-height: 1.25em
+    &--date
+      font-size: 0.9em
+      color: $grey
+      strong
+        color: $primary
+
+    &--type
+      color: $grey
+      font-size: 0.9em
+
+    &--upperitem
+      font-size: 0.9em
+      color: $grey
+
+
+  &__tableofcontents
+    &--content
+      padding: 15px 0 35px
+
+      ol
+        margin-left: 15px
+
+      strong
+        color: $primary
+
+  &--summary
+    .details
+      &__back
+        +widescreen-only
+          margin-bottom: 10px
+      &__content
+        &--right
+          +tablet
+            padding: 41px 10px 40px 20px
+          +desktop
+            padding: 42px 10px 40px 20px
+          +widescreen
+            padding: 54px 10px 40px 20px
+          +fullhd
+            padding: 46px 10px 40px 20px

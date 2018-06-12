@@ -1,0 +1,26 @@
+
+	        <a href="{% url 'eduoffer_detail' o.eduoffer_position_slug o.eduoffer_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+				{% if request.user.userprofile.user_is_editor or user.is_superuser %}
+				<button class="list__item--edit" data-link="{% url 'eduoffer_edit' o.eduoffer_id %}"><i class="bp-icon-file_edit"></i></button>
+				{% endif %}
+				<div class="list__item--upper">
+					<div class="list__item--upper-date">
+						<div class="list__item--date">
+							<span class="list__text--date">{{ o.eduoffer_date_add|date:"d.m.Y" }}</span>
+							{% if not o.eduoffer_is_accepted %}
+							<span class="list__text--notpub">NIE OPUBLIKOWANY!</span>
+							{% endif %}
+						</div>
+					</div>
+					<div class="list__item--upper-place">
+						<span class="list__text--upperitem">{{ o.eduoffer_city.name }}</span>
+					</div>
+				</div>
+
+	            <h4 class="list__item--title list__text--title js-truncate-two">
+	                {{ o.eduoffer_position|safe|striptags }}
+	            </h4>
+	            {% if o.eduoffer_mode %}<span class="list__item--subtitle list__text--subtitle">{{ o.eduoffer_mode }}</span>{% endif %}
+	            {% if o.eduoffer_institution %}<span class="list__item--subtitle list__text--subtitle">{{ o.eduoffer_institution }}</span>{% endif %}
+	            {% if o.eduoffer_lead %}<p class="list__item--excerpt list__text--paragraph js-truncate-three">{{ o.eduoffer_lead|safe|striptags }}</p>{% endif %}
+	        </a>

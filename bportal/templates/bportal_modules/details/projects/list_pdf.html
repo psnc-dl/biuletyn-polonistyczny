@@ -1,0 +1,30 @@
+{% extends "bportal_modules/layout/list_pdf.html" %}
+
+{% load staticfiles %}
+
+{% load l10n %}
+{% load i18n %}
+
+
+{% block content %}
+
+    {% for p in projects %}
+        {{ p.project_date_add|date:"d.m.Y" }}<br/>
+        <b><a href="{{ host }}/projects/{{p.project_title_slug}},{{p.project_id}}/details">{{ p.project_title|safe }}</a></b><br/>
+        {% if p.project_disciplines.all %}            
+            {% for o in p.project_disciplines.all %}
+                {{ o }}{%if not forloop.last %}, {% endif %}
+            {% endfor %}
+            <br/>
+        {% endif %}
+        {% if p.project_institutions.all %}        
+            {% for i in p.project_institutions.all %}
+                {{ i }}{% if not forloop.last %}, {%endif%}
+            {% endfor %}
+            <br/>
+        {% endif %}         
+        {{p.project_lead|safe }}
+        <hr/>
+    {% endfor %}
+        
+{% endblock %}

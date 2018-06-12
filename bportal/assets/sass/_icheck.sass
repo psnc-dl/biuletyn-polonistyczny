@@ -1,0 +1,35 @@
+.icheckbox__main,
+.iradio__main
+  background-color: $white
+  border: 1px solid $primary
+  display: inline-block
+  width: 16px
+  height: 16px
+  position: relative
+  margin-right: 8px
+  cursor: pointer
+  top: 2px
+
+  &:before
+    @extend .bp-icon
+    position: absolute
+    left: 0
+    top: 0
+    font-size: 14px
+    margin: 0 1px
+
+  &:hover, &:focus
+    &:before
+      @extend .bp-icon-check:before
+
+  &.checked
+    background: $primary
+    color: $white
+    &:before
+      @extend .bp-icon-check:before
+
+  &.disabled 
+    opacity: 0.5
+    pointer-events: none
+    cursor: default
+

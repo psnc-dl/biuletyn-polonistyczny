@@ -1,0 +1,22 @@
+{% extends "bportal_modules/layout/list_pdf.html" %}
+
+{% load staticfiles %}
+
+{% load l10n %}
+{% load i18n %}
+
+
+{% block content %}
+
+    {% for j in journalissues %}
+        {{ j.journalissue_date_add|date:"d.m.Y" }}<br/>
+        <b><a href="{{ host }}/journals/issues/{{j.journalissue_title_slug}},{{j.journalissue_id}}/details">{{j.journalissue_journal }}{% if j.journalissue_volume %} | {{ j.journalissue_volume }}{% endif %}{% if j.journalissue_number %}({{ j.journalissue_number }}){% endif %} {% if j.journalissue_year %} | {{ j.journalissue_year }} {% endif %}</a></b><br/>
+        {% if j.journalissue_title %}     
+            Tytuł numeru: {{j.journalissue_title}}
+            <br/>
+        {% endif %}
+        {{ j.journalissue_lead|safe }}
+        <hr/>
+    {% endfor %}
+        
+{% endblock %}

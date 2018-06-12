@@ -1,0 +1,239 @@
+.bp-form-tpl
+  border: 1px solid $primary
+  background: $white
+  font-size: 1em
+  border-radius: 0
+
+  +touch
+    height: 32px
+  +desktop
+    border-color: $secondary
+    height: 23px
+  +fullhd
+    height: 30px
+
+.bp-icon
+  font-family: "bp-icons"
+  font-style: normal
+  font-weight: normal
+  speak: none
+  display: inline-block
+  text-decoration: inherit
+  width: 1em
+  margin-right: .2em
+  text-align: center
+  font-variant: normal
+  text-transform: none
+  line-height: 1em
+  margin-left: .2em
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+
+.bp-dropdown
+  +desktop
+    border: 1px solid $secondary
+    +box-shadow(none)
+    padding: 13px 0
+    border-radius: 0
+
+    &:before
+      background: $white
+      border-left: 1px solid $secondary
+      border-top: 1px solid $secondary
+      width: 6px
+      height: 6px
+      content: ""
+      position: absolute
+      left: 15px
+      top: -4px
+      +rotate(45deg)
+
+.bp-titleline-main
+  display: inline
+  white-space: nowrap
+  position: relative
+  line-height: 1em
+  color: $primary
+  +flex
+
+  &:after, &:before
+    content: ""
+    height: 1px
+    background: $primary
+
+  &:after
+    display: inline-flex
+    align-self: flex-end
+    width: 100%
+    margin-left: 10px
+
+  &:before
+    display: inline
+    content: ""
+    position: absolute
+    bottom: 0
+    right: 0
+    width: 0%
+
+.bp-titleline-secondary
+  @extend .bp-titleline-main
+  &:after, &:before
+    height: 1px
+    background: $grey-lighty
+
+.bp-titleline-hover
+  &:before
+    width: 100%
+
+.bp-underline
+  display: inline-block
+  border-bottom: 1px solid $grey-light
+  line-height: 1em
+  &:hover, &:focus
+    color: inherit
+    border-color: $primary
+
+.bp-underline-hover
+  line-height: 1em
+  display: inline-block
+  color: inherit
+  border-bottom: 1px solid $primary
+
+.bp-rwd-fontsize
+  font-size: 0.85em
+  +widescreen
+    font-size: 0.9em
+  +fullhd
+    font-size: 0.95em
+  +from(1700px)
+    font-size: 1em
+
+.bp-noimg
+  border: 1px solid $grey-light
+  +flex
+  +flex-direction(column)
+  +flex-justify-content(center)
+
+  i
+    text-align: center
+    font-size: 2em
+    +from(1700px)
+      font-size: 2.8em
+
+.bp-bottom-anchor
+  border-top: 1px solid $grey-light
+  padding: 25px 0
+  text-align: right
+  +mobile
+    padding: 15px 0
+
+.bp-columns-with-line
+  +tablet
+    margin-top: 0 !important
+    margin-bottom: -65px !important
+
+  +desktop
+    margin-bottom: -36px !important
+
+  +widescreen
+    margin-bottom: -38px !important
+
+  +fullhd
+    margin-bottom: -41px !important
+
+.bp-owl-dot
+  display: inline-block
+  width: 7px
+  height: 7px
+  margin: 0 6px
+  border: 1px solid $grey
+
+  +fullhd
+    width: 8px
+    height: 8px
+
+  +from(1700px)
+    width: 9px
+    height: 9px
+
+  &:hover, &:focus
+    border: 1px solid $primary
+    +box-shadow(inset 0px 0px 0px 1px $primary)
+
+  &.active
+    background: $primary
+    border: 1px solid $primary
+    pointer-events: none
+
+.bp-lightbox
+  position: relative
+  &:after
+    @extend .bp-icon
+    @extend .bp-icon-resize:before
+    position: absolute
+    background: rgba(255,255,255,1)
+    width: 29px
+    height: 29px
+    padding: 6px 7px
+    font-size: 15px
+    display: block
+    bottom: 0px
+    right: 0px
+    border: 1px solid $secondary
+    margin: 0
+    line-height: 15px
+    opacity: 0
+
+  &:hover, &:focus
+    &:after
+      opacity: 1
+      border-color: $primary
+
+.bp-lightbox-border
+  &:after
+    bottom: 10px
+    right: 10px
+
+.bp-global-arrow
+  &:after
+    @extend .bp-icon
+    @extend .bp-icon-chevron_long_right:before
+    position: absolute
+
+    font-size: 20px
+    line-height: 20px
+
+    +touch
+      display: none
+
+.bp-global-arrow-hover
+  position: relative
+  &:hover
+    &:after
+      @extend .bp-global-arrow
+
+
+.heading-main
+  font-weight: bold
+  letter-spacing: 0.3px
+  +desktop
+    font-size: 1.08em
+    letter-spacing: -0.3px
+  +widescreen
+    font-size: 1.2em
+    letter-spacing: 0.25px
+  +fullhd
+    font-size: 1.35em
+    letter-spacing: 0.2px
+  +from(1700px)
+    font-size: 1.5em
+
+.heading-sub
+  font-weight: bold
+  font-size: 0.9em
+  +widescreen
+    font-size: 1em
+  +fullhd
+    font-size: 1.15em
+  +from(1700px)
+    font-size: 1.3em

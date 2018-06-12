@@ -1,0 +1,71 @@
+{% extends "bportal_modules/layout/details_pdf.html" %}
+
+{% load staticfiles %}
+{% load static %}
+{% load l10n %}
+{% load i18n %}
+
+{% block title %}
+
+    {{ new.new_date_add|date:"d.m.Y" }}<br/>
+
+    {{ new.new_category.new_category_item_name}}<br/>
+    
+    <b><a href="{{ host }}/news/{{new.new_title_slug}},{{new.new_id}}/details">{{ new.new_title|safe }}</a></b><br/>
+
+{% endblock %}
+            
+
+{% block title-attrs %}            
+
+{% endblock %}
+
+
+{% block content %}
+
+    {{ new.new_lead|safe }}<br/>
+    {{ new.new_description|safe }}<br/>
+        
+{% endblock %}
+
+
+{% block content-attrs %}
+            
+    {% if new.new_files.all %}
+        Do pobrania:
+        <ul>
+            {% for o in new.new_files.all %}
+                <li><a href="{% get_media_prefix %}{{ o.file }}"> {{ o }} </a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if new.new_links.all %}
+        Linki:
+        <ul>
+            {% for o in new.new_links.all %}
+                <li><a href="{{ o }}" target="_blank">{{ o }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if new.new_keywords.all %}
+        Słowa kluczowe:
+        {% for o in new.new_keywords.all %}
+            <a href="{% url 'search_view' %}?q={{ o }}">{{ o }}</a>{% if forloop.last %}{% else %}, {% endif %}
+        {% endfor %}
+        <br/>
+    {% endif %}
+    
+    {% if new.new_content_contributors.all %}
+        <ul>
+        {% for contribution in new.new_content_contributors.all %}
+    	    <li style="list-style-type: none">
+    	        {{ contribution.role }}:
+    	        <a href="{{ host }} {% url 'person_detail' contribution.person.person_slug contribution.person.person_id %}">{{ contribution.person.person_first_name }} {{ contribution.person.person_last_name }}</a>
+            </li>
+        {% endfor %}          
+        <br/>
+    {% endif %}
+        
+{% endblock %}

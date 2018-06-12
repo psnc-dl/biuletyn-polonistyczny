@@ -1,0 +1,4 @@
+{{ object.project_title_text }}
+{{ object.project_lead|striptags }}
+{{ object.project_description|striptags }}
+{% for tag in object.project_keywords.all %} {{ tag.name }} {% endfor %}

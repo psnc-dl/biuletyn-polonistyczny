@@ -1,0 +1,4 @@
+{{ object.joboffer_position_text }}
+{{ object.joboffer_lead|striptags }}
+{{ object.joboffer_description|striptags }}
+{% for tag in object.joboffer_keywords.all %} {{ tag.name }} {% endfor %}

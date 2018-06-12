@@ -1,0 +1,204 @@
+@charset "UTF-8";
+
+@page { 
+
+  @top-center { content: 'Biuletyn Polonistyczny'} 
+  @bottom-center { content: "strona " counter(page) 
+                  " z " counter(pages) }
+}
+
+@page :first {
+  @top-center { content: none } 
+} 
+
+body {
+  font-family: Cambria, serif;
+  font-size: 15px;
+  line-height: 1.4;
+  color: #333333;
+  background-color: #ffffff;
+}
+
+a {
+  background: transparent;
+  color: #000000;
+  text-decoration: none;
+}
+a:active {
+  outline: 0;
+}
+
+a:hover {
+  outline: 0;
+  color: #3e7c94;
+  text-decoration: none;
+}
+
+a:focus {
+  color: #3e7c94;
+  text-decoration: none;
+  outline: thin dotted;
+}
+
+h1 {
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 28px;
+  padding: 1mm;
+}
+
+div#bpheader {
+  width: 100%;
+}
+
+div#bpheader > div#bpheader-logo {
+  display: table-row;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+div#bpheader > div#bpheader-logo > div {
+  display: table-cell;
+  vertical-align: top;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+  
+div#bpheader > div#bpheader-logo > div > a > img {
+  width: 80%;
+}
+
+div#bpheader > div#bpheader-logo > div > p {
+  vertical-align: top;
+  text-align: right;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+div#bpheader > div#bpheader-logo > div > h1 {
+  vertical-align: bottom;
+  text-align: right;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+div#bpheader > div#bpheader-dates > div {
+  text-align: right;
+  vertical-align: middle;
+  margin-bottom: 12mm;
+}
+
+div.bpheader-thumbnail > a > img {
+  display: table-cell;
+  vertical-align: top;
+  text-align: left;
+  width: 55mm;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+div#bpfooter {
+  width: 100%;
+  margin-top: 2cm;
+}
+
+
+div.listing > h2 {
+  color: white;
+  background-color: gray;
+  margin-top: 3mm;
+}
+
+div.listing > h3.event_category {
+  color: white;
+  background-color: gray;
+  margin-top: 3mm;
+}
+
+div.listing > article {
+  margin-bottom: 15mm;
+}
+
+div.listing > article > div.details {
+  display: table-row;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+div.listing > article > div.details > div.foto {
+  display: table-cell;
+  vertical-align: top;
+  text-align: left;
+  width: 55mm;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+
+div.listing > article > div.details > div.foto > img {
+  width: 55mm;
+}
+
+div.listing > article > div.details > div.foto > a > img {
+  width: 55mm;
+}
+
+div.listing > article > div.details > div.descr {
+  display: table-cell;
+  vertical-align: top;
+  text-align: justify;
+  border: 0;
+  padding-right: 0;
+  padding-left: 2mm;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin: 0;
+}
+
+div.listing > article > div.details > div.descr > p {
+  text-align: justify;
+  width: 100%;  
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+div.listing > article > div.read {
+  text-align: right;
+}
+
+a.more {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 1px 8px;
+  font-size: 17px;
+  line-height: 1.42857143;
+  border-radius: 0px;
+  border: 1px solid #272727;
+  background: #272727;
+  color: #fff;
+  padding: 0px 45px;
+  font-size: 16px;
+  margin: 15px 0;
+  letter-spacing: 1px;
+  background-image: url('../images/icons/arrow-to-more-white.svg');
+  background-repeat: no-repeat;
+  background-position: 100% 80%;
+  margin: 0;
+}
+

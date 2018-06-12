@@ -1,0 +1,21 @@
+
+{% load static %}
+
+{% if messages %}
+	<div class="container is-first">
+	{% for message in messages %}
+    	{% if message.tags == 'error' %}
+			<div class="alert alert__error" role="alert">
+				<h5 class="alert__text--title">Wystąpiły błędy!</h5>
+				<p class="alert__text--info">{{ message }}</p>
+			</div>
+		{% endif %}
+    	{% if message.tags == 'success' %}
+			<div class="alert alert__success" role="alert">
+				<h5 class="alert__text--title">Uwaga!</h5>
+				<p class="alert__text--info">{{ message }}</p>
+			</div>
+		{% endif %}
+    {% endfor %}
+	</div>
+{% endif %}

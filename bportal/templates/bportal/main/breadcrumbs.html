@@ -1,0 +1,15 @@
+{% load django_bootstrap_breadcrumbs %}
+{% for url, label in breadcrumbs %}
+    {% ifnotequal forloop.counter breadcrumbs_total %}
+        <li class="breadcrumbs__item breadcrumbs__item--nolast">
+            <a href="{{ url }}">{{ label|safe }}</a>
+        </li>
+    {% else %}
+        <li class="breadcrumbs__item breadcrumbs__item--last">
+
+                <span class="js-truncate-one">{{ label|safe }}</span>
+
+
+        </li>
+    {% endifnotequal %}
+{% endfor %}

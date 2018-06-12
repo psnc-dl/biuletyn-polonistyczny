@@ -1,0 +1,221 @@
+{% extends "bportal_modules/layout/beforelist.html" %}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+{% breadcrumb "Publikacje" "publications_list" %}
+{% endblock %}
+
+{% block list-header %}
+<div class="list__title">
+    <h3 class="list__title--head">Publikacje</h3>
+</div>
+{% endblock %}
+
+{% block list-column-one %}
+<div class="list__content--column list__content--column-3box column">
+    <div class="list__viewall list__viewall--grouped">
+        <div class="list__viewall--row">
+            <a href="{% url 'journalissue_list' %}" class="list__viewall--anchor">Przeglądaj czasopisma</a>
+        </div>
+        <div class="list__viewall--row">
+            <a href="{% url 'book_list' %}" class="list__viewall--anchor">Przeglądaj nowości wydawnicze</a>
+        </div>
+    </div>
+
+    <div class="list__title">
+        <h3 class="list__title--subhead">Czasopisma</h3>
+    </div>
+
+    <div class="list__viewall list__viewall--3box list__viewall--hide">
+        <a href="{% url 'journalissue_list' %}" class="list__viewall--anchor">Przeglądaj czasopisma</a>
+    </div>
+
+    <div class="list__articles">
+        <div class="list__articles--column">
+
+            <div class="list__upperitem">
+                <h3 class="list__text--upperitem">Promowane</h3>
+            </div>
+
+            {% for o in promoted_journals|slice:"3" %}
+            <a href="{% url 'journalissue_detail' o.journalissue_title_slug o.journalissue_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item list__item--cols list__cols{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+                {% if request.user.userprofile.user_is_editor or user.is_superuser %}
+                <button class="list__item--edit" data-link="{% url 'journalissue_edit' o.journalissue_id %}"><i class="bp-icon-file_edit"></i></button>
+                {% endif %}
+                <div class="list__cols--photo">
+                    {% if o.journalissue_image %}
+                    <div class="list__cols--image list__cols--image-publications" style="background-image: url('{{ MEDIA_URL }}{{ o.journalissue_image }}')"></div>
+                    {% else %}
+                    <div class="list__cols--noimage list__cols--noimage-publications"><i class="bp-icon-logo_icon"></i></div>
+                    {% endif %}
+                </div>
+                <div class="list__cols--content">
+                    <div class="list__publication">
+                        <div class="list__publication--dates">
+                            <span class="list__publication--date list__text--date">{{ o.journalissue_date_add | date:"d.m.Y" }}</span>
+                            <span class="list__publication--date list__text--date">{{ o.journalissue_category }}</span>
+                        </div>
+                    </div>
+                    {% if not o.journalissue_is_accepted %}
+                    <span class="list__text--notpub list__text--notpub-box">NIE OPUBLIKOWANY!</span>
+                    {% endif %}
+                    <h4 class="list__item--title list__text--title js-truncate-two">{% if o.journalissue_journal %}{{o.journalissue_journal }}{% endif %} | {% if o.journalissue_volume %}{{ o.journalissue_volume }}{% endif %}{% if o.journalissue_number %}({{ o.journalissue_number }}){% endif %} | {% if o.journalissue_year %} {{ o.journalissue_year }} {% endif %}</h4>
+                    {% if o.journalissue_title %}
+                    <p class="list__item--details list__text--details js-truncate">
+                        <h5>Tytuł numeru: <strong>{{ o.journalissue_title|safe }}</strong></h5>
+                    </p>
+                    {% endif %}
+                    <p class="list__item--excerpt list__text--paragraph js-truncate-two">{% if o.journalissue_lead %}{{ o.journalissue_lead|safe|striptags }}{% endif %}</p>
+                </div>
+            </a>
+            {% endfor %}
+
+        </div>
+        <div class="list__articles--column">
+
+            <div class="list__upperitem">
+                <h3 class="list__text--upperitem">Ostatnio dodane</h3>
+            </div>
+
+            {% for o in newestjournals|slice:"5" %}
+            <a href="{% url 'journalissue_detail' o.journalissue_title_slug o.journalissue_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item list__item--cols list__cols{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+                {% if request.user.userprofile.user_is_editor or user.is_superuser %}
+                <button class="list__item--edit" data-link="{% url 'journalissue_edit' o.journalissue_id %}"><i class="bp-icon-file_edit"></i></button>
+                {% endif %}
+                <div class="list__cols--photo">
+                    {% if o.journalissue_image %}
+                    <div class="list__cols--image list__cols--image-publications" style="background-image: url('{{ MEDIA_URL }}{{ o.journalissue_image }}')"></div>
+                    {% else %}
+                    <div class="list__cols--noimage list__cols--noimage-publications"><i class="bp-icon-logo_icon"></i></div>
+                    {% endif %}
+                </div>
+                <div class="list__cols--content">
+                    <div class="list__publication">
+                        <div class="list__publication--dates">
+                            <span class="list__publication--date list__text--date">{{ o.journalissue_date_add | date:"d.m.Y" }}</span>
+                            <span class="list__publication--date list__text--date">{{ o.journalissue_category }}</span>
+                        </div>
+                    </div>
+                    {% if not o.journalissue_is_accepted %}
+                    <span class="list__text--notpub list__text--notpub-box">NIE OPUBLIKOWANY!</span>
+                    {% endif %}
+                    <h4 class="list__item--title list__text--title js-truncate-two">{% if o.journalissue_journal %}{{o.journalissue_journal }}{% endif %} | {% if o.journalissue_volume %}{{ o.journalissue_volume }}{% endif %}{% if o.journalissue_number %}({{ o.journalissue_number }}){% endif %} | {% if o.journalissue_year %} {{ o.journalissue_year }} {% endif %}</h4>
+                    {% if o.journalissue_title %}
+                    <p class="list__item--details list__text--details js-truncate">
+                        <h5>Tytuł numeru: <strong>{{ o.journalissue_title|safe }}</strong></h5>
+                    </p>
+                    {% endif %}
+                    <p class="list__item--excerpt list__text--paragraph js-truncate-two">{% if o.journalissue_lead %}{{ o.journalissue_lead|safe|striptags }}{% endif %}</p>
+                </div>
+            </a>
+            {% endfor %}
+
+        </div>
+    </div>
+    <div class="list__viewall">
+        <a href="{% url 'journalissue_list' %}" class="list__viewall--anchor">Przeglądaj czasopisma</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block list-column-two %}
+<div class="list__content--column list__content--column-3box column">
+    <div class="list__title">
+        <h3 class="list__title--subhead">Nowości wydawnicze</h3>
+    </div>
+
+    <div class="list__viewall list__viewall--3box list__viewall--hide">
+        <a href="{% url 'book_list' %}" class="list__viewall--anchor">Przeglądaj nowości wydawnicze</a>
+    </div>
+
+    <div class="list__articles">
+        <div class="list__articles--column">
+
+            <div class="list__upperitem">
+                <h3 class="list__text--upperitem">Promowane</h3>
+            </div>
+
+            {% for o in promoted_books|slice:"3" %}
+            <a href="{% url 'book_detail' o.book_title_slug o.book_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item list__item--cols list__cols{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+                {% if request.user.userprofile.user_is_editor or user.is_superuser %}
+                <button class="list__item--edit" data-link="{% url 'book_edit' o.book_id %}"><i class="bp-icon-file_edit"></i></button>
+                {% endif %}
+                <div class="list__cols--photo">
+                    {% if o.book_image %}
+                    <div class="list__cols--image list__cols--image-publications" style="background-image: url('{{ MEDIA_URL }}{{ o.book_image }}')"></div>
+                    {% else %}
+                    <div class="list__cols--noimage list__cols--noimage-publications"><i class="bp-icon-logo_icon"></i></div>
+                    {% endif %}
+                </div>
+                <div class="list__cols--content">
+                    <div class="list__publication">
+                        <div class="list__publication--dates">
+                            <span class="list__publication--date list__text--date">{{ o.book_date_add | date:"d.m.Y" }}</span>
+                            <span class="list__publication--date list__text--date">{{ o.book_category }}</span>
+                        </div>
+                    </div>
+                    {% if not o.book_is_accepted %}
+                    <span class="list__text--notpub list__text--notpub-box">NIE OPUBLIKOWANY!</span>
+                    {% endif %}
+                    <h4 class="list__item--title list__text--title js-truncate-two">{{ o.book_title|safe }}</h4>
+                    {% if o.book_authors.all %}
+                    <p class="list__item--details list__text--details js-truncate">
+                        Autor/Redaktor: {% for p in o.book_authors.all %} <strong>{{ p.person_first_name }} {{ p.person_last_name }}</strong>{% if not forloop.last %}, {%endif%}{% endfor %}
+                    </p>
+                    {% endif %}
+                    <p class="list__item--excerpt list__text--paragraph js-truncate-two">{% if o.book_lead %}{{ o.book_lead|safe|striptags }}{% endif %}</p>
+                </div>
+            </a>
+            {% endfor %}            
+            
+        </div>
+        <div class="list__articles--column">
+
+            <div class="list__upperitem">
+                <h3 class="list__text--upperitem">Ostatnio dodane</h3>
+            </div>
+
+            {% for o in newest_books|slice:"5" %}
+            <a href="{% url 'book_detail' o.book_title_slug o.book_id %}?page={% if page %}{{ page }}{% else %}1{% endif %}&per_page={{ per_page }}{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__item list__item--cols list__cols{% if request.user.userprofile.user_is_editor or user.is_superuser %} list__item--editor{% endif %}">
+                {% if request.user.userprofile.user_is_editor or user.is_superuser %}
+                <button class="list__item--edit" data-link="{% url 'book_edit' o.book_id %}"><i class="bp-icon-file_edit"></i></button>
+                {% endif %}
+                <div class="list__cols--photo">
+                    {% if o.book_image %}
+                    <div class="list__cols--image list__cols--image-publications" style="background-image: url('{{ MEDIA_URL }}{{ o.book_image }}')"></div>
+                    {% else %}
+                    <div class="list__cols--noimage list__cols--noimage-publications"><i class="bp-icon-logo_icon"></i></div>
+                    {% endif %}
+                </div>
+                <div class="list__cols--content">
+                    <div class="list__publication">
+                        <div class="list__publication--dates">
+                            <span class="list__publication--date list__text--date">{{ o.book_date_add | date:"d.m.Y" }}</span>
+                            <span class="list__publication--date list__text--date">{{ o.book_category }}</span>
+                        </div>
+                    </div>
+                    {% if not o.book_is_accepted %}
+                    <span class="list__text--notpub list__text--notpub-box">NIE OPUBLIKOWANY!</span>
+                    {% endif %}
+                    <h4 class="list__item--title list__text--title js-truncate-two">{{ o.book_title|safe }}</h4>
+                    {% if o.book_authors.all %}
+                    <p class="list__item--details list__text--details js-truncate">
+                        Autor/Redaktor: {% for p in o.book_authors.all %} <strong>{{ p.person_first_name }} {{ p.person_last_name }}</strong>{% if not forloop.last %}, {%endif%}{% endfor %}
+                    </p>
+                    {% endif %}
+                    <p class="list__item--excerpt list__text--paragraph js-truncate-two">{% if o.book_lead %}{{ o.book_lead|safe|striptags }}{% endif %}</p>
+                </div>
+            </a>
+            {% endfor %}
+            
+        </div>
+    </div>
+    <div class="list__viewall">
+        <a href="{% url 'book_list' %}" class="list__viewall--anchor">Przeglądaj nowości wydawnicze</a>
+    </div>
+</div>
+{% endblock %}
+
+

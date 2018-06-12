@@ -1,0 +1,121 @@
+{% extends "bportal_modules/layout/list.html" %}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Publikacje" "publications_list" %}
+    {% breadcrumb "Nowości wydawnicze" "book_list" %}
+{% endblock %}
+
+
+{% block list-header %}
+<div class="list__tabs">
+    <ul class="list__tabs--list">
+        <li class="list__tabs--item"><a href="{% url 'journalissue_list' %}" class="list__tabs--anchor">Czasopisma</a></li>
+        <li class="list__tabs--item active"><a href="{% url 'book_list' %}" class="list__tabs--anchor">Nowości wydawnicze</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block list-filtering %}
+<div class="list__box--view-items">
+    <span>Nowości wydawniczych na stronie:</span>
+    <div class="list__box--select2-view-items">
+        <select class="select2 js-perpage">
+            {% for ch in per_page_choices %}
+            <option value="{{ ch }}"{% if per_page == ch %} selected{% endif %}>{{ ch }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+<div class="list__box--sorting">
+    <span>Sortuj według:</span>
+    <div class="list__box--select2-sorting">
+        <select class="select2 js-sorting">
+        	<option value="-book_is_promoted,-book_date_add"{% if o == "-book_is_promoted,-book_date_add" %} selected{% endif %}>Promowane i ostatnio dodane</option>       
+            <option value="-book_date_add"{% if o == "-book_date_add" %} selected{% endif %}>Ostatnio dodane</option>
+            <option value="book_title_text"{% if o == "book_title_text" %} selected{% endif %}>Tytuł nowości wydawniczej</option>
+        </select>
+    </div>
+</div>
+{% endblock %}
+
+{% block list-icons %}
+<div class="list__box--icons">
+    <ul class="list__icons">
+        <li class="list__icons--item">
+            <a href="{% url 'book_list_pdf' %}?{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__icons--anchor" title="Pobierz w formie .pdf"><i class="bp-icon-pdf list__icons--icon"></i></a>
+        </li>
+        <li class="list__icons--item">
+            <a href="{% url 'book_csv' %}?{% for fk, fv in filter.data.lists %}{% for v in fv %}&{{fk}}={{v}}{% endfor %}{% endfor %}" class="list__icons--anchor" title="Pobierz w formie .csv"><i class="bp-icon-csv list__icons--icon"></i></a>
+        </li>
+        {% if request.user.userprofile.user_is_editor or user.is_superuser %}
+        <li class="list__icons--item">
+            <a href="{% url 'book_create' %}" class="list__icons--anchor" title="Utwórz nową pozycję"><i class="bp-icon-file_plus list__icons--icon"></i></a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+    {% if o == "-book_is_promoted,-book_date_add" and curr_page.number == 1 %}
+	    <div class="list__upperitem list__upperitem--promoted">
+	        <h3 class="list__text--upperitem">Promowane</h3>
+	    </div>
+	    {% for b in curr_page %}
+	    	{% if b.book_is_promoted %}
+		    	{% include "bportal_modules/details/books/list_item.html" with b=b %} 	    
+		    {% endif %}
+	    {% endfor %}
+	    <div class="list__upperitem">
+	        <h3 class="list__text--upperitem">Ostatnio dodane</h3>
+    	</div>
+	    {% for b in curr_page %}
+		    {% if not b.book_is_promoted %}
+		    	{% include "bportal_modules/details/books/list_item.html" with b=b %}
+		    {% endif %}
+	    {% endfor %}
+	{% else %}
+        <div class="list__upperitem"></div>
+	    {% for b in curr_page %}
+		    {% include "bportal_modules/details/books/list_item.html" with b=b %}	    
+	    {% endfor %}
+    {% endif %}
+{% endblock %}
+
+
+{% block list-rightcol %}
+        <div class="list__form--row">
+            <label class="list__form--label">Tytuł</label> {{ f.book_title_text }}
+        </div>        
+        <div class="list__form--row">
+            <label class="list__form--label">Autor/Redaktor</label> {{ f.book_authors }}
+        </div>
+        <div class="list__form--row">
+            <label class="list__form--label">Wydawca</label> {{ f.book_publisher }}
+        </div>
+        <div class="list__form--row">
+            <label class="list__form--label">Kategorie</label> {{ f.book_category }}
+        </div>        
+        <div class="list__form--row list__form--size-medium">
+            <label class="list__form--label">Data publikacji</label> {{ f.book_publication_date }}
+        </div>
+        <div class="list__form--row">
+            <label class="list__form--label">Słowa kluczowe</label> {{ f.book_keywords }}
+        </div>
+        {% if request.user.userprofile.user_is_editor or user.is_superuser %}
+        <div class="list__form--row">
+            <label class="list__form--label">Opublikowane</label> {{ f.book_is_accepted }}
+        </div>
+        <div class="list__form--row list__form--flex">
+            <div class="list__form--flex-compact">
+                {{ f.book_only_my }}
+            </div>
+            <div class="list__form--flex-full">
+                <label class="list__form--label">Tylko moje nowości wydawnicze</label>
+            </div>
+        </div>
+        {% endif %}
+{% endblock %}

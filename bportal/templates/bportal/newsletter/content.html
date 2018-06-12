@@ -1,0 +1,429 @@
+{% load staticfiles %}
+{% load static %}
+{% load l10n %}
+{% load i18n %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" href="{{ host }}{% static "bportal/css/newsletter.css" %}">
+    </head>
+    <body>
+
+      <div id="listPage">
+        <div class="listing">
+        
+          <div id="bpheader">
+            <div id="bpheader-logo">
+              <div><a href="{{ host }}{% url "home" %}"><img src="{{ host }}{% static "bportal/images/logo.svg" %}"></a></div>
+              <div><p> {{ today | date:"j E Y"}}<p><h1>Newsletter</h1></div>
+            </div>
+            <div id="bpheader-dates">
+              <div>{{ datefrom | date:"j E Y"}} - {{ dateto | date:"j E Y" | localize}}</div>
+            </div>
+          </div>
+          
+          {% if custom_contents %}
+            {% for c in custom_contents %}
+              <article>
+                {% if c.title %}
+                <h3>
+                  {{ c.title|safe }}
+                </h3>
+                {% endif %}
+                {% if c.title %}
+                <div class="details">
+                  <div class="descr">
+                    <p>{{ c.message|safe }}</p>
+                  </div>
+                </div>
+                {% endif %}
+              </article>
+            {% endfor %}
+          {% endif %}
+          <hr>
+          
+          {% if news %}
+            <h2>Aktualności</h2>
+            {% for ncat_id, nlist in news.items %}
+        	  {% for nc_id, nc_name in news_cats.items %}
+        		{% if nc_id == ncat_id%}
+				  <h3 class="new_category">{{nc_name}}</h3>
+        		{% endif %}
+        	  {% endfor %}
+        	  {% for el in nlist %}
+        	    {% for n in el %}
+                  <article>
+                    <h3>
+        	          <a href="{{ host }}{{ n.get_absolute_url }}">{{ n.new_title|safe }}</a>
+        	        </h3>
+                    <div class="details">
+                      <div class="foto">
+                        {% if n.new_image_thumbnail %}
+                          <img src="{{ host }}{{ MEDIA_URL }}{{n.new_image_thumbnail }}">
+                        {% else %}
+                          <img src="{{ host }}{% static "bportal/images/noimg.jpg" %}">
+                        {% endif %}
+                      </div>
+                      <div class="descr">
+                        <p>{{ n.new_lead | safe }}</p>
+                      </div>
+                    </div>
+                    <div class="read">
+                      <a href="{{ host }}{{ n.get_absolute_url }}" class="more">czytaj</a>
+                    </div>
+                  </article>
+        	      <hr>          
+        	    {% endfor %}
+              {% endfor %}
+            {% endfor %}	
+          {% endif %}        
+ 
+          {% if projects %}
+            <h2>Projekty</h2>
+            {% for p in projects %}
+              <article>
+                <h3>
+                  <a href="{{ host }}{{ p.get_absolute_url }}">{{ p.project_title|safe }}</a>
+                </h3>
+                {% if p.project_institutions %}
+                  {% for i in p.project_institutions.all %}
+                    {{ i }}<br><br>
+                  {% endfor %}
+                {% endif %}
+                <div class="details">
+                  <div class="foto">
+                    {% if p.project_image_thumbnail %}
+                      <img src="{{ host }}{{ MEDIA_URL }}{{p.project_image_thumbnail}}">
+                    {% else %}
+                      <img src="{{ host }}{% static "bportal/images/noimg.jpg" %}">
+                    {% endif %}
+                  </div>
+                  <div class="descr">
+                    <p>{{ p.project_lead|safe}}</p>
+                  </div>
+                </div>
+                <div class="read">
+                  <a href="{{ host }}{{ p.get_absolute_url }}" class="more">czytaj</a>
+                </div>
+              </article>
+              <hr>
+            {% endfor %}
+          {% endif %}
+    
+          {% if dissertations %}
+            <h2>Prace doktorskie i habilitacyjne</h2>
+            {% for d in dissertations %}
+              <article>
+                <h3>
+                  <a href="{{ host }}{{ d.get_absolute_url }}">{{ d.dissertation_title|safe }}</a>
+                </h3>
+                {% if d.dissertation_institution %}
+                  {{ d.dissertation_institution }}<br><br>
+                {% endif %}
+                <div class="details">
+                  <div class="foto">
+                    {% if d.dissertation_image_thumbnail %}
+                      <img src="{{ host }}{{ MEDIA_URL }}{{d.dissertation_image_thumbnail }}">
+                    {% else %}
+                      <img src="{{ host }}{% static "bportal/images/noimg.jpg" %}">
+                    {% endif %}
+                  </div>
+                  <div class="descr">
+                    <p>{{ d.dissertation_lead|safe }}</p>
+                  </div>
+                </div>
+                <div class="read">
+                  <a href="{{ host }}{{ d.get_absolute_url }}" class="more">czytaj</a>
+                </div>
+              </article>
+              <hr>
+            {% endfor %}
+          {% endif %}
+     
+          {% if competitions %}
+            <h2>Konkursy</h2>
+            {% for c in competitions %}
+              <article>
+                <h3>
+                  <a href="{{ host }}{{ c.get_absolute_url }}">{{ c.competition_title|safe }}</a>
+                </h3>
+                {% if c.competition_institutions %}
+                  {% for i in c.competition_institutions.all %}
+                    {{ i }}<br><br>
+                  {% endfor %}
+                {% endif %}                
+                <div class="details">
+                  <div class="foto">
+                    {% if c.competition_image_thumbnail %}
+                      <img src="{{ host }}{{ MEDIA_URL }}{{c.competition_image_thumbnail }}">
+                    {% else %}
+                      <img src="{{ host }}{% static "bportal/images/noimg.jpg" %}">
+                    {% endif %}
+                  </div>
+                  <div class="descr">
+                    <p>{{ c.competition_lead|safe }}</p>
+                  </div>
+                </div>
+                <div class="read">
+                  <a href="{{ host }}{{ c.get_absolute_url }}" class="more">czytaj</a>
+                </div>
+              </article>
+              <hr>
+            {% endfor %}
+          {% endif %}
+     
+          {% if joboffers %}
+            <h2>Oferty pracy</h2>
+            {% for o in joboffers %}
+              <article>
+                <h3>
+                  <a href="{{ host }}{{ o.get_absolute_url }}">{{ o.joboffer_position|safe }}</a>
+                </h3>
+                {% if o.joboffer_institution %}
+                  {{ o.joboffer_institution }}<br><br>
+                {% endif %}
+                <div class="details">
+                  <div class="foto">
+                    {% if o.joboffer_image_thumbnail %}
+                      <img src="{{ host }}{{ MEDIA_URL }}{{o.joboffer_image_thumbnail }}">
+                    {% else %}
+                      <img src="{{ host }}{% static "bportal/images/noimg.jpg" %}">
+                    {% endif %}
+                  </div>
+                  <div class="descr">
+                    <p>{{ o.joboffer_lead|safe|striptags }}</p>
+                  </div>
+                </div>
+                <div class="read">
+                  <a href="{{ host }}{{ o.get_absolute_url }}" class="more">czytaj</a>
+                </div>
+              </article>
+        	  <hr>            
+            {% endfor %}
+          {% endif %}
+
+          {% if eduoffers %}
+            <h2>Oferty eduakcyjne</h2>
+            {% for e in eduoffers %}
+              <article>
+                <h3>
+                  <a href="{{ host }}{{ e.get_absolute_url }}">{{ e.eduoffer_position|safe }}</a>
+                </h3>
+                {% if e.eduoffer_institution %}
+                  {{ e.eduoffer_institution }}<br><br>
+                {% endif %}
+                <div class="details">
+                  <div class="foto">
+                    {% if e.eduoffer_image_thumbnail %}
+                      <img src="{{ host }}{{ MEDIA_URL }}{{e.eduoffer_image_thumbnail }}">
+                    {% else %}
+                      <img src="{{ host }}{% static "bportal/images/noimg.jpg" %}">
+                    {% endif %}
+                  </div>
+                  <div class="descr">
+                    <p>{{ e.eduoffer_lead|safe }}</p>
+                  </div>
+                </div>
+                <div class="read">
+                  <a href="{{ host }}{{ e.get_absolute_url }}" class="more">czytaj</a>
+                </div>
+              </article>
+        	  <hr>            
+            {% endfor %}
+          {% endif %}     
+     
+          {% if scholarships %}
+            <h2>Stypendia</h2>
+            {% for s in scholarships %}
+              <article>
+                <h3>
+                  <a href="{{ host }}{{ s.get_absolute_url }}">{{ s.scholarship_name|safe }}</a>
+                </h3>
+                {% if s.scholarship_founder %}
+                  {{ s.scholarship_founder }}<br><br>
+                {% endif %}
+                <div class="details">
+                  <div class="foto">
+                    {% if s.scholarship_image_thumbnail %}
+                      <img src="{{ host }}{{ MEDIA_URL }}{{s.scholarship_image_thumbnail }}">
+                    {% else %}
+                      <img src="{{ host }}{% static "bportal/images/noimg.jpg" %}">
+                    {% endif %}
+                  </div>
+                  <div class="descr">
+                    <p>{{ s.scholarship_lead|safe }}</p>
+                  </div>
+                </div>
+                <div class="read">
+                  <a href="{{ host }}{{ s.get_absolute_url }}" class="more">czytaj</a>
+                </div>
+              </article>
+        	  <hr>            
+            {% endfor %}
+          {% endif %}
+         	 
+          {% if events %}
+            <h2>Wydarzenia</h2>
+            {% for ecat_id, elist in events.items %}
+        	  {% for ec_id, ec_name in events_cats.items %}
+        		{% if ec_id == ecat_id%}
+				  <h3 class="event_category">{{ec_name}}</h3>
+        		{% endif %}
+        	  {% endfor %}
+        	  {% for el in elist %}
+        	    {% for e in el %}
+                  <article>
+                    <h3>
+        	          <a href="{{ host }}{{ e.get_absolute_url }}">{{ e.event_name|safe }}</a>
+        	        </h3>
+                    {% if e.event_institutions %}
+                      {% for i in e.event_institutions.all %}
+                        {{ i }}<br><br>
+				      {% endfor %}
+                    {% endif %}
+                    {% if e.event_other_institutions %}
+                      {% for i in e.event_other_institutions.all %}
+                        {{ i }}<br><br>
+				      {% endfor %}
+                    {% endif %}
+                    <div class="details">
+                      <div class="foto">
+                        {% if e.event_poster_thumbnail %}
+                          <img src="{{ host }}{{ MEDIA_URL }}{{e.event_poster_thumbnail }}">
+                        {% else %}
+                          <img src="{{ host }}{% static "bportal/images/noimg.jpg" %}">
+                        {% endif %}
+                      </div>
+                      <div class="descr">
+                        <p>{{ e.event_lead | safe }}</p>
+                      </div>
+                    </div>
+                    <div class="read">
+                      <a href="{{ host }}{{ e.get_absolute_url }}" class="more">czytaj</a>
+                    </div>
+                  </article>
+        	      <hr>          
+        	    {% endfor %}
+              {% endfor %}
+            {% endfor %}	
+          {% endif %}
+          
+          
+          {% if articles %}
+            <h2>Artykuły i wywiady</h2>
+            {% for a in articles %}
+              <article>
+                <h3>
+                  <a href="{{ host }}{{ a.get_absolute_url }}">{{ a.article_title|safe }}</a>
+                </h3>
+                {% if a.article_contributors %}
+                  {% for p in a.article_contributors.all %}
+                    {{ p.person_first_name }} {{ p.person_last_name }}<br><br>
+                  {% endfor %}
+                {% endif %}
+                <div class="details">
+                  <div class="foto">
+                    {% if a.article_image_thumbnail %}
+                      <img src="{{ host }}{{ MEDIA_URL }}{{a.article_image_thumbnail}}">
+                    {% else %}
+                      <img src="{{ host }}{% static "bportal/images/noimg.jpg" %}">
+                    {% endif %}
+                  </div>
+                  <div class="descr">
+                    <p>{{ a.article_lead|safe}}</p>
+                  </div>
+                </div>
+                <div class="read">
+                  <a href="{{ host }}{{ a.get_absolute_url }}" class="more">czytaj</a>
+                </div>
+              </article>
+              <hr>
+            {% endfor %}
+          {% endif %}
+          
+          {% if books %}
+            <h2>Książki</h2>
+            {% for b in books %}
+              <article>
+                <h3>
+                  <a href="{{ host }}{{ b.get_absolute_url }}">{{ b.book_title|safe }}</a>
+                </h3>
+                {% if b.book_authors %}
+                  {% for p in b.book_authors.all %}
+                    {{ p.person_first_name }} {{ p.person_last_name }}<br><br>
+                  {% endfor %}
+                {% endif %}
+                 {% if b.book_publisher %}
+                    {{ b.book_publisher.institution_name }}<br><br>
+                {% endif %}
+                <div class="details">
+                  <div class="foto">
+                    {% if b.book_image_thumbnail %}
+                      <img src="{{ host }}{{ MEDIA_URL }}{{b.book_image_thumbnail}}">
+                    {% else %}
+                      <img src="{{ host }}{% static "bportal/images/noimg.jpg" %}">
+                    {% endif %}
+                  </div>
+                  <div class="descr">
+                    <p>{{ b.book_lead|safe|striptags}}</p>
+                  </div>
+                </div>
+                <div class="read">
+                  <a href="{{ host }}{{ b.get_absolute_url }}" class="more">czytaj</a>
+                </div>
+              </article>
+              <hr>
+            {% endfor %}
+          {% endif %}
+          
+          {% if journals_issues %}
+            <h2>Numery czasopism</h2>
+            {% for ji in journals_issues %}
+              <article>
+                <h3>
+                  <a href="{{ host }}{{ ji.get_absolute_url }}">{{ji.journalissue_journal }} | {% if ji.journalissue_volume %}{{ ji.journalissue_volume }}{% endif %}{% if ji.journalissue_number %}({{ ji.journalissue_number }}){% endif %} | {{ ji.journalissue_year }}</a>
+                </h3>
+                {% if ji.journalissue_title %}
+                    {{ ji.journalissue_title | safe }}<br><br>
+                {% endif %}
+                 {% if ji.journalissue_category %}
+                    {{ ji.journalissue_category.publication_category_name }}<br><br>
+                {% endif %}
+                {% if ji.journalissue_publisher %}
+                    {{ ji.journalissue_publisher.institution_name }}<br><br>
+                {% endif %}
+                <div class="details">
+                  <div class="foto">
+                    {% if ji.journalissue_image_thumbnail %}
+                      <img src="{{ host }}{{ MEDIA_URL }}{{ji.journalissue_image_thumbnail}}">
+                    {% else %}
+                      <img src="{{ host }}{% static "bportal/images/noimg.jpg" %}">
+                    {% endif %}
+                  </div>
+                  <div class="descr">
+                    <p>{{ ji.journalissue_lead|safe}}</p>
+                  </div>
+                </div>
+                <div class="read">
+                  <a href="{{ host }}{{ ji.get_absolute_url }}" class="more">czytaj</a>
+                </div>
+              </article>
+              <hr>
+            {% endfor %}
+          {% endif %}
+         
+          <div id="bpfooter">
+            <div id="bpfooter-info">
+              <p>Instytut Badań Literackich PAN</p>
+              <p>ul. Nowy Świat 72</p>
+              <p>00-330 Warszawa</p>
+              <p><img src="{{ host }}{% static "bportal/images/icons/contact_mail.svg" %}"> <a href="mailto:redakcja@biuletynpolonistyczny.pl">redakcja@biuletynpolonistyczny.pl</a></p>
+              <p>Jeżeli nie chcesz otrzymywać newslettera <a href="{{ host }}{% url 'cancel_newsletter' %}?uuid={{ user_UUID }}">kliknij tutaj</a>.</p>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </body>
+</html>

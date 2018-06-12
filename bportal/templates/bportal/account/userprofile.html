@@ -1,0 +1,149 @@
+{% extends "bportal/account/account.html" %}
+
+{% block account-tabs %}
+					<div class="account__tabs">
+                        <ul class="account__tabs--list">
+                            <li class="account__tabs--item active"><a href="{% url 'userprofile' %}" class="account__tabs--anchor"> Mój profil </a></li>
+                            <li class="account__tabs--item"><a href="{% url 'newsletter' %}" class="account__tabs--anchor">Newsletter</a></li>
+                        </ul>
+					</div>
+{% endblock%}
+{% block account-profile %}
+
+					<div class="account__profile columns">
+						<div class="account__profile--left column">
+							<div class="account__title">
+								<h3 class="account__title--subhead">Dane osobowe</h3>
+							</div>
+							<div class="account__form">
+
+								{% with profile_form as f %}
+								<div class="account__form--row">
+									<label for="{{ f.first_name.id_for_label }}" class="account__form--label">
+										{{ f.first_name.label }}: {% if f.first_name.field.required %}<span>*</span>{%endif %}
+									</label>
+									{{ f.first_name }}
+
+									<div class="account__form--errors">
+										{{ f.first_name.errors }}
+									</div>
+								</div>
+
+								<div class="account__form--row">
+									<label for="{{ f.last_name.id_for_label }}" class="account__form--label">
+										{{ f.last_name.label }}: {% if f.last_name.field.required %}<span>*</span>{%endif %}</label>
+									</label>
+									{{ f.last_name }}
+
+									<div class="account__form--errors">
+										{{ f.last_name.errors }}
+									</div>
+								</div>
+
+								<div class="account__form--row">
+									<label for="{{ f.email.id_for_label }}" class="account__form--label">
+										{{ f.email.label }}: {% if f.email.field.required %}<span>*</span>{%endif %}</label>
+									</label>
+									{{ f.email }}
+
+									<div class="account__form--errors">
+										{{ f.email.errors }}
+									</div>
+								</div>
+
+								<div class="account__form--row">
+									<label for="{{ f.phone.id_for_label }}" class="account__form--label">
+										{{ f.phone.label }}: {% if f.phone.field.required %}<span>*</span>{%endif %}</label>
+									</label>
+									{{ f.phone }}
+
+									<div class="account__form--errors">
+										{{ f.phone.errors }}
+									</div>
+								</div>
+
+								<div class="account__form--row">
+									<label for="{{ f.born_date.id_for_label }}" class="account__form--label">
+										{{ f.born_date.label }}: {% if f.born_date.field.required %}<span>*</span>{%endif %}</label>
+									</label>
+									{{ f.born_date }}
+
+									<div class="account__form--errors">
+										{{ f.born_date.errors }}
+									</div>
+								</div>
+
+								<div class="account__form--row">
+									<label for="{{ f.nick.id_for_label }}" class="account__form--label">
+										{{ f.nick.label }}: {% if f.nick.field.required %}<span>*</span>{%endif %}</label>
+									</label>
+									{{ f.nick }}
+
+									<div class="account__form--errors">
+										{{ f.nick.errors }}
+									</div>
+								</div>
+
+								<div class="account__form--row account__form--buttons">
+									<a href="#" class="account__button--cancel">Anuluj</a>
+									<button class="account__button--submit" type="submit" name="edit_profile">Aktualizuj</button>
+								</div>
+
+								{% endwith %}
+							</div>
+						</div>
+						<div class="account__profile--right column">
+							<div class="account__title">
+								<h3 class="account__title--subhead">Użytkownik</h3>
+							</div>
+							<div class="account__form">
+								
+								{% with password_form as f %}
+
+								<div class="account__form--row">
+									<label for="{{ f.username.id_for_label }}" class="account__form--label">
+										{{ f.username.label }}: {% if f.username.field.required %} <span>*</span>{%endif %}
+									</label>
+									<input class="account__form--input" type="text" disabled value="{{user.username}}">
+
+									<div class="account__form--errors">
+										{{ f.username.errors }}
+									</div>
+								</div>
+
+								<div class="account__form--row">
+									<label for="{{ f.password.id_for_label }}" class="account__form--label">
+										{{ f.password.label }}{% if f.password.field.required %}: <span>*</span>{%endif %}
+									</label>
+									{{ f.password }}
+									<div class="account__form--errors">
+										{{ f.password.errors }}
+									</div>
+								</div>
+
+								<div class="account__form--row">
+									<label for="{{ f.password_repeated.id_for_label }}" class="account__form--label">
+										{{ f.password_repeated.label }}{% if f.password_repeated.field.required %}: <span>*</span>{%endif %}
+									</label>
+									{{ f.password_repeated }}
+									<div class="account__form--errors">
+										{{ f.password_repeated.errors }}
+									</div>
+								</div>
+								<div class="account__form--row account__form--buttons">
+									<a href="#" class="account__button--cancel">Anuluj</a>
+									<button class="account__button--submit" type="submit" name="edit_password">Zmień hasło</button>
+								</div>
+
+								{% endwith %}
+							</div>
+						</div>
+
+					</div>
+
+	<div class="account__form--row account__info">
+		<p class="account__text--paragraph">* Pola oznaczone gwiazdką są obowiązkowe do wypełnienia</p>
+	</div>
+
+                
+{% endblock%}

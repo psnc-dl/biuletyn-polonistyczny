@@ -1,0 +1,647 @@
+{% load staticfiles %}
+{% load static %}
+{% load i18n %}
+{% get_media_prefix as MEDIA_PREFIX %}
+{% include "bportal/main/header.html" %}
+{% include "bportal/main/messages.html" %}
+
+<div class="newsbox is-first">
+    <div class="newsbox__container container">
+        <div class="newsbox__inner columns is-desktop">
+            {% if promoted_events %}
+                <div class="newsbox__inner--events events column is-8-desktop" id="events">
+                    <div class="events__title">
+                        <a href="{% url "event_list" %}" class="events__title--link">
+                            <h3 class="events__title--head">Wydarzenia</h3>
+                        </a>
+                    </div>
+                    <div class="events__slider owl-carousel">
+                        {% for e in promoted_events %}
+
+                                <a href="{% url 'event_detail'  e.event_name_slug e.event_id %}" class="events__slider--slide events__slide">
+                                    {% if e.event_poster %}
+                                        <div class="events__slide--image" style="background-image: url('{{ MEDIA_URL }}{{ e.event_poster }}')"></div>
+                                    {% else %}
+                                        <div class="events__slide--noimage"><i class="bp-icon-logo_icon"></i></div>
+                                    {% endif %}
+                                    <div class="events__slide--dates">
+                                        <div class="events__slide--date-add events__text--date">Data dodania: {{ e.event_date_add|date:"d.m.Y" }}</div>
+                                        <div class="events__slide--date-event events__text--date">Data wydarzenia: <strong>{{ e.event_date_from | date:"d.m.Y"}} {% if e.event_time_from %} g.{{ e.event_time_from | time:"H:i" }}{% endif %} {% if e.event_date_to %} - {{ e.event_date_to | date:"d.m.Y" }} {% endif %} {% if e.event_time_to %} g.{{ e.event_time_to | time:"H:i"}}{% endif %}</strong></div>
+                                    </div>
+                                    <div class="events__slide--title">
+                                        <h2 class="events__text--title events__text--block">{{ e.event_name|safe|striptags }}</h2>
+                                    </div>
+                                    <div class="events__slide--info">
+                                        <div class="events__slide--info-row events__text--info">{% if e.event_city.name %}{{ e.event_city.name }} | {%endif%}{{ e.event_category  }}</div>
+                                        <div class="events__slide--info-row events__text--info"><span class="events__text--institution">{% for i in e.event_institutions.all %}{{ i }}{% if not forloop.last %} |  {%endif%}{% endfor %}</span></div>
+                                    </div>
+                                    <div class="events__slide--excerpt">
+                                        <div class="events__text--excerpt">{{ e.event_lead|safe|striptags }}</div>
+                                    </div>
+                                </a>
+
+                        {% endfor %}
+                    </div>
+                    <div class="events__bottom">
+                        <a href="{% url 'event_list' %}" class="events__bottom--anchor">Przeglądaj wydarzenia</a>
+                    </div>
+                </div>
+            {% endif %}
+            {% if promoted_news %}
+                <div class="newsbox__inner--news news column is-4-desktop" id="news">
+                    <div class="news__title">
+                        <a href="{% url "new_list" %}" class="news__title--link">
+                            <h3 class="news__title--head">Aktualności</h3>
+                        </a>
+                    </div>
+                    <div class="news__box">
+                        {% for n in promoted_news|slice:":6" %}
+                            <div class="news__box--item">
+                                {% if n.new_related_event %}
+                                    <a href="{% url 'event_detail' n.new_related_event.event_name_slug n.new_related_event.event_id %}" class="news__item">
+                                {% elif n.new_related_project %}
+                                    <a href="{% url 'project_detail' n.new_related_project.project_title_slug n.new_related_project.project_id %}" class="news__item">
+                                {% elif n.new_related_dissertation %}
+                                    <a href="{% url 'dissertation_detail' n.new_related_dissertation.dissertation_title_slug n.new_related_dissertation.dissertation_id %}" class="news__item">
+                                {% elif n.new_related_competition %}
+                                    <a href="{% url 'competition_detail' n.new_related_competition.competition_title_slug n.new_related_competition.competition_id %}" class="news__item">
+                                {% elif n.new_related_joboffer %}
+                                    <a href="{% url 'joboffer_detail' n.new_related_joboffer.joboffer_position_slug n.new_related_joboffer.joboffer_id %}" class="news__item">
+                                {% elif n.new_related_eduoffer %}
+                                    <a href="{% url 'eduoffer_detail' n.new_related_eduoffer.eduoffer_position_slug n.new_related_eduoffer.eduoffer_id %}" class="news__item">
+                                {% elif n.new_related_scholarship %}
+                                    <a href="{% url 'scholarship_detail' n.new_related_scholarship.scholarship_name_slug n.new_related_scholarship.scholarship_id %}" class="news__item">
+                                {% elif n.new_related_book %}
+                                    <a href="{% url 'book_detail' n.new_related_book.book_title_slug n.new_related_book.book_id %}" class="news__item">
+                                {% elif n.new_related_article %}
+                                    <a href="{% url 'article_detail' n.new_related_article.article_title_slug n.new_related_article.article_id %}" class="news__item">
+                                {% elif n.new_related_journalissue %}
+                                    <a href="{% url 'journalissue_detail' n.new_related_journalissue.journalissue_title_slug n.new_related_journalissue.journalissue_id %}" class="news__item">
+                                {% else %}
+                                    <a href="{% url 'new_detail' n.new_title_slug n.new_id %}" class="news__item">
+                                {% endif %}
+                                    {% if forloop.counter0 = 0 %}
+                                        <div class="news__photo">
+                                            {% if n.new_image %}
+                                                <div class="news__photo--image" style="background-image: url('{{ MEDIA_URL }}{{ n.new_image }}')"></div>
+                                            {% else %}
+                                                <div class="news__photo--noimage"><i class="bp-icon-logo_icon"></i></div>
+                                            {% endif %}
+                                        </div>
+                                        {% endif %}
+                                        <div class="news__item--upper">
+                                            <div class="news__item--upper-date news__text--date">{{ n.new_date_add|date:"d.m.Y" }}</div>
+                                            <div class="news__item--upper-type news__text--type">{{ n.new_category.new_category_item_name }}</div>
+                                        </div>
+                                        <div class="news__item--title">
+                                            {% if forloop.counter0 = 0 %}
+                                                <h4 class="news__text--title js-truncate-three">{{ n.new_title|safe|striptags }}</h4>
+                                            {% else %}
+                                                <h4 class="news__text--title js-truncate-two">{{ n.new_title|safe|striptags }}</h4>
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="news__bottom">
+                        <a href="{% url 'new_list' %}" class="news__bottom--anchor">Przeglądaj aktualności</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="calendar" id="calendar">
+    <div class="calendar__container container">
+        <div class="calendar__title">
+            <a href="{% url "event_list" %}" class="calendar__title--link">
+                <h3 class="calendar__title--head">Kalendarz wydarzeń</h3>
+            </a>
+        </div>
+        <div class="calendar__events">
+            <div class="calendar__events--arrow">
+                <button class="calendar__button calendar__button--prev"><i class="bp-icon-chevron_long_left"></i></button>
+            </div>
+            <div class="calendar__events--items">
+                <div class="calendar__items">
+                    <ul class="calendar__items--list">
+                        <li class="calendar__item">
+                            <a href="{% url 'event_list_by_day' events_calendar_before_first_day %}" class="calendar__item--icon" title="Pokaż wcześniejsze wydarzenia">
+                                <span>i</span>
+                            </a>
+                        </li>
+                    </ul>
+                	{% for events_month in events_calendar_list%}
+                		<ul class="calendar__items--list" data-title='{{events_month.month| date:"F Y"}}'>
+                		{% for ed in events_month.events_days %}
+                		    {% if ed.day > events_calendar_before_first_day and ed.day < events_calendar_after_last_day %}
+                            <li class="calendar__item{%if ed.is_today %} is-today{%endif%}{%if not ed.events %} is-blank{%endif%}">
+                                <a href="{% with ed.day|date:'Y-m-d' as eventday %}{% url 'event_list_by_day' eventday %}{% endwith %}" class="calendar__item--tile">
+                                    <div class="calendar__item--top">
+                                        <span class="calendar__text--day">{{ed.day| date:"d"}}</span>
+                                    </div>
+                                    <div class="calendar__item--bottom">
+                                        <span class="calendar__text--nameday">{{ed.day| date:"D"}}</span>
+                                    </div>
+                                </a>
+                                <div class="calendar__dropdown--box">
+                             	    {% for e in ed.events %}
+                                        <a href="{% url 'event_detail' e.event_name_slug e.event_id %}" class="calendar__dropdown--anchor">{{e.event_name|safe}}</a>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                        </ul>
+                	{% endfor%}
+                    <ul class="calendar__items--list">
+                        <li class="calendar__item">
+                            <a href="{% url 'event_list_by_day' events_calendar_after_last_day %}" class="calendar__item--icon" title="Pokaż późniejsze wydarzenia">
+                                <span>i</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="calendar__events--arrow">
+                <button class="calendar__button calendar__button--next"><i class="bp-icon-chevron_long_right"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% if promoted_articles %}
+<div class="articles">
+    <div class="articles__container container">
+        <div class="articles__title">
+            <a href="{% url "article_list" %}" class="articles__title--link">
+                <h3 class="articles__title--head">{% blocktrans %}Articles and interviews{% endblocktrans %}</h3>
+            </a>
+        </div>
+        <div class="articles__box">
+           {% if promoted_articles %}
+             {% for a in promoted_articles %}
+
+
+                {% if forloop.counter0 = 0 or forloop.counter0 = 1 %}
+                   <a href="{% url 'article_detail' a.article_title_slug a.article_id %}" class="articles__item articles__top">
+		                <div class="articles__item--photo articles__top--photo">
+                            {% if a.article_image %}
+                                <div class="articles__top--image" style="background-image: url('{{ a.article_image.url }}')"></div>
+                            {% else %}
+                                <div class="articles__top--noimage"><i class="bp-icon-logo_icon"></i></div>
+                            {% endif%}
+                        </div>
+
+		                <div class="articles__item--content articles__top--content">
+		                    <div class="articles__item--upper">
+		                        <div class="articles__item--upper-date">
+		                            <span class="articles__text--date">{{ a.article_date_add|date:"d.m.Y"  }}</span>
+		                        </div>
+		                    </div>
+		                    <div class="articles__item--title">
+		                        <h4 class="articles__text--title js-truncate-three">{{ a.article_title|safe|striptags }}</h4>
+		                    </div>
+		                    <div class="articles__item--excerpt">
+		                        <span class="articles__text--excerpt js-truncate-five">{{ a.article_lead|safe|striptags }}</span>
+		                    </div>
+		                </div>
+		            </a>
+                {% else %}
+		           <a href="{% url 'article_detail' a.article_title_slug a.article_id %}"  class="articles__item">
+		                <div class="articles__item--upper">
+		                    <div class="articles__item--upper-date">
+		                        <span class="articles__text--date">{{ a.article_date_add|date:"d.m.Y"  }}</span>
+		                    </div>
+		                </div>
+		                <div class="articles__item--title">
+		                    <h4 class="articles__text--title js-truncate-three">{{ a.article_title|safe|striptags }}</h4>
+		                </div>
+		            </a>
+                {% endif%}
+             {% endfor %}
+           {% endif %}
+        </div>
+        <div class="articles__bottom">
+            <a href="{% url "article_list" %}" class="articles__bottom--anchor">Przeglądaj artykuły i wywiady</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if promoted_projects or promoted_dissertations or promoted_competitions %}
+<div class="projects" id="projects">
+    <div class="projects__container container">
+        <div class="projects__title">
+            <a href="{% url "research_list" %}" class="projects__title--link">
+                <h3 class="projects__title--head">{% blocktrans %}Scientific projects{% endblocktrans %}</h3>
+            </a>
+        </div>
+        <div class="projects__columns columns">
+            <div class="projects__block column is-4">
+                <div class="projects__title">
+                    <a href="{% url "project_list" %}" class="projects__title--link">
+                        <h4 class="projects__title--sub">{% blocktrans %}Research projects{% endblocktrans %}</h4>
+                    </a>
+                </div>
+                <div class="projects__box">
+                    {% if promoted_projects %}
+                        {% for p in promoted_projects|slice:":3" %}
+                            <a href="{% url 'project_detail' p.project_title_slug p.project_id %}" class="projects__item">
+                                {% if forloop.counter0 = 0 %}
+                                    {% if p.project_image %}
+                                        <div class="projects__item--image" style="background-image: url('{{ MEDIA_URL }}{{p.project_image }}')"></div>
+                                    {% else %}
+                                        <div class="projects__item--noimage"><i class="bp-icon-logo_icon"></i></div>
+                                    {% endif %}
+                                {% endif %}
+                                <div class="projects__item--upper">
+                                    <div class="projects__item--upper-date">
+                                        <span class="projects__text--date">{{ p.project_date_add|date:"d.m.Y" }}</span>
+                                    </div>
+                                </div>
+                                <div class="projects__item--title">
+                                    <h4 class="projects__text--title js-truncate-two">{{ p.project_title|safe|striptags }}</h4>
+                                </div>
+                                {% if forloop.counter0 = 0 %}
+                                    <div class="projects__item--info">
+                                        <span class="projects__text--info js-truncate">
+                                            {% for institution in p.project_institutions.all %}
+                                                {{ institution }} {% if forloop.last %}{% else %} | {% endif %}
+                                            {% endfor %}                                    
+                                        </span>
+                                    </div>
+                                    <div class="projects__item--excerpt js-truncate-three">
+                                        {{ p.project_lead|safe|striptags }}
+                                    </div>
+                                {% endif %}
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                    <div class="projects__box--blank">Brak promowanych.</div>
+                    {% endif %}
+                </div>
+                <div class="projects__bottom">
+                    <a href="{% url 'project_list' %}" class="projects__bottom--anchor">Przeglądaj projekty</a>
+                </div>
+            </div>
+            <div class="projects__block column is-4">
+                <div class="projects__title">
+                    <a href="{% url "dissertation_list" %}" class="projects__title--link">
+                        <h4 class="projects__title--sub">Prace doktorskie i habilitacyjne</h4>
+                    </a>
+                </div>
+                <div class="projects__box">
+                    {% if promoted_dissertations %}
+                        {% for p in promoted_dissertations|slice:":3" %}
+                            <a href="{% url 'dissertation_detail' p.dissertation_title_slug p.dissertation_id %}" class="projects__item">
+                                {% if forloop.counter0 = 0 %}
+                                    {% if p.dissertation_image %}
+                                        <div class="projects__item--image" style="background-image: url('{{ MEDIA_URL }}{{p.dissertation_image }}')"></div>
+                                    {% else %}
+                                        <div class="projects__item--noimage"><i class="bp-icon-logo_icon"></i></div>
+                                    {% endif %}
+                                {% endif %}
+                                <div class="projects__item--upper">
+                                    <div class="projects__item--upper-date">
+                                        <span class="projects__text--date">{{ p.dissertation_date_add|date:"d.m.Y" }}</span>
+                                    </div>
+                                </div>
+                                <div class="projects__item--title">
+                                    <h4 class="projects__text--title js-truncate-two">{{ p.dissertation_title|safe|striptags }}</h4>
+                                </div>
+                                {% if forloop.counter0 = 0 %}
+                                    <div class="projects__item--info">
+                                        <span class="projects__text--info"><strong>{{ p.dissertation_author.person_first_name }} {{ p.dissertation_author.person_last_name }}</strong></span>
+                                        <span class="projects__text--info js-truncate">{{ p.dissertation_institution }}</span>
+                                    </div>
+                                    <div class="projects__item--excerpt js-truncate-three">
+                                        {{ p.dissertation_lead|safe|striptags }}
+                                    </div>
+                                {% endif %}
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                    <div class="projects__box--blank">Brak promowanych.</div>
+                    {% endif %}
+                </div>
+                <div class="projects__bottom">
+                    <a href="{% url 'dissertation_list' %}" class="projects__bottom--anchor">Przeglądaj prace</a>
+                </div>
+            </div>
+            <div class="projects__block column is-4">
+                <div class="projects__title">
+                    <a href="{% url "competition_list" %}" class="projects__title--link">
+                        <h4 class="projects__title--sub">Konkursy</h4>
+                    </a>
+                </div>
+                <div class="projects__box">
+                    {% if promoted_competitions %}
+                        {% for p in promoted_competitions|slice:":3" %}
+                        <a href="{% url 'competition_detail' p.competition_title_slug p.competition_id %}" class="projects__item">
+                            {% if forloop.counter0 = 0 %}
+                                {% if p.competition_image %}
+                                    <div class="projects__item--image" style="background-image: url('{{ MEDIA_URL }}{{p.competition_image }}')"></div>
+                                {% else %}
+                                    <div class="projects__item--noimage"><i class="bp-icon-logo_icon"></i></div>
+                                {% endif %}
+                            {% endif %}
+                            <div class="projects__item--upper">
+                                <div class="projects__item--upper-date">
+                                    <span class="projects__text--date">{{ p.competition_date_add|date:"d.m.Y" }}</span>
+                                </div>
+                            </div>
+                            <div class="projects__item--title">
+                                <h4 class="projects__text--title js-truncate-two">{{ p.competition_title|safe|striptags }}</h4>
+                            </div>
+                            {% if forloop.counter0 = 0 %}
+                                <div class="projects__item--info">
+                                    <span class="projects__text--info js-truncate">{{ p.competition_institution }}</span>
+                                </div>
+                                <div class="projects__item--excerpt js-truncate-three">
+                                    {{ p.competition_lead|safe|striptags }}
+                                </div>
+                            {% endif %}
+                        </a>
+                        {% endfor %}
+                    {% else %}
+                    <div class="projects__box--blank">Brak promowanych.</div>
+                    {% endif %}
+                </div>
+                <div class="projects__bottom">
+                    <a href="{% url 'competition_list' %}" class="projects__bottom--anchor">Przeglądaj konkursy</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if promoted_job_offers or promoted_edu_offers or promoted_scholarships %}
+<div class="projects" id="eduwork">
+    <div class="projects__container container">
+        <div class="projects__title">
+            <a href="{% url "offers_list" %}" class="projects__title--link">
+                <h3 class="projects__title--head">Edukacja i praca</h3>
+            </a>
+        </div>
+        <div class="projects__columns columns">
+            <div class="projects__block column is-4">
+                <div class="projects__title">
+                    <a href="{% url "eduoffer_list" %}" class="projects__title--link">
+                        <h4 class="projects__title--sub">Oferty edukacyjne</h4>
+                    </a>
+                </div>
+                <div class="projects__box">
+                    {% if promoted_edu_offers %}
+                    {% for p in promoted_edu_offers|slice:":3" %}
+                    <a href="{% url 'eduoffer_detail' p.eduoffer_position_slug p.eduoffer_id %}" class="projects__item">
+                        {% if forloop.counter0 = 0 %}
+                            {% if p.eduoffer_image %}
+                                <div class="projects__item--image" style="background-image: url('{{ MEDIA_URL }}{{p.eduoffer_image }}')"></div>
+                            {% else %}
+                                <div class="projects__item--noimage"><i class="bp-icon-logo_icon"></i></div>
+                            {% endif %}
+                        {% endif %}
+                        <div class="projects__item--upper">
+                            <div class="projects__item--upper-date">
+                                <span class="projects__text--date">{{ p.eduoffer_date_add|date:"d.m.Y"  }}</span>
+                            </div>
+                            <div class="projects__item--upper-place">
+                                <span class="projects__text--place">{{ p.eduoffer_city.name }}</span>
+                            </div>
+                        </div>
+                        <div class="projects__item--title">
+                            <h4 class="projects__text--title js-truncate-two">{{ p.eduoffer_position|safe|striptags }}</h4>
+                        </div>
+                        {% if forloop.counter0 = 0 %}
+                            <div class="projects__item--info">
+                                {% if p.eduoffer_mode %}<span class="projects__text--info">{{ p.eduoffer_mode }}</span>{% endif %}
+                                <span class="projects__text--info js-truncate">{{ p.eduoffer_institution }}</span>
+                            </div>
+                            <div class="projects__item--excerpt js-truncate-three">
+                                {{ p.eduoffer_lead|safe|striptags }}
+                            </div>
+                        {% endif %}
+                    </a>
+                    {% endfor %}
+                    {% else %}
+                        <div class="projects__box--blank">Brak promowanych.</div>
+                    {% endif %}
+                </div>
+                <div class="projects__bottom">
+                    <a href="{% url 'eduoffer_list' %}" class="projects__bottom--anchor">Przeglądaj oferty</a>
+                </div>
+            </div>
+            <div class="projects__block column is-4">
+                <div class="projects__title">
+                    <a href="{% url "scholarship_list" %}" class="projects__title--link">
+                        <h4 class="projects__title--sub">Stypendia</h4>
+                    </a>
+                </div>
+                <div class="projects__box">
+                    {% if promoted_scholarships %}
+                        {% for p in promoted_scholarships|slice:":3" %}
+                        <a href="{% url 'scholarship_detail' p.scholarship_name_slug p.scholarship_id %}" class="projects__item">
+                            {% if forloop.counter0 = 0 %}
+                                {% if p.scholarship_image %}
+                                    <div class="projects__item--image" style="background-image: url('{{ MEDIA_URL }}{{p.scholarship_image }}')"></div>
+                                {% else %}
+                                    <div class="projects__item--noimage"><i class="bp-icon-logo_icon"></i></div>
+                                {% endif %}
+                            {% endif %}
+                            <div class="projects__item--upper">
+                                <div class="projects__item--upper-date">
+                                    <span class="projects__text--date">{{ p.scholarship_date_add|date:"d.m.Y" }}</span>
+                                </div>
+                                <div class="projects__item--upper-place">
+                                    <span class="projects__text--place">{{ p.scholarship_city.name }}</span>
+                                </div>
+                            </div>
+                            <div class="projects__item--title">
+                                <h4 class="projects__text--title js-truncate-two">{{ p.scholarship_name|safe|striptags }}</h4>
+                            </div>
+                            {% if forloop.counter0 = 0 %}
+                                <div class="projects__item--info">
+                                    {% if p.scholarship_type %}<span class="projects__text--info">{{ p.scholarship_type }}</span>{% endif %}
+                                    <span class="projects__text--info js-truncate">{{ p.scholarship_founder }}</span>
+                                </div>
+                                <div class="projects__item--excerpt js-truncate-three">
+                                    {{ p.scholarship_lead|safe|striptags }}
+                                </div>
+                            {% endif %}
+                        </a>
+                        {% endfor %}
+                    {% else %}
+                        <div class="projects__box--blank">Brak promowanych.</div>
+                    {% endif %}
+                </div>
+                <div class="projects__bottom">
+                    <a href="{% url 'scholarship_list' %}" class="projects__bottom--anchor">Przeglądaj stypendia</a>
+                </div>
+            </div>
+            <div class="projects__block column is-4">
+                <div class="projects__title">
+                    <a href="{% url "joboffer_list" %}" class="projects__title--link">
+                        <h4 class="projects__title--sub">Oferty pracy</h4>
+                    </a>
+                </div>
+                <div class="projects__box">
+                    {% if promoted_job_offers %}
+                        {% for p in promoted_job_offers|slice:":3" %}
+                        <a href="{% url 'joboffer_detail' p.joboffer_position_slug p.joboffer_id %}" class="projects__item">
+                            {% if forloop.counter0 = 0 %}
+                                {% if p.joboffer_image %}
+                                    <div class="projects__item--image" style="background-image: url('{{ MEDIA_URL }}{{p.joboffer_image }}')"></div>
+                                {% else %}
+                                    <div class="projects__item--noimage"><i class="bp-icon-logo_icon"></i></div>
+                                {% endif %}
+                            {% endif %}
+                            <div class="projects__item--upper">
+                                <div class="projects__item--upper-date">
+                                    <span class="projects__text--date">{{ p.joboffer_date_add|date:"d.m.Y" }}</span>
+                                </div>
+                                <div class="projects__item--upper-place">
+                                    <span class="projects__text--place js-truncate">
+                                        {% for o in p.joboffer_cities.all %}
+                                            {{ o.name }}{% if forloop.last %}{% else %}, {% endif %}
+                                        {% endfor %}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="projects__item--title">
+                                <h4 class="projects__text--title js-truncate-two">{{ p.joboffer_position|safe|striptags }}</h4>
+                            </div>
+                            {% if forloop.counter0 = 0 %}
+                                <div class="projects__item--info">
+                                    {% if p.joboffer_type %}<span class="projects__text--info">{{ p.joboffer_type }}</span>{% endif %}
+                                    <span class="projects__text--info js-truncate">{{ p.joboffer_institution }}</span>
+                                </div>
+                                <div class="projects__item--excerpt js-truncate-three">
+                                    {{ p.joboffer_lead|safe|striptags }}
+                                </div>
+                            {% endif %}
+                        </a>
+                        {% endfor %}
+                    {% else %}
+                        <div class="projects__box--blank">Brak promowanych.</div>
+                    {% endif %}
+                </div>
+                <div class="projects__bottom">
+                    <a href="{% url 'joboffer_list' %}" class="projects__bottom--anchor">Przeglądaj oferty</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if promoted_books or promoted_journals %} <!-- or promoted_journals -->
+<div class="publications">
+    <div class="publications__container container">
+        <div class="publications__title">
+            <a href="{% url "publications_list" %}" class="publications__title--link">
+                <h3 class="publications__title--head">Publikacje</h3>
+            </a>
+        </div>
+        <div class="publications__columns columns is-desktop">
+            <div class="publications__column column is-6-desktop">
+                <div class="publications__title">
+                   <a href="{% url 'journalissue_list' %}" class="publications__title--link">
+                    <h3 class="publications__title--sub">Czasopisma</h3>
+                   </a>
+                </div>
+                <div class="publications__block columns">
+                {% if promoted_journals %}
+                    {% for j in promoted_journals|slice:":3" %} 
+                        <a href="{% url 'journalissue_detail' j.journalissue_title_slug j.journalissue_id %}" class="publications__item column is-4 is-6-desktop is-4-fullhd">
+                            <div class="publications__item--image">
+                                {% if j.journalissue_image %}
+                                    <img src="{{ MEDIA_URL }}{{ j.journalissue_image }}" class="publications__item--picture"/>
+                                {% else %}
+                                    <div class="publications__item--noimage"><i class="bp-icon-logo_icon"></i></div>
+                                {% endif %}
+                            </div>
+                            <div class="publications__item--upper">
+                                <div class="publications__item--upper-date">
+                                    <span class="publications__text--date">{{ j.journalissue_date_add|date:"d.m.Y" }}</span>
+                                </div>
+                                {% if j.journalissue_category %}
+                                    <div class="publications__item--upper-type">
+                                        <span class="publications__text--type">{{ j.journalissue_category }}</span>
+                                    </div>
+                                {% endif %}
+                             </div>
+                             <div class="publications__item--title">
+                                 <h4 class="publications__text--title">{{j.journalissue_journal }} | {% if j.journalissue_volume %}{{ j.journalissue_volume }}{% endif %}{% if j.journalissue_number %}({{ j.journalissue_number }}){% endif %} | {{ j.journalissue_year }}</h4>
+                             </div>
+                             {% if j.journalissue_title %}
+                                 <div class="publications__item--info">
+                                     <span class="publications__text--info">Temat numeru: <strong>{{ j.journalissue_title|safe }}</strong></span>
+                                 </div>
+                             {% endif %}
+                             {% if j.journalissue_lead %}
+                                 <div class="publications__item--excerpt">
+                                     <p class="publications__text--excerpt js-truncate-five">{{ j.journalissue_lead|safe|striptags }}</p>
+                                 </div>
+                             {% endif %}
+                        </a>
+                    {% endfor %}
+                {% endif %}
+                </div>
+                <div class="publications__bottom">
+                    <a href="{% url 'journalissue_list' %}" class="publications__bottom--anchor">Przeglądaj czasopisma</a>
+                </div>
+            </div>
+            <div class="publications__column column is-6-desktop">
+                <div class="publications__title">
+                    <a href="{% url 'book_list' %}" class="publications__title--link">
+                        <h3 class="publications__title--sub">Nowości wydawnicze</h3>
+                    </a>
+                </div>
+                <div class="publications__block columns">
+                    {% if promoted_books %}
+                        {% for b in promoted_books|slice:":3" %}                
+                            <a href="{% url 'book_detail' b.book_title_slug b.book_id %}" class="publications__item column is-4 is-6-desktop is-4-fullhd">
+                                <div class="publications__item--image">
+                                    {% if b.book_image %}
+                                        <img src="{{ MEDIA_URL }}{{ b.book_image }}" class="publications__item--picture"/>
+                                    {% else %}
+                                        <div class="publications__item--noimage"><i class="bp-icon-logo_icon"></i></div>
+                                    {% endif %}
+                                </div>
+                                <div class="publications__item--upper">
+                                    <div class="publications__item--upper-date">
+                                        <span class="publications__text--date">{{ b.book_date_add|date:"d.m.Y" }}</span>
+                                    </div>
+                                    <div class="publications__item--upper-type">
+                                        <span class="publications__text--type">{{ b.book_category }}</span>
+                                    </div>
+                                </div>
+                                <div class="publications__item--title">
+                                    <h4 class="publications__text--title">{{ b.book_title|safe|striptags }}</h4>
+                                </div>
+                                <div class="publications__item--info">
+                                    <p class="js-truncate-note-two publications__text--info">
+                                        Autor/Redaktor: {% for p in b.book_authors.all %} <strong>{{ p.person_first_name }} {{ p.person_last_name }}</strong>{% if not forloop.last %}, {%endif%}{% endfor %}
+                                    </p>
+                                </div>
+                                <div class="publications__item--excerpt">
+                                    <p class="publications__text--excerpt js-truncate-five">{{ b.book_lead|safe|striptags }}</p>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="publications__bottom">
+                    <a href="{% url 'book_list' %}" class="publications__bottom--anchor">Przeglądaj nowości wydawnicze</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% include "bportal/main/contact.html" %}
+{% include "bportal/main/cooperation.html" %}
+{% include "bportal/main/footer.html" %}

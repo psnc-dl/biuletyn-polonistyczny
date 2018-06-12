@@ -1,0 +1,511 @@
+.list
+
+  &__content
+    @extend .bp-columns-with-line
+    @extend .bp-rwd-fontsize
+
+    &--reverse
+      +touch
+        +flex
+        +flex-direction(column-reverse)
+
+    &--left
+      +desktop
+        border-right: 1px solid $primary
+        padding-right: 25px
+        padding-top: 30px
+        padding-bottom: 50px
+
+    &--right
+      +desktop
+        padding-top: 40px
+        padding-bottom: 40px
+        padding-left: 20px
+      +touch
+        width: 100%
+
+    &--column
+      padding-top: 30px
+
+      +desktop
+        padding-bottom: 100px
+
+        &:not(:last-child)
+          border-right: 1px solid $primary
+          padding-right: 25px
+
+        &:not(:first-child)
+          padding-left: 25px
+
+      &-3box
+        padding-top: 40px
+
+  &__articles
+    +touch
+      +flex
+
+    +mobile-small
+      display: block
+
+    &--column
+      +touch
+        +flex-value(0 1 50%)
+      &:first-child
+        +touch
+          padding-right: 10px
+        +mobile-small
+          padding-right: 0
+      &:last-child
+        +touch
+          padding-left: 10px
+        +mobile-small
+          padding-left: 0
+
+  &__tabs
+    &--list
+      border-bottom: 2px solid $primary
+      +flex
+      @extend .bp-rwd-fontsize
+
+    &--item
+      border: 1px solid $secondary
+      margin-bottom: -2px
+      border-bottom: 0px solid $white
+      margin-right: 2px
+      overflow: hidden
+
+      +mobile
+        +flex-value(0 1 33%)
+
+      &:first-child
+        &:not(.active)
+          border-right: 0
+
+          & + li
+            &:not(.active)
+              border-right: 0
+
+      &.active
+        border: 2px solid $primary
+        border-bottom: 0 solid $white
+        background: #fff
+        pointer-events: none
+        overflow: visible
+
+        & + li
+          border-left: 0
+
+        & + li + li
+          border-left: 0
+
+    &--anchor
+      padding: 6px
+      display: block
+      font-weight: bold
+      text-align: center
+      +text-elipsis
+
+
+      +tablet
+        padding: 6px 30px
+
+      +desktop
+        padding: 6px 70px
+      +widescreen
+        min-width: 315px
+
+      &:hover, &:focus
+        background: $primary
+        border-color: $primary
+        color: $white
+
+  &__icons
+    &--item
+      display: inline-block
+    &--anchor
+    &--icon
+      font-size:  2em
+      line-height: 0
+      &:before
+        margin: 0
+
+  &__box
+    &--head
+      .list__box--pagination
+        +desktop
+          margin-top: 30px
+
+    &--row
+      +flex
+      +mobile-small
+        display: block
+
+    &--col
+      +flex-value(0 1 auto)
+      +desktop
+        +flex
+      &-full
+        +flex-value(1 1 auto)
+
+    &--view-items, &--sorting
+      +flex
+      +flex-wrap(nowrap)
+      +flex-align-items(center)
+
+    &--sorting
+      +desktop
+        margin-left: 45px
+
+    &--icons
+      text-align: right
+
+    &--pagination
+      text-align: right
+
+    &--select2
+      &-view-items, &-sorting
+        margin-left: 5px
+
+    &--listing
+      &-upperline
+        border-top: 1px solid $grey-light
+        margin-top: 25px
+        +tablet
+          margin-top: 53px
+
+
+  &__upperitem
+    border-bottom: 1px solid $grey-light
+    padding: 30px 0 5px
+
+    &:empty
+      &:after
+        content: ""
+        display: block
+        height: 18px
+
+    &--promoted
+      border-bottom: 1px solid $grey-lighty
+      padding-top: 28px
+
+  &__item
+    display: block
+    position: relative
+    padding: 10px 0
+    &:not(:last-of-type)
+      border-bottom: 1px solid $grey-light
+
+    &:hover, &:focus
+      .list__text--title
+        @extend .bp-global-arrow
+
+    &--date
+      display: block
+      margin-bottom: 3px
+
+    &--title
+      & + .list__item--subtitle
+        margin-top: 7px
+
+    &--subtitle
+      display: block
+
+      &:first-child
+        margin-top: 7px
+
+    &--details
+      display: block
+
+      &:first-of-type
+        margin-top: 7px
+
+    &--excerpt
+      margin-top: 10px
+      margin-bottom: 5px
+
+    &--3box
+      border-bottom: 1px solid $grey-light
+      +desktop
+        height: 155px
+      +widescreen
+        height: 185px
+
+    &--edit
+      background: $white
+      position: absolute
+      right: 0
+      top: 0
+      display: none
+      font-size: 1.5em
+      border: 1px solid $primary
+      margin: -1px
+      padding: 5px 3px 3px 0
+      cursor: pointer
+
+      &:hover, &:focus
+        background: $tertiary
+
+    &--editor
+      &:hover, &:focus
+        border: 1px solid $primary
+        margin: -1px -11px 0
+        padding: 10px
+
+
+        .list__item--edit
+          display: block
+
+    &--upper
+      +flex
+
+      &-place
+        +flex-value(1 1 auto)
+        text-align: right
+
+
+
+
+
+  &__cols
+    +flex
+    +flex-direction(column)
+    +tablet
+      +flex-direction(row)
+
+    &--photo
+      +flex-value(0 1 auto)
+      padding: 5px 10px 5px 0
+
+    &--content
+      +flex-value(1 1 auto)
+
+    &--image, &--noimage
+      width: 100%
+      height: 125px
+      +tablet
+        width: 185px
+        height: 125px
+
+      &-publications
+        background-size: cover
+        width: 90px
+        height: 120px
+
+    &--noimage
+      @extend .bp-noimg
+
+    &--image
+      background-size: cover
+      background-position: center center
+      background-repeat: no-repeat
+
+  &__event, &__publication
+    +flex
+
+    &--dates
+      +flex-value(1 1 auto)
+      +tablet
+        +flex
+        +flex-justify-content(space-between)
+
+    &--date
+      +mobile
+        display: block
+
+
+    &--addtocal
+      border: 0
+      background: transparent
+      padding: 0
+      font-size: 1.8em
+      line-height: 0
+      cursor: pointer
+
+    &--icons
+
+  &__divider
+    border-top: 2px solid $primary
+    border-bottom: 1px solid $grey-light
+    padding: 20px 0
+
+    &--actualdate
+
+      &:before
+        display: inline-block
+        content: ""
+        width: 0
+        height: 0
+        border-top: 9px solid transparent
+        border-bottom: 9px solid transparent
+        border-left: 10px solid $primary
+        position: relative
+        top: 4px
+        margin-right: 10px
+
+  &__search
+    +touch
+      display: none
+      padding: 0 15px
+      margin-top: 10px
+      border: 1px solid $primary
+
+    &.is-active
+      +touch
+        display: block
+
+    &-mobile
+      +desktop
+        display: none
+
+      &--button
+        background: transparent
+        display: block
+        font-size: 1em
+        border: 0
+        border-bottom: 1px solid $primary
+        width: 100%
+        text-align: left
+        padding: 5px
+        margin: 15px 0 0 0
+        position: relative
+
+        &:after
+          content: ''
+          border-color: $primary transparent transparent transparent
+          border-style: solid
+          border-width: 5px 4px 0 4px
+          height: 0
+          width: 0
+          margin-left: -4px
+          margin-top: -2px
+          position: absolute
+          top: 50%
+          right: 8px
+
+        &.is-active
+          background: $primary
+          color: $white
+
+          &:after
+            border-color: transparent transparent $white transparent
+            border-width: 0 4px 5px 4px
+
+  &__form
+    margin: 30px 0
+
+    &--size
+      &-small
+        +desktop
+          width: 30%
+
+      &-medium
+        +desktop
+          width: 40%
+
+      &-half
+        +desktop
+          width: 60%
+
+    &--row
+      &-hide
+        display: none
+
+    &--flex
+      +flex
+      +flex-align-items(baseline)
+
+      &-compact
+        +flex-value(0 1 auto)
+
+      &-full
+        +flex-value(1 0 auto)
+
+
+    &--buttons
+      text-align: right
+      padding: 25px 0 15px
+
+    &--button
+      &-submit
+        @extend .bp-btn-main
+
+      &-reset
+        @extend .bp-btn-main
+
+      &-events-submit
+        @extend .bp-btn-main
+
+    &--label
+      @extend .bp-label
+
+    &--input
+      @extend .bp-input-line
+
+  &__viewall
+    padding: 45px 0 10px
+    text-align: right
+    &--anchor
+      @extend .bp-btn-main
+      @extend .bp-btn-main-witharrow
+      @extend .bp-rwd-fontsize
+
+    &--grouped
+      padding: 15px 0
+      +desktop
+        display: none
+    &--row
+      line-height: 3em
+
+    &--hide
+      +touch
+        display: none
+
+    &--3box
+      margin: 10px 0 -10px 0
+
+  &__title
+    &--search
+      +touch
+        display: none
+    &--head
+      @extend .heading-main
+      @extend .bp-titleline-main
+
+    &--subhead
+      @extend .heading-sub
+      @extend .bp-titleline-secondary
+
+  &__text
+    &--title
+      font-size: 1.25em
+      line-height: 1.15em
+      font-weight: bold
+      position: relative
+    &--subtitle
+      font-size: 0.85em
+    &--details
+      font-size: 1em
+      line-height: 1.25em
+    &--date
+      font-size: 0.9em
+      color: $grey
+      strong
+        color: $primary
+        font-weight: 900
+
+    &--upperitem
+      font-size: 0.9em
+      color: $grey
+
+    &--notpub
+      border: 1px solid $grey-light
+      padding: 3px 3px 1px
+      line-height: 1em
+      display: inline-block
+      font-size: 0.85em
+      color: $grey
+      margin-left: 10px
+
+      &-box
+        margin-left: 0
+        margin-bottom: 3px

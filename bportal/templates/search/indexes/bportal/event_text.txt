@@ -1,0 +1,4 @@
+{{ object.event_name_text }}
+{{ object.event_lead|striptags }}
+{{ object.event_description|striptags }}
+{% for tag in object.event_keywords.all %} {{ tag.name }} {% endfor %}

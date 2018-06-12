@@ -1,0 +1,100 @@
+{% load staticfiles %}
+{% load static %}
+{% include "bportal/main/header.html" %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {% clear_breadcrumbs %}
+    {% breadcrumb "Strona główna" "home" %}
+{% endblock %}
+
+<div class="breadcrumbs is-first">
+    <div class="breadcrumbs__container container">
+        <ul class="breadcrumbs__list">
+            {% render_breadcrumbs %}
+        </ul>
+    </div>
+</div>
+
+<div class="list list--3box" id="content">
+    <div class="list__container container">
+
+        {% block list-header %}{% endblock %}
+
+        <div class="list__content list__content--reverse columns">
+            <div class="list__content--left column">
+                <div class="list__box--head">
+                    <div class="list__box--row">
+                        <div class="list__box--col list__box--col-full">
+                            {% block list-filtering %}{% endblock %}
+                        </div>
+                        <div class="list__box--col">
+                            {% block list-icons %}{% endblock %}
+                        </div>
+                    </div>
+                    <div class="list__box--pagination">
+                        {% include "bportal/main/pagination_input.html" %}
+                    </div>
+                </div>
+                <div class="list__box--listing {% block list-listing %}{% endblock %}">
+                    {% block content %}{% endblock %}
+                </div>
+                <div class="list__box--pagination">
+                    {% include "bportal/main/pagination.html" %}
+                </div>
+
+            </div>
+            <div class="list__content--right column is-4-desktop">
+                <div class="list__title list__title--search">
+                    <h3 class="list__title--subhead">Wyszukiwanie</h3>
+                </div>
+                <div class="list__search-mobile">
+                    <button class="list__search-mobile--button js-listformsearch">Wyszukiwanie</button>
+                </div>
+                <div class="list__search">
+                    <form name="form" action="{{ request.path }}" method="GET">
+                        {% csrf_token %}
+                        {% with filter.form as f %} 
+                        {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        {% if filter.form.non_field_errors %}
+                        <ul>
+                            {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li> {% endfor %}
+                        </ul>
+                        {% endif %}
+                        <div class="list__form">
+
+                            {% block list-rightcol %}{% endblock %}
+
+                            <div class="list__form--row-hide">
+                                {{ f.o }}
+                                {% if per_page %}
+                                <input id="id_perpage" name="per_page" value="{{ per_page|add:"0" }}">  </input>
+                                {% endif %}
+                                {% if page %}
+                                <input id="id_page" name="page" value="1">  </input>
+                                {% endif %}
+                            </div>
+
+                            <div class="list__form--buttons">
+                                <button type="reset" class="list__form--button-reset">Wyczyść</button>
+                                <button type="submit" class="list__form--button-submit">Wyszukaj</button>
+                            </div>
+                        </div>
+                        {% endwith %}
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% include "bportal/main/footer.html" %}

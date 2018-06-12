@@ -1,0 +1,374 @@
+{% extends "bportal_modules/base/offers/details.html" %}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+{% breadcrumb "Oferty edukacyjne" "eduoffer_list" %}
+{% breadcrumb  object.eduoffer_position_text "" %}
+{% endblock %}
+
+{% block details-title %}
+<div class="details__title">
+    <h3 class="details__title--head">Oferta edukacyjna</h3>
+</div>
+{% endblock %}
+
+{% block details-head %}
+<div class="details__head">
+    <div class="details__head--photo">
+        {% if object.eduoffer_image %}
+        <a href="{{ MEDIA_URL }}{{ object.eduoffer_image }}" data-lightbox="gallery" class="details__head--image" style="background-image: url('{{ MEDIA_URL }}{{ object.eduoffer_image }}')"></a>
+        {% else %}
+        <div class="details__head--noimage"><i class="bp-icon-logo_icon"></i></div>
+        {% endif %}
+    </div>
+    <div class="details__head--content">
+        <div class="details__head--cols">
+            <div class="details__head--dates">
+                <div class="details__head--date">
+                    <span class="details__text--date">Data dodania: {{ object.eduoffer_date_add|date:"d.m.Y" }}</span>
+                </div>
+                {% if object.eduoffer_date_end %}
+                <div class="details__head--date details__head--date-right">
+                    <span class="details__text--date">Termin nadsyłania zgłoszeń: <strong>{{ object.eduoffer_date_end | date:"d.m.Y" }}</strong></span>
+                </div>
+                {% endif %}
+            </div>
+            <div class="details__head--icons">
+                <ul class="details__icons">
+                    {% if object.eduoffer_date_end %}
+                        <li class="details__icons--item">
+                            <button class="list__event--addtocal js-addToCal"
+                                title="Dodaj do kalendarza Google"
+                                data-title="{{ object.eduoffer_position|safe }}"
+                                data-date-from="{{ object.eduoffer_date_end | date:"Y-m-d"}}"
+                                data-date-to="{{ object.eduoffer_date_end | date:"Y-m-d"}}"
+                                data-location="{{ object.eduoffer_city }}"
+                                data-url="{{ request.get_host }}{{ request.path }}">
+                                <i class="bp-icon-calendar"></i>
+                            </button>
+                        </li>
+                    {% endif %}
+                    <li class="details__icons--item">
+                        <a href="{% url 'eduoffer_pdf' %}?eduoffer_id={{ object.eduoffer_id }}" target="_blank"  class="details__icons--anchor" title="Pobierz w formie .pdf"><i class="bp-icon-pdf list__icons--icon"></i></a>
+                    </li>
+                    {% if request.user.userprofile.user_is_editor or user.is_superuser %}
+                    <li class="details__icons--item">
+                        <a href="{% url 'eduoffer_edit' object.eduoffer_id %}" class="details__icons--anchor" title="Edytuj pozycję"><i class="bp-icon-file_edit list__icons--icon"></i></a>
+                    </li>
+                    <li class="details__icons--item">
+                        <a href="{% url 'eduoffer_delete' object.eduoffer_id %}" class="details__icons--anchor" title="Usuń pozycję"><i class="bp-icon-file_minus list__icons--icon"></i></a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="details__head--title">
+            <h1 class="details__text--title">{{ object.eduoffer_position|safe }}</h1>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block details-about %}
+<div class="details__about">
+
+    {% if object.eduoffer_institution %}
+    <div class="details__about--row">
+        <div class="details__about--label">
+                    <span class="details__text--label">
+                        Instytucja:
+                    </span>
+        </div>
+        <div class="details__about--value">
+            <a href="{% url 'institution_detail' object.eduoffer_institution.institution_slug object.eduoffer_institution.institution_id %}" class="details__text--anchor details__text--value details__text--bold">{{ object.eduoffer_institution }}</a>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if object.eduoffer_city %}
+    <div class="details__about--row">
+        <div class="details__about--label">
+                    <span class="details__text--label">
+                        Miejscowość:
+                    </span>
+        </div>
+        <div class="details__about--value">
+            <span class="details__text--value details__text--bold">{{ object.eduoffer_city.name }}</span>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if object.eduoffer_mode %}
+    <div class="details__about--row">
+        <div class="details__about--label">
+                    <span class="details__text--label">
+                        Tryb:
+                    </span>
+        </div>
+        <div class="details__about--value">
+            <span class="details__text--value details__text--bold">{{ object.eduoffer_mode }}</span>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if object.eduoffer_type %}
+    <div class="details__about--row">
+        <div class="details__about--label">
+                    <span class="details__text--label">
+                        Rodzaj oferty:
+                    </span>
+        </div>
+        <div class="details__about--value">
+            <span class="details__text--value details__text--bold">{{ object.eduoffer_type }}</span>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if object.eduoffer_date_start %}
+        <div class="details__about--row">
+            <div class="details__about--label">
+                    <span class="details__text--label">
+                        Data ogłoszenia:
+                    </span>
+            </div>
+            <div class="details__about--value">
+                <span class="details__text--value details__text--bold">{{ object.eduoffer_date_start | date:"d.m.Y" }}</span>
+            </div>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}
+
+{% block details-content %}
+<div class="details__explication">
+    {% if object.eduoffer_lead %}
+    <div class="details__explication--lead">
+        {{ object.eduoffer_lead|safe }}
+    </div>
+    {% endif %}
+    {{ object.eduoffer_description|safe }}
+</div>
+{% endblock %}
+
+
+
+{% block details-information %}
+<div class="details__information--content">
+    {% if object.eduoffer_tuition %}
+        <div class="details__information--row">
+            <div class="details__information--label">
+                <span class="details__text--label">
+                    Wysokość czesnego:
+                </span>
+            </div>
+            <div class="details__information--value">
+                <span class="details__text--value">{{ object.eduoffer_tuition }}</span>
+            </div>
+        </div>
+    {% endif %}   
+     
+    {% if object.eduoffer_period %}
+        <div class="details__information--row">
+            <div class="details__information--label">
+                <span class="details__text--label">
+                    Długość trwania kursu:
+                </span>
+            </div>
+            <div class="details__information--value">
+                <span class="details__text--value">{{ object.eduoffer_period }}</span>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if object.eduoffer_files.all %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+                <span class="details__text--label">
+                    Do pobrania:
+                </span>
+        </div>
+        <div class="details__information--value">
+            <ul class="details__information--list">
+                {% for o in object.eduoffer_files.all %}
+                <li class="details__information--list-item">
+                    <div class="details__information--list-text">
+                        <span class="details__text--value details__text--lowercase"><strong>{{forloop.counter}}</strong>.  <a href="{{ MEDIA_URL }}{{ o.file }}" class="details__text--anchor">{{ o }}</a></span>
+                    </div>
+                    <div class="details__information--list-download">
+                        <a href="{% url 'download' %}?location={{ o.file }}" class="details__text--anchor-download">Pobierz</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+    {% if object.eduoffer_links.all %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+                <span class="details__text--label">
+                    Linki:
+                </span>
+        </div>
+        <div class="details__information--value">
+            <ul class="details__information--list">
+                {% for o in object.eduoffer_links.all %}
+                <li class="details__information--list-link">
+                    <div class="details__information--list-text">
+                        <span class="details__text--value details__text--lowercase"><strong>{{forloop.counter}}</strong>.</span> <a href="{{ o }}" class="details__text--anchor" target="_blank">{{ o }}</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+    {% if object.eduoffer_keywords.all %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+                <span class="details__text--label">
+                    Słowa kluczowe:
+                </span>
+        </div>
+        <div class="details__information--value">
+            {% for o in object.eduoffer_keywords.all %}
+            <a href="{% url 'search_view' %}?q={{ o }}" class="details__text--anchor-border details__text--value">{{ o }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    
+	{% for contribution in object.eduoffer_content_contributors.all %}
+    <div class="details__information--row">
+        <div class="details__information--label">
+            <span class="details__text--label">
+                {{ contribution.role }}:
+            </span>
+        </div>
+        <div class="details__information--value">
+            <a href="{% url 'person_detail' contribution.person.person_slug contribution.person.person_id %}" class="details__text--value details__text--anchor details__text--bold">{{ contribution.person.person_first_name }} {{ contribution.person.person_last_name }}</a>
+            {% if contribution.person.person_biogram %}
+             	<div class="details__text--value details__text--paragraph details__text--margin-top">{{ contribution.person.person_biogram|safe }}</div>
+            {% endif %}
+        </div>
+    </div>
+	{% endfor %}    
+    
+    {% if request.user.userprofile.user_is_editor or user.is_superuser %}    
+        {% if object.eduoffer_date_add %}
+        <div class="details__information--row">
+            <div class="details__information--label">
+                <span class="details__text--label">
+                    Data dodania:
+                </span>
+            </div>
+            <div class="details__information--value">
+                <span class="details__text--value">
+                    {{ object.eduoffer_date_add | date:"j E Y"}}; {{ object.eduoffer_date_add | time:"H:i"}} ({{ object.eduoffer_added_by.first_name }} {{ object.eduoffer_added_by.last_name }})
+                </span>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if object.eduoffer_date_edit %}
+        <div class="details__information--row">
+            <div class="details__information--label">
+                        <span class="details__text--label">
+                            Data edycji:
+                        </span>
+            </div>
+            <div class="details__information--value">
+                        <span class="details__text--value">
+                            {{ object.eduoffer_date_edit | date:"j E Y" }}; {{ object.eduoffer_date_edit | time:"H:i" }} {% if object.eduoffer_modified_by %}({{ object.eduoffer_modified_by.first_name }} {{ object.eduoffer_modified_by.last_name }}){% endif %}
+                        </span>
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
+
+</div>
+{% endblock %}
+
+
+{% block details-rightcol%}
+
+{% if object.eduoffer_related_objects %}
+    <div class="details__title">
+        <h3 class="details__title--head">Powiązane z ofertą</h3>
+    </div>
+
+    <div class="details__items">
+    {% for ro in object.eduoffer_related_objects %}
+        <a href="{{ro.url}}" class="details__item">
+            {% comment %}	
+            <div class="details__item--photo">
+                {% if ro.photo %}
+                    <div class="details__item--image" style="background-image: url('{{ MEDIA_URL }}{{ ro.photo }}')"></div>
+                {% else %}
+                    <div class="details__item--noimage"><i class="bp-icon-logo_icon"></i></div>
+                {% endif %}
+            </div>
+            {% endcomment %}	
+            <div class="details__item--upper">
+                <div class="details__item--upper-date details__text--date details__text--value">{{ ro.date_add|date:"d.m.Y" }}</div>
+                <div class="details__item--upper-type details__text--type details__text--value">{{ ro.category }}</div>
+            </div>
+            <div class="details__item--title">
+                <h4 class="details__text--title-small js-truncate-two">{{ ro.title|safe|striptags }}</h4>
+            </div>
+            <div class="details__item--excerpt">
+                <p class="details__text--paragraph js-truncate-three">
+                    {% if ro.lead %}{{ ro.lead|safe|striptags }}{% endif %}
+                </p>
+            </div>
+        </a>
+    {% endfor %}
+    </div>
+{% endif %}
+
+{% if object.eduoffer_related_objects and object.eduoffer_similar_eduoffers %}
+    </br>
+{% endif %}
+
+{% if object.eduoffer_similar_eduoffers %}
+    <div class="details__title">
+        <h3 class="details__title--head">Zobacz także</h3>
+    </div>
+
+    <div class="details__items">
+    {% for seo in object.eduoffer_similar_eduoffers %}
+        <a href="{{seo.url}}" class="details__item">
+            {% comment %}	
+            <div class="details__item--photo">
+                {% if seo.photo %}
+                    <div class="details__item--image" style="background-image: url('{{ MEDIA_URL }}{{ seo.photo }}')"></div>
+                {% else %}
+                    <div class="details__item--noimage"><i class="bp-icon-logo_icon"></i></div>
+                {% endif %}
+            </div>
+            {% endcomment %}        
+            <div class="details__item--upper">
+                <div class="details__item--upper-date details__text--date details__text--value">{{ seo.date_add|date:"d.m.Y" }}</div>
+                <div class="details__item--upper-type details__text--type details__text--value"></div>
+            </div>
+            <div class="details__item--title">
+                <h4 class="details__text--title-small js-truncate-two">{{ seo.title|safe|striptags }}</h4>
+            </div>
+            <div class="details__item--excerpt">
+                <p class="details__text--paragraph js-truncate-three">
+                    {% if seo.lead %}{{ seo.lead|safe|striptags }}{% endif %}
+                </p>
+            </div>
+        </a>
+    {% endfor %}
+    </div> 
+    
+    <div class="details__viewall">
+        <a href="{% url 'eduoffer_list' %}" class="details__viewall--anchor">Przeglądaj oferty edukacyjne</a>
+    </div>
+{% endif %}
+
+{% endblock %}

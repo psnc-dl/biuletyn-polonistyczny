@@ -1,0 +1,17 @@
+{% load i18n %}
+{% spaceless %}
+<div class="contact__form--captcha">
+    <div>
+        {% if audio %}
+            <a title="{% trans "Play CAPTCHA as audio file" %}" href="{{audio}}">
+        {% endif %}
+        <img src="{{image}}" alt="captcha" class="contact__form--captcha-img" />
+        {% if audio %}
+            </a>
+        {% endif %}
+    </div>
+    <div>
+        <button type="button" class="contact__form--captcha-refresh"><i class="bp-icon-recaptcha"></i></button>
+    </div>
+</div>
+{% endspaceless %}

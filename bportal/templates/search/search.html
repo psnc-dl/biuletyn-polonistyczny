@@ -1,0 +1,100 @@
+{% extends "bportal/main/page.html" %}
+{% load staticfiles %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+{% clear_breadcrumbs %}
+{% breadcrumb "Strona główna" "home" %}
+{% breadcrumb "Wyszukiwanie" "" %}
+{% endblock %}
+
+{% block pageBoxClass %}page__box--search{% endblock %}
+
+{% block pageTitle %}
+    Wyszukiwanie
+{% endblock %}
+
+{% block pageContent %}
+    <div class="page__search columns">
+        <form method="get" action="{% url "search_view" %}" class="page__search--form column is-9-desktop">
+            <div class="page__search--box">
+                {{ form }}
+            </div>
+            <div class="page__buttons">
+                <button type="reset" class="page__button--reset">Wyczyść
+                <button type="submit" class="page__button--submit">Wyszukaj
+            </div>
+        </form>
+    </div>
+    {% if query %}
+    <div class="page__results">
+        <h3 class="page__text--search">Wyniki wyszukiwania</h3>
+
+        <ul class="page__results--list">
+            {% for result in page_obj.object_list %}
+                {% if result.object.project_title %}
+                    <li class="page__results--item"><a href="{{ result.object.get_absolute_url }}" class="page__results--anchor">{{ result.object.project_title|safe }}</a></li>
+                {% endif %}
+                {% if result.object.dissertation_title %}
+                    <li class="page__results--item"><a href="{{ result.object.get_absolute_url }}" class="page__results--anchor">{{ result.object.dissertation_title|safe }}</a></li>
+                {% endif %}
+                {% if result.object.competition_title %}
+                    <li class="page__results--item"><a href="{{ result.object.get_absolute_url }}" class="page__results--anchor">{{ result.object.competition_title|safe }}</a></li>
+                {% endif %}
+                {% if result.object.eduoffer_position %}
+                    <li class="page__results--item"><a href="{{ result.object.get_absolute_url }}" class="page__results--anchor"> {{ result.object.eduoffer_position|safe }}</a></li>
+                {% endif %}
+                {% if result.object.scholarship_name %}
+                    <li class="page__results--item"><a href="{{ result.object.get_absolute_url }}" class="page__results--anchor">{{ result.object.scholarship_name|safe }}</a></li>
+                {% endif %}
+                {% if result.object.joboffer_position %}
+                    <li class="page__results--item"><a href="{{ result.object.get_absolute_url }}" class="page__results--anchor"> {{ result.object.joboffer_position|safe }}</a></li>
+                {% endif %}
+                {% if result.object.event_name %}
+                    <li class="page__results--item"><a href="{{ result.object.get_absolute_url }}" class="page__results--anchor">{{ result.object.event_name|safe }}</a></li>
+                {% endif %}
+                {% if result.object.book_title %}
+                    <li class="page__results--item"><a href="{{ result.object.get_absolute_url }}" class="page__results--anchor">{{ result.object.book_title|safe }}</a></li>
+                {% endif %}
+                {% if result.object.article_title %}
+                    <li class="page__results--item"><a href="{{ result.object.get_absolute_url }}" class="page__results--anchor">{{ result.object.article_title|safe }}</a></li>
+                {% endif %}
+                {% if result.object.journalissue_title %}
+                    <li class="page__results--item"><a href="{{ result.object.get_absolute_url }}" class="page__results--anchor">{{ result.object.journalissue_title|safe }}</a></li>
+                {% endif %}
+                {% if result.object.institution_fullname %}
+                    <li class="page__results--item"><a href="{{ result.object.get_absolute_url }}" class="page__results--anchor">{{ result.object.institution_fullname }}</a></li>
+                {% endif %}
+                {% if result.object.person_last_name %}
+                    <li class="page__results--item"><a href="{{ result.object.get_absolute_url }}" class="page__results--anchor">{{ result.object.person_first_name }} {{ result.object.person_last_name }}</a></li>
+                {% endif %}
+            {% empty %}
+                <li class="page__results--notfound">Nic nie znaleziono.</li>
+            {% endfor %}
+        </ul>
+
+        {% if page_obj.has_previous or page_obj.has_next %}
+        <div class="page__results--paginate">
+            <ul class="paginate paginate--lower">
+                {% if page_obj.has_previous %}
+                <li class="paginate__item paginate__item--prev">
+                    <a href="?q={{ query }}&amp;page={{ page_obj.previous_page_number }}" aria-label="Previous" class="paginate__button" title="Poprzednia strona">
+                        <i class="bp-icon-chevron_long_left"></i>
+                    </a>
+                </li>
+                {% endif %}
+                {% if page_obj.has_next %}
+                <li class="paginate__item paginate__item--next">
+                    <a href="?q={{ query }}&amp;page={{ page_obj.next_page_number }}" aria-label="Next" class="paginate__button" title="Następna strona">
+                        <i class="bp-icon-chevron_long_right"></i>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+
+    </div>
+    {% endif %}
+
+{% endblock %}
